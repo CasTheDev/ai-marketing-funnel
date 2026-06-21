@@ -170,3 +170,96 @@ def get_events():
     conn.close()
 
     return events
+
+@app.post("/score/{lead_id}")
+def score_lead(lead_id: int):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    # Get all events for this lead
+    cur.execute("""
+        SELECT event_type
+        FROM behavioral_events
+        WHERE lead_id = %s
+    """, (lead_id,))
+
+    events = cur.fetchall()
+
+    score = 0
+
+    for event in events:
+
+        if event[0] == "page_view":
+            score += 1
+
+        elif event[0] == "pricing_page_view":
+            score += 10
+
+        elif event[0] == "ebook_download":
+            score += 20
+
+        elif event[0] == "demo_request":
+            score += 50
+
+    # Determine status
+    if score < 10:
+        status = "Cold Lead"
+
+    elif score < 50:
+        status = "Warm Lead"
+
+    else:
+        status = "Hot Lead"
+
+    # Save score
+    cur.execute("""
+        INSERT INTO lead_scores
+        (lead_id, score, status)
+        VALUES (%s, %s, %s)
+    """, (lead_id, score, status))
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return {
+        "lead_id": lead_id,
+        "score": score,
+        "status": status
+    }
+
+@app.get("/scores")
+def get_scores():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT score_id,
+               lead_id,
+               score,
+               status,
+               updated_at
+        FROM lead_scores
+        ORDER BY score DESC
+    """)
+
+    rows = cur.fetchall()
+
+    scores = []
+
+    for row in rows:
+        scores.append({
+            "score_id": row[0],
+            "lead_id": row[1],
+            "score": row[2],
+            "status": row[3],
+            "updated_at": str(row[4])
+        })
+
+    cur.close()
+    conn.close()
+
+    return scores
