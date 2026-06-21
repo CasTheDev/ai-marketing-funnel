@@ -1,0 +1,28 @@
+CREATE TABLE leads (
+    lead_id SERIAL PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    company_name VARCHAR(255),
+    phone VARCHAR(50),
+    source VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE behavioral_events (
+    event_id SERIAL PRIMARY KEY,
+    lead_id INTEGER REFERENCES leads(lead_id),
+    event_type VARCHAR(100),
+    page_url TEXT,
+    event_value TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE ai_actions (
+    action_id SERIAL PRIMARY KEY,
+    lead_id INTEGER REFERENCES leads(lead_id),
+    action_type VARCHAR(100),
+    action_details TEXT,
+    status VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
