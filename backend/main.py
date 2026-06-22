@@ -54,43 +54,22 @@ def get_leads():
 
     return leads
 
-@app.get("/leads")
-def get_leads():
 
-    conn = get_connection()
-    cur = conn.cursor()
+@app.post("/event")
+def create_event(event: Event):
 
-    cur.execute("""
-        SELECT lead_id,
-               email,
-               first_name,
-               company_name,
-               source,
-               created_at
-        FROM leads
-        ORDER BY lead_id DESC
-    """)
-
-    rows = cur.fetchall()
-
-    cur.close()
-    conn.close()
-
-    return rows
     conn = get_connection()
     cur = conn.cursor()
 
     cur.execute(
         """
-        INSERT INTO leads
-        (email, first_name, company_name, source)
-        VALUES (%s, %s, %s, %s)
+        INSERT INTO behavioral_events
+        (lead_id, event_type)
+        VALUES (%s, %s)
         """,
         (
-            lead.email,
-            lead.first_name,
-            lead.company_name,
-            lead.source
+            event.lead_id,
+            event.event_type
         )
     )
 
@@ -99,46 +78,14 @@ def get_leads():
     cur.close()
     conn.close()
 
+    score_result = calculate_lead_score(event.lead_id)
+
     return {
         "status": "success",
-        "message": "Lead created"
+        "message": "Event recorded",
+        "lead_score": score_result
     }
 
-@app.post("/event")
-def create_event(event: Event):
-
-    try:
-
-        conn = get_connection()
-        cur = conn.cursor()
-
-        cur.execute(
-            """
-            INSERT INTO behavioral_events
-            (lead_id, event_type)
-            VALUES (%s, %s)
-            """,
-            (
-                event.lead_id,
-                event.event_type
-            )
-        )
-
-        conn.commit()
-
-        cur.close()
-        conn.close()
-
-        return {
-            "status": "success",
-            "message": "Event recorded"
-        }
-
-    except Exception as e:
-        return {
-            "status": "error",
-            "message": str(e)
-        }
 @app.get("/events")
 def get_events():
 
@@ -171,8 +118,85 @@ def get_events():
 
     return events
 
+def calculate_lead_score(lead_id):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT event_type
+        FROM behavioral_events
+        WHERE lead_id = %s
+    """, (lead_id,))
+
+    events = cur.fetchall()
+
+    score = 0
+
+    for event in events:
+
+        if event[0] == "page_view":
+            score += 1
+
+        elif event[0] == "pricing_page_view":
+            score += 10
+
+        elif event[0] == "ebook_download":
+            score += 20
+
+        elif event[0] == "demo_request":
+            score += 50
+
+    if score < 10:
+        status = "Cold Lead"
+
+    elif score < 50:
+        status = "Warm Lead"
+
+    else:
+        status = "Hot Lead"
+
+    cur.execute("""
+        SELECT score_id
+        FROM lead_scores
+        WHERE lead_id = %s
+    """, (lead_id,))
+
+    existing = cur.fetchone()
+
+    if existing:
+
+        cur.execute("""
+            UPDATE lead_scores
+            SET score = %s,
+                status = %s,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE lead_id = %s
+        """, (score, status, lead_id))
+
+    else:
+
+        cur.execute("""
+            INSERT INTO lead_scores
+            (lead_id, score, status)
+            VALUES (%s, %s, %s)
+        """, (lead_id, score, status))
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return {
+        "lead_id": lead_id,
+        "score": score,
+        "status": status
+    }
+
 @app.post("/score/{lead_id}")
 def score_lead(lead_id: int):
+
+    return calculate_lead_score(lead_id)
 
     conn = get_connection()
     cur = conn.cursor()
