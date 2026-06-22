@@ -287,3 +287,76 @@ def get_scores():
     conn.close()
 
     return scores
+
+@app.get("/dashboard")
+def dashboard():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("SELECT COUNT(*) FROM leads")
+    total_leads = cur.fetchone()[0]
+
+    cur.execute("SELECT COUNT(*) FROM behavioral_events")
+    total_events = cur.fetchone()[0]
+
+    cur.execute("""
+        SELECT COUNT(*)
+        FROM lead_scores
+        WHERE status = 'Cold Lead'
+    """)
+    cold_leads = cur.fetchone()[0]
+
+    cur.execute("""
+        SELECT COUNT(*)
+        FROM lead_scores
+        WHERE status = 'Warm Lead'
+    """)
+    warm_leads = cur.fetchone()[0]
+
+    cur.execute("""
+        SELECT COUNT(*)
+        FROM lead_scores
+        WHERE status = 'Hot Lead'
+    """)
+    hot_leads = cur.fetchone()[0]
+
+    cur.close()
+    conn.close()
+
+    return {
+        "total_leads": total_leads,
+        "total_events": total_events,
+        "cold_leads": cold_leads,
+        "warm_leads": warm_leads,
+        "hot_leads": hot_leads
+    }
+
+@app.get("/source-performance")
+def source_performance():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT source,
+               COUNT(*) as lead_count
+        FROM leads
+        GROUP BY source
+        ORDER BY lead_count DESC
+    """)
+
+    rows = cur.fetchall()
+
+    sources = []
+
+    for row in rows:
+        sources.append({
+            "source": row[0],
+            "lead_count": row[1]
+        })
+
+    cur.close()
+    conn.close()
+
+    return sources
