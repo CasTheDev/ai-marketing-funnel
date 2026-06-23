@@ -109,6 +109,29 @@ function App() {
   document.body.removeChild(link);
 };
 
+const averageScore =
+  scores.length > 0
+    ? Math.round(
+        scores.reduce(
+          (total, score) => total + score.score,
+          0
+        ) / scores.length
+      )
+    : 0;
+
+const hotLeadRate =
+  dashboard?.total_leads > 0
+    ? Math.round(
+        (dashboard.hot_leads /
+          dashboard.total_leads) *
+          100
+      )
+    : 0;
+
+const websiteLeads = leads.filter(
+  (lead) => lead.source === "Website"
+).length;
+
   if (!dashboard) {
     return <h2>Loading Dashboard...</h2>;
   }
@@ -179,55 +202,99 @@ function App() {
 </div>
 
         {/* KPI Cards */}
-        <div
-          style={{
-            display: "flex",
-            gap: "20px",
-            marginTop: "20px",
-            justifyContent: "space-between",
-          }}
-        >
-          <div
-            style={{
-              background: "#2563eb",
-              color: "white",
-              padding: "20px",
-              borderRadius: "10px",
-              flex: 1,
-            }}
-          >
-            <h3>Total Leads</h3>
-            <h2>{dashboard.total_leads}</h2>
-          </div>
+        {/* KPI Cards */}
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+    gap: "20px",
+    marginTop: "20px",
+  }}
+>
+  <div
+    style={{
+      background: "#2563eb",
+      color: "white",
+      padding: "20px",
+      borderRadius: "10px",
+      textAlign: "center",
+      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+    }}
+  >
+    <h3>Total Leads</h3>
+    <h2>{dashboard.total_leads}</h2>
+  </div>
 
-          <div
-            style={{
-              background: "#10b981",
-              color: "white",
-              padding: "20px",
-              borderRadius: "10px",
-              flex: 1,
-              boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-            }}
-          >
-            <h3>Total Events</h3>
-            <h2>{dashboard.total_events}</h2>
-          </div>
+  <div
+    style={{
+      background: "#10b981",
+      color: "white",
+      padding: "20px",
+      borderRadius: "10px",
+      textAlign: "center",
+      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+    }}
+  >
+    <h3>Total Events</h3>
+    <h2>{dashboard.total_events}</h2>
+  </div>
 
-          <div
-            style={{
-              background: "#ef4444",
-              color: "white",
-              padding: "20px",
-              borderRadius: "10px",
-              flex: 1,
-              boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-            }}
-          >
-            <h3>Hot Leads</h3>
-            <h2>{dashboard.hot_leads}</h2>
-          </div>
-        </div>
+  <div
+    style={{
+      background: "#ef4444",
+      color: "white",
+      padding: "20px",
+      borderRadius: "10px",
+      textAlign: "center",
+      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+    }}
+  >
+    <h3>Hot Leads</h3>
+    <h2>{dashboard.hot_leads}</h2>
+  </div>
+
+  <div
+    style={{
+      background: "#8b5cf6",
+      color: "white",
+      padding: "20px",
+      borderRadius: "10px",
+      textAlign: "center",
+      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+    }}
+  >
+    <h3>Avg Score</h3>
+    <h2>{averageScore}</h2>
+  </div>
+
+  <div
+    style={{
+      background: "#f59e0b",
+      color: "white",
+      padding: "20px",
+      borderRadius: "10px",
+      textAlign: "center",
+      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+    }}
+  >
+    <h3>Hot Rate</h3>
+    <h2>{hotLeadRate}%</h2>
+  </div>
+
+  <div
+    style={{
+      background: "#06b6d4",
+      color: "white",
+      padding: "20px",
+      borderRadius: "10px",
+      textAlign: "center",
+      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+    }}
+  >
+    <h3>Website Leads</h3>
+    <h2>{websiteLeads}</h2>
+  </div>
+</div>
 
         {/* Recent Leads */}
         <div
@@ -366,6 +433,8 @@ function App() {
 >
   Export CSV
 </button>
+
+
 </div>
   </div>
 
