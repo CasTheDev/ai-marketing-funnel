@@ -58,6 +58,57 @@ function App() {
       .then((data) => setSources(data));
   }, []);
 
+  const exportToCSV = () => {
+  const headers = [
+    "Name",
+    "Company",
+    "Email",
+    "Source",
+    "Score",
+    "Status",
+  ];
+
+  const rows = filteredLeads.map((lead) => {
+    const leadScore = scores.find(
+      (score) => score.lead_id === lead.lead_id
+    );
+
+    return [
+      lead.first_name,
+      lead.company_name,
+      lead.email,
+      lead.source,
+      leadScore?.score || 0,
+      leadScore?.status || "Cold Lead",
+    ];
+  });
+
+  const csvContent = [
+    headers.join(","),
+    ...rows.map((row) => row.join(",")),
+  ].join("\n");
+
+  const blob = new Blob([csvContent], {
+    type: "text/csv;charset=utf-8;",
+  });
+
+  const link = document.createElement("a");
+
+  const url = URL.createObjectURL(blob);
+
+  link.href = url;
+  link.setAttribute(
+    "download",
+    "leads_export.csv"
+  );
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+};
+
   if (!dashboard) {
     return <h2>Loading Dashboard...</h2>;
   }
@@ -299,6 +350,21 @@ function App() {
   }}
 >
   Cold
+</button>
+
+<button
+  onClick={exportToCSV}
+  style={{
+    background: "#2563eb",
+    color: "white",
+    border: "none",
+    padding: "10px 18px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "600",
+  }}
+>
+  Export CSV
 </button>
 </div>
   </div>
