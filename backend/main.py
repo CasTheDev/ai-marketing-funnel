@@ -1,8 +1,17 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 from backend.database import get_connection
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class Lead(BaseModel):
     email: str
@@ -360,3 +369,32 @@ def source_performance():
     conn.close()
 
     return sources
+
+@app.get("/lead-scores")
+def get_lead_scores():
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT lead_id,
+               score,
+               status
+        FROM lead_scores
+    """)
+
+    rows = cur.fetchall()
+
+    scores = []
+
+    for row in rows:
+        scores.append({
+            "lead_id": row[0],
+            "score": row[1],
+            "status": row[2]
+        })
+
+    cur.close()
+    conn.close()
+
+    return scores
