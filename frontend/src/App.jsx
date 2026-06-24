@@ -78,22 +78,22 @@ const sortedLeads = [...filteredLeads].sort(
 );
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/dashboard")
-      .then((response) => response.json())
-      .then((data) => setDashboard(data));
+  fetch("https://ai-marketing-funnel.onrender.com/dashboard")
+    .then((response) => response.json())
+    .then((data) => setDashboard(data));
 
-    fetch("http://127.0.0.1:8000/leads")
-      .then((response) => response.json())
-      .then((data) => setLeads(data));
+  fetch("https://ai-marketing-funnel.onrender.com/leads")
+    .then((response) => response.json())
+    .then((data) => setLeads(data));
 
-    fetch("http://127.0.0.1:8000/lead-scores")
-      .then((response) => response.json())
-      .then((data) => setScores(data));
+  fetch("https://ai-marketing-funnel.onrender.com/lead-scores")
+    .then((response) => response.json())
+    .then((data) => setScores(data));
 
-    fetch("http://127.0.0.1:8000/source-performance")
-      .then((response) => response.json())
-      .then((data) => setSources(data));
-  }, []);
+  fetch("https://ai-marketing-funnel.onrender.com/source-performance")
+    .then((response) => response.json())
+    .then((data) => setSources(data));
+}, []);
 
   const exportToCSV = () => {
   const headers = [
