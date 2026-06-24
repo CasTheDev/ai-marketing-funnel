@@ -22,6 +22,10 @@ function App() {
   const [filterStatus, setFilterStatus] = useState("All");
   const [sortBy, setSortBy] = useState("Highest Score");
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const leadsPerPage = 5;
+
   const filteredLeads = leads.filter((lead) => {
   const leadScore = scores.find(
     (score) => score.lead_id === lead.lead_id
@@ -179,6 +183,22 @@ const coldCount =
   if (!dashboard) {
     return <h2>Loading Dashboard...</h2>;
   }
+
+  const indexOfLastLead =
+  currentPage * leadsPerPage;
+
+const indexOfFirstLead =
+  indexOfLastLead - leadsPerPage;
+
+const currentLeads =
+  sortedLeads.slice(
+    indexOfFirstLead,
+    indexOfLastLead
+  );
+
+const totalPages = Math.ceil(
+  sortedLeads.length / leadsPerPage
+);
 
   return (
     <div
@@ -566,11 +586,13 @@ const coldCount =
 </h2>
 
           <table
+          
             style={{
               width: "100%",
               borderCollapse: "collapse",
             }}
           >
+         
             <thead>
               <tr>
                 <th>Name</th>
@@ -583,7 +605,7 @@ const coldCount =
             </thead>
 
             <tbody>
-              {sortedLeads.map((lead) => {
+              {currentLeads.map((lead) => {
                 const leadScore = scores.find(
                   (score) => score.lead_id === lead.lead_id
                 );
@@ -629,6 +651,36 @@ const coldCount =
               })}
             </tbody>
           </table>
+          <div
+  style={{
+    marginTop: "20px",
+    display: "flex",
+    justifyContent: "center",
+    gap: "10px",
+  }}
+>
+  <button
+    disabled={currentPage === 1}
+    onClick={() =>
+      setCurrentPage(currentPage - 1)
+    }
+  >
+    Previous
+  </button>
+
+  <span>
+    Page {currentPage} of {totalPages}
+  </span>
+
+  <button
+    disabled={currentPage === totalPages}
+    onClick={() =>
+      setCurrentPage(currentPage + 1)
+    }
+  >
+    Next
+  </button>
+</div>
         </div>
 
         {/* Lead Sources Chart */}
