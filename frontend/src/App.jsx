@@ -132,6 +132,17 @@ const websiteLeads = leads.filter(
   (lead) => lead.source === "Website"
 ).length;
 
+const hotCount = scores.filter(
+  (score) => score.status === "Hot Lead"
+).length;
+
+const warmCount = scores.filter(
+  (score) => score.status === "Warm Lead"
+).length;
+
+const coldCount =
+  leads.length - hotCount - warmCount;
+
   if (!dashboard) {
     return <h2>Loading Dashboard...</h2>;
   }
@@ -353,7 +364,7 @@ const websiteLeads = leads.filter(
     fontWeight: "600",
   }}
 >
-  All
+  All ({leads.length})
 </button>
 
 <button
@@ -374,7 +385,7 @@ const websiteLeads = leads.filter(
     fontWeight: "600",
   }}
 >
-  Hot
+  Hot ({hotCount})
 </button>
 
 <button
@@ -395,7 +406,7 @@ const websiteLeads = leads.filter(
     fontWeight: "600",
   }}
 >
-  Warm
+  Warm ({warmCount})
 </button>
 
 <button
@@ -416,7 +427,7 @@ const websiteLeads = leads.filter(
     fontWeight: "600",
   }}
 >
-  Cold
+  Cold ({coldCount})
 </button>
 
 <button
