@@ -20,6 +20,7 @@ function App() {
   const [selectedLead, setSelectedLead] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [filterStatus, setFilterStatus] = useState("All");
+  const [sortBy, setSortBy] = useState("Highest Score");
 
   const filteredLeads = leads.filter((lead) => {
   const leadScore = scores.find(
@@ -39,6 +40,38 @@ function App() {
 
   return matchesSearch && matchesFilter;
 });
+
+const sortedLeads = [...filteredLeads].sort(
+  (a, b) => {
+    const scoreA =
+      scores.find(
+        (score) => score.lead_id === a.lead_id
+      )?.score || 0;
+
+    const scoreB =
+      scores.find(
+        (score) => score.lead_id === b.lead_id
+      )?.score || 0;
+
+    if (sortBy === "Highest Score")
+      return scoreB - scoreA;
+
+    if (sortBy === "Lowest Score")
+      return scoreA - scoreB;
+
+    if (sortBy === "Company Name")
+      return a.company_name.localeCompare(
+        b.company_name
+      );
+
+    if (sortBy === "Name A-Z")
+      return a.first_name.localeCompare(
+        b.first_name
+      );
+
+    return 0;
+  }
+);
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/dashboard")
@@ -430,6 +463,21 @@ const coldCount =
   Cold ({coldCount})
 </button>
 
+<select
+  value={sortBy}
+  onChange={(e) => setSortBy(e.target.value)}
+  style={{
+    padding: "10px",
+    borderRadius: "8px",
+    border: "1px solid #d1d5db",
+  }}
+>
+  <option>Highest Score</option>
+  <option>Lowest Score</option>
+  <option>Company Name</option>
+  <option>Name A-Z</option>
+</select>
+
 <button
   onClick={exportToCSV}
   style={{
@@ -478,7 +526,7 @@ const coldCount =
             </thead>
 
             <tbody>
-              {filteredLeads.map((lead) => {
+              {sortedLeads.map((lead) => {
                 const leadScore = scores.find(
                   (score) => score.lead_id === lead.lead_id
                 );
