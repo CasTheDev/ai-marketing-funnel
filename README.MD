@@ -239,8 +239,6 @@ https://github.com/CasTheDev
 LinkedIn:
 www.linkedin.com/in/cas-sandra-m-8a4462259
 
-Portfolio:
-https://voxadigital.co.za/ai-automation-systems-architect/
 
 ## Screenshots
 
