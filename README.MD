@@ -1,5 +1,11 @@
 # AI Marketing Funnel CRM Dashboard
 
+# AI Marketing Funnel CRM Dashboard
+
+![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql&logoColor=white) ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase&logoColor=white) ![Render](https://img.shields.io/badge/Render-46E3B7) ![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)
+
+A full-stack marketing analytics dashboard that tracks leads, scores prospects, analyzes lead sources, and provides actionable insights for marketing teams.
+
 A full-stack marketing analytics dashboard that tracks leads, scores prospects, analyzes lead sources, and provides actionable insights for marketing teams.
 
 ## Live Demo
