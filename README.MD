@@ -229,7 +229,7 @@ This project provided hands-on experience with:
 
 ## Author
 
-**Sandra Mapiye**
+**Cas-sandra Mapiye**
 
 Digital Marketing & Full-Stack Development Portfolio Project
 
