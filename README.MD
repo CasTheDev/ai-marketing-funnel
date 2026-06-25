@@ -237,10 +237,10 @@ GitHub:
 https://github.com/CasTheDev
 
 LinkedIn:
-(Add your LinkedIn URL here)
+www.linkedin.com/in/cas-sandra-m-8a4462259
 
 Portfolio:
-(Add your portfolio website URL here)
+https://voxadigital.co.za/ai-automation-systems-architect/
 
 ## Screenshots
 
