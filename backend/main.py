@@ -401,3 +401,40 @@ def get_lead_scores():
     conn.close()
 
     return scores
+
+@app.get("/organizations/{organization_id}/leads")
+def get_organization_leads(organization_id: str):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT lead_id,
+               email,
+               first_name,
+               company_name,
+               source,
+               created_at
+        FROM leads
+        WHERE organization_id = %s
+        ORDER BY lead_id DESC
+    """, (organization_id,))
+
+    rows = cur.fetchall()
+
+    leads = []
+
+    for row in rows:
+        leads.append({
+            "lead_id": row[0],
+            "email": row[1],
+            "first_name": row[2],
+            "company_name": row[3],
+            "source": row[4],
+            "created_at": str(row[5])
+        })
+
+    cur.close()
+    conn.close()
+
+    return leads
