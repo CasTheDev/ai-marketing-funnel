@@ -31,6 +31,10 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe();
   }, []);
 
+  useEffect(() => {
+  console.log("Current User:", user);
+}, [user]);
+
   return (
     <AuthContext.Provider
       value={{
