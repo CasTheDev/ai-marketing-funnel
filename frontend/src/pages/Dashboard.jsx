@@ -110,13 +110,29 @@ useEffect(() => {
 }, [user]);
 
 useEffect(() => {
+  if (!organizationId) return;
+
   fetch("https://ai-marketing-funnel.onrender.com/dashboard")
     .then((response) => response.json())
     .then((data) => setDashboard(data));
 
-  fetch("https://ai-marketing-funnel.onrender.com/leads")
-  .then((response) => response.json())
-  .then((data) => setLeads(data));
+  async function loadLeads() {
+  const { data, error } = await supabase
+    .from("leads")
+    .select("*")
+    .eq("organization_id", organizationId);
+
+  if (error) {
+    console.error("Leads error:", error);
+    return;
+  }
+
+  console.log("Organization Leads:", data);
+
+  setLeads(data);
+}
+
+loadLeads();
 
   fetch("https://ai-marketing-funnel.onrender.com/lead-scores")
     .then((response) => response.json())
@@ -126,24 +142,6 @@ useEffect(() => {
     .then((response) => response.json())
     .then((data) => setSources(data));
 }, [organizationId]);
-
-  useEffect(() => {
-  fetch("https://ai-marketing-funnel.onrender.com/dashboard")
-    .then((response) => response.json())
-    .then((data) => setDashboard(data));
-
-  fetch("https://ai-marketing-funnel.onrender.com/leads")
-    .then((response) => response.json())
-    .then((data) => setLeads(data));
-
-  fetch("https://ai-marketing-funnel.onrender.com/lead-scores")
-    .then((response) => response.json())
-    .then((data) => setScores(data));
-
-  fetch("https://ai-marketing-funnel.onrender.com/source-performance")
-    .then((response) => response.json())
-    .then((data) => setSources(data));
-}, []);
 
   const exportToCSV = () => {
   const headers = [
