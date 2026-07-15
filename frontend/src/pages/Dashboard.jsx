@@ -9,7 +9,15 @@ import {
   CartesianGrid,
 } from "recharts";
 
+import { useAuth } from "../context/AuthContext";
+import { supabase } from "../lib/supabase";
+
 function App() {
+
+  const { user } = useAuth();
+
+  const [organizationId, setOrganizationId] = useState(null);
+
   const [dashboard, setDashboard] = useState(null);
   const [leads, setLeads] = useState([]);
   const [scores, setScores] = useState([]);
@@ -76,6 +84,48 @@ const sortedLeads = [...filteredLeads].sort(
     return 0;
   }
 );
+
+useEffect(() => {
+  async function getOrganization() {
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from("organization_users")
+      .select("organization_id")
+      .eq("user_id", user.id)
+      .single();
+
+    if (error) {
+      console.error("Organization lookup error:", error);
+      return;
+    }
+
+    if (data) {
+      console.log("Organization found:", data.organization_id);
+      setOrganizationId(data.organization_id);
+    }
+  }
+
+  getOrganization();
+}, [user]);
+
+useEffect(() => {
+  fetch("https://ai-marketing-funnel.onrender.com/dashboard")
+    .then((response) => response.json())
+    .then((data) => setDashboard(data));
+
+  fetch("https://ai-marketing-funnel.onrender.com/leads")
+  .then((response) => response.json())
+  .then((data) => setLeads(data));
+
+  fetch("https://ai-marketing-funnel.onrender.com/lead-scores")
+    .then((response) => response.json())
+    .then((data) => setScores(data));
+
+  fetch("https://ai-marketing-funnel.onrender.com/source-performance")
+    .then((response) => response.json())
+    .then((data) => setSources(data));
+}, [organizationId]);
 
   useEffect(() => {
   fetch("https://ai-marketing-funnel.onrender.com/dashboard")
