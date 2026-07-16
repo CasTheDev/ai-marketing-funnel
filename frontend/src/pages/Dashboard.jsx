@@ -1,3 +1,4 @@
+import { supabase } from "../lib/supabase";
 import { useEffect, useState } from "react";
 import {
   ResponsiveContainer,
@@ -10,7 +11,6 @@ import {
 } from "recharts";
 
 import { useAuth } from "../context/AuthContext";
-import { supabase } from "../lib/supabase";
 
 function App() {
 
@@ -24,7 +24,8 @@ function App() {
   const [sources, setSources] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const [filter, setFilter] = useState("All");
+  
+
   const [selectedLead, setSelectedLead] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [filterStatus, setFilterStatus] = useState("All");
@@ -112,36 +113,75 @@ useEffect(() => {
 useEffect(() => {
   if (!organizationId) return;
 
-  fetch("https://ai-marketing-funnel.onrender.com/dashboard")
-    .then((response) => response.json())
-    .then((data) => setDashboard(data));
 
   async function loadLeads() {
-  const { data, error } = await supabase
-    .from("leads")
-    .select("*")
-    .eq("organization_id", organizationId);
+    console.log("Loading leads for:", organizationId);
 
-  if (error) {
-    console.error("Leads error:", error);
-    return;
+    const { data, error } = await supabase
+      .from("leads")
+      .select("*")
+      .eq("organization_id", organizationId);
+
+    if (error) {
+      console.error("Leads error:", error);
+      return;
+    }
+
+    console.log("Organization Leads:", data);
+
+    setLeads(data);
   }
 
-  console.log("Organization Leads:", data);
+  loadLeads();
 
-  setLeads(data);
-}
+  async function loadScores() {
+    const { data, error } = await supabase
+      .from("lead_scores")
+      .select("*");
 
-loadLeads();
+    if (error) {
+      console.error("Lead Scores Error:", error);
+      return;
+    }
 
-  fetch("https://ai-marketing-funnel.onrender.com/lead-scores")
-    .then((response) => response.json())
-    .then((data) => setScores(data));
+    console.log("Lead Scores:", data);
 
-  fetch("https://ai-marketing-funnel.onrender.com/source-performance")
-    .then((response) => response.json())
-    .then((data) => setSources(data));
+    setScores(data);
+  }
+
+  loadScores();
+
+  setDashboard({
+  leads,
+  scores,
+  hotCount: scores.filter(
+    (score) => score.status === "Hot Lead"
+  ).length,
+});
+
+
 }, [organizationId]);
+
+useEffect(() => {
+  const sourceCounts = {};
+
+  leads.forEach((lead) => {
+    sourceCounts[lead.source] =
+      (sourceCounts[lead.source] || 0) + 1;
+  });
+
+  const sourceData = Object.keys(sourceCounts).map(
+    (source) => ({
+      source,
+      leads: sourceCounts[source],
+    })
+  );
+
+  console.log("Chart Data:", sourceData);
+
+  setSources(sourceData);
+}, [leads]);
+
 
   const exportToCSV = () => {
   const headers = [
@@ -204,18 +244,6 @@ const averageScore =
       )
     : 0;
 
-const hotLeadRate =
-  dashboard?.total_leads > 0
-    ? Math.round(
-        (dashboard.hot_leads /
-          dashboard.total_leads) *
-          100
-      )
-    : 0;
-
-const websiteLeads = leads.filter(
-  (lead) => lead.source === "Website"
-).length;
 
 const hotCount = scores.filter(
   (score) => score.status === "Hot Lead"
@@ -228,9 +256,17 @@ const warmCount = scores.filter(
 const coldCount =
   leads.length - hotCount - warmCount;
 
-  if (!dashboard) {
-    return <h2>Loading Dashboard...</h2>;
-  }
+const hotLeadRate =
+  leads.length > 0
+    ? Math.round(
+        (hotCount / leads.length) * 100
+      )
+    : 0;
+
+const websiteLeads = leads.filter(
+  (lead) => lead.source === "Website"
+).length;
+
 
   const indexOfLastLead =
   currentPage * leadsPerPage;
@@ -334,7 +370,7 @@ const totalPages = Math.ceil(
     }}
   >
     <h3>Total Leads</h3>
-    <h2>{dashboard.total_leads}</h2>
+    <h2>{leads.length}</h2>
   </div>
 
   <div
@@ -348,7 +384,7 @@ const totalPages = Math.ceil(
     }}
   >
     <h3>Total Events</h3>
-    <h2>{dashboard.total_events}</h2>
+    <h2>{scores.length}</h2>
   </div>
 
   <div
@@ -362,7 +398,7 @@ const totalPages = Math.ceil(
     }}
   >
     <h3>Hot Leads</h3>
-    <h2>{dashboard.hot_leads}</h2>
+    <h2>{hotCount}</h2>
   </div>
 
   <div
@@ -759,7 +795,7 @@ const totalPages = Math.ceil(
               <YAxis />
               <Tooltip />
               <Bar 
-              dataKey="lead_count" 
+              dataKey="leads"
               fill="#2563eb"
               />
             </BarChart>
