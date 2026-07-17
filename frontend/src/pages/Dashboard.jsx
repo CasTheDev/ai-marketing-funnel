@@ -28,12 +28,30 @@ function App() {
 
   const [selectedLead, setSelectedLead] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [filterStatus, setFilterStatus] = useState("All");
   const [sortBy, setSortBy] = useState("Highest Score");
+
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiResult, setAiResult] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
 
   const leadsPerPage = 5;
+
+  async function analyzeLead(lead) {
+  setAiLoading(true);
+
+  setTimeout(() => {
+    setAiResult({
+      ai_score: 85,
+      ai_summary:
+        "Strong buying signals detected from engagement history.",
+      ai_recommendation:
+        "Schedule a discovery call within 24 hours.",
+    });
+
+    setAiLoading(false);
+  }, 1500);
+}
 
   const filteredLeads = leads.filter((lead) => {
   const leadScore = scores.find(
@@ -544,11 +562,11 @@ const totalPages = Math.ceil(
   onClick={() => setFilterStatus("All")}
   style={{
     background:
-      filterStatus === "All"
+      statusFilter === "All"
         ? "#2563eb"
         : "#f3f4f6",
     color:
-      filterStatus === "All"
+      statusFilter === "All"
         ? "white"
         : "#111827",
     border: "none",
@@ -565,11 +583,11 @@ const totalPages = Math.ceil(
   onClick={() => setFilterStatus("Hot Lead")}
   style={{
     background:
-      filterStatus === "Hot Lead"
+      statusFilter === "Hot Lead"
         ? "#ef4444"
         : "#f3f4f6",
     color:
-      filterStatus === "Hot Lead"
+      statusFilter === "Hot Lead"
         ? "white"
         : "#111827",
     border: "none",
@@ -586,11 +604,11 @@ const totalPages = Math.ceil(
   onClick={() => setFilterStatus("Warm Lead")}
   style={{
     background:
-      filterStatus === "Warm Lead"
+      statusFilter === "Warm Lead"
         ? "#f59e0b"
         : "#f3f4f6",
     color:
-      filterStatus === "Warm Lead"
+      statusFilter === "Warm Lead"
         ? "white"
         : "#111827",
     border: "none",
@@ -607,11 +625,11 @@ const totalPages = Math.ceil(
   onClick={() => setFilterStatus("Cold Lead")}
   style={{
     background:
-      filterStatus === "Cold Lead"
+      statusFilter === "Cold Lead"
         ? "#10b981"
         : "#f3f4f6",
     color:
-      filterStatus === "Cold Lead"
+      statusFilter === "Cold Lead"
         ? "white"
         : "#111827",
     border: "none",
@@ -833,6 +851,7 @@ const totalPages = Math.ceil(
               <tr>
                 <th>Name</th>
                 <th>Company</th>
+                <th>Email</th>
                 <th>Score</th>
                 <th style={{ minWidth: "120px" }}>
                   Status
@@ -932,7 +951,48 @@ const totalPages = Math.ceil(
         <strong>Created:</strong>{" "}
         {selectedLead.created_at}
       </p>
+      
+      <button
+  onClick={() => analyzeLead(selectedLead)}
+  style={{
+    background: "#10b981",
+    color: "white",
+    border: "none",
+    padding: "10px 20px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    marginTop: "20px",
+  }}
+>
+  ✨ Analyze Lead
+</button>
 
+{aiLoading && (
+  <p style={{ marginTop: "15px" }}>
+    Analyzing lead...
+  </p>
+)}
+
+{aiResult && (
+  <div style={{ marginTop: "20px" }}>
+    <h3>AI Analysis</h3>
+
+    <p>
+      <strong>AI Score:</strong>{" "}
+      {aiResult.ai_score}
+    </p>
+
+    <p>
+      <strong>Summary:</strong>{" "}
+      {aiResult.ai_summary}
+    </p>
+
+    <p>
+      <strong>Recommendation:</strong>{" "}
+      {aiResult.ai_recommendation}
+    </p>
+  </div>
+)}
       <button
         onClick={() => setShowModal(false)}
         style={{
