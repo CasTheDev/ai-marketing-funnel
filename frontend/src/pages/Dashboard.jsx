@@ -1,3 +1,4 @@
+import KPISection from "../components/KPISection";
 import { supabase } from "../lib/supabase";
 import { useEffect, useState } from "react";
 import {
@@ -34,6 +35,18 @@ function App() {
   const [aiResult, setAiResult] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [showAddModal, setShowAddModal] = useState(false);
+
+const [newLead, setNewLead] = useState({
+  first_name: "",
+  company_name: "",
+  email: "",
+  source: "Website",
+});
+
+const [editingLead, setEditingLead] = useState(null);
+const [isEditing, setIsEditing] = useState(false);
 
   const leadsPerPage = 5;
 
@@ -252,6 +265,45 @@ useEffect(() => {
   document.body.removeChild(link);
 };
 
+async function addLead() {
+  const { error } = await supabase
+    .from("leads")
+    .insert([
+      {
+        organization_id: organizationId,
+        first_name: newLead.first_name,
+        company_name: newLead.company_name,
+        email: newLead.email,
+        source: newLead.source,
+      },
+    ]);
+
+  if (error) {
+    console.error(error);
+    alert("Failed to save lead.");
+    return;
+  }
+
+  alert("Lead added successfully!");
+
+  setShowAddModal(false);
+
+  setNewLead({
+    first_name: "",
+    company_name: "",
+    email: "",
+    source: "Website",
+  });
+
+  // Reload the leads
+  const { data } = await supabase
+    .from("leads")
+    .select("*")
+    .eq("organization_id", organizationId);
+
+  setLeads(data);
+}
+
 const averageScore =
   scores.length > 0
     ? Math.round(
@@ -367,100 +419,15 @@ const totalPages = Math.ceil(
   </p>
 </div>
 
-        {/* KPI Cards */}
-        {/* KPI Cards */}
-<div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-    gap: "20px",
-    marginTop: "20px",
-  }}
->
-  <div
-    style={{
-      background: "#2563eb",
-      color: "white",
-      padding: "20px",
-      borderRadius: "10px",
-      textAlign: "center",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-    }}
-  >
-    <h3>Total Leads</h3>
-    <h2>{leads.length}</h2>
-  </div>
-
-  <div
-    style={{
-      background: "#10b981",
-      color: "white",
-      padding: "20px",
-      borderRadius: "10px",
-      textAlign: "center",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-    }}
-  >
-    <h3>Total Events</h3>
-    <h2>{scores.length}</h2>
-  </div>
-
-  <div
-    style={{
-      background: "#ef4444",
-      color: "white",
-      padding: "20px",
-      borderRadius: "10px",
-      textAlign: "center",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-    }}
-  >
-    <h3>Hot Leads</h3>
-    <h2>{hotCount}</h2>
-  </div>
-
-  <div
-    style={{
-      background: "#8b5cf6",
-      color: "white",
-      padding: "20px",
-      borderRadius: "10px",
-      textAlign: "center",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-    }}
-  >
-    <h3>Avg Score</h3>
-    <h2>{averageScore}</h2>
-  </div>
-
-  <div
-    style={{
-      background: "#f59e0b",
-      color: "white",
-      padding: "20px",
-      borderRadius: "10px",
-      textAlign: "center",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-    }}
-  >
-    <h3>Hot Rate</h3>
-    <h2>{hotLeadRate}%</h2>
-  </div>
-
-  <div
-    style={{
-      background: "#06b6d4",
-      color: "white",
-      padding: "20px",
-      borderRadius: "10px",
-      textAlign: "center",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-    }}
-  >
-    <h3>Website Leads</h3>
-    <h2>{websiteLeads}</h2>
-  </div>
-</div>
+    {/* KPI Cards */}
+<KPISection
+  leads={leads}
+  scores={scores}
+  hotCount={hotCount}
+  averageScore={averageScore}
+  hotLeadRate={hotLeadRate}
+  websiteLeads={websiteLeads}
+/>
   <div
   style={{
     background: "white",
@@ -670,6 +637,21 @@ const totalPages = Math.ceil(
   }}
 >
   Export CSV
+</button>
+
+<button
+  onClick={() => setShowAddModal(true)}
+  style={{
+    background: "#10b981",
+    color: "white",
+    border: "none",
+    padding: "10px 18px",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontWeight: "600",
+  }}
+>
+  + Add Lead
 </button>
 
 
@@ -911,6 +893,7 @@ const totalPages = Math.ceil(
            zIndex: 1000,
     
       }}
+      
     >
     <div
       style={{
@@ -964,6 +947,7 @@ const totalPages = Math.ceil(
     marginTop: "20px",
   }}
 >
+  
   ✨ Analyze Lead
 </button>
 
@@ -1007,6 +991,132 @@ const totalPages = Math.ceil(
       >
         Close
       </button>
+    </div>
+  </div>
+)}
+
+{showAddModal && (
+  <div
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0,0,0,0.5)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 1000,
+    }}
+  >
+    <div
+      style={{
+        background: "white",
+        padding: "30px",
+        borderRadius: "12px",
+        width: "450px",
+      }}
+    >
+      <h2>Add New Lead</h2>
+
+      <input
+        type="text"
+        placeholder="First Name"
+        value={newLead.first_name}
+        onChange={(e) =>
+          setNewLead({
+            ...newLead,
+            first_name: e.target.value,
+          })
+        }
+        style={{
+          width: "100%",
+          padding: "10px",
+          marginBottom: "15px",
+        }}
+      />
+
+      <input
+        type="text"
+        placeholder="Company"
+        value={newLead.company_name}
+        onChange={(e) =>
+          setNewLead({
+            ...newLead,
+            company_name: e.target.value,
+          })
+        }
+        style={{
+          width: "100%",
+          padding: "10px",
+          marginBottom: "15px",
+        }}
+      />
+
+      <input
+        type="email"
+        placeholder="Email"
+        value={newLead.email}
+        onChange={(e) =>
+          setNewLead({
+            ...newLead,
+            email: e.target.value,
+          })
+        }
+        style={{
+          width: "100%",
+          padding: "10px",
+          marginBottom: "15px",
+        }}
+      />
+
+      <select
+        value={newLead.source}
+        onChange={(e) =>
+          setNewLead({
+            ...newLead,
+            source: e.target.value,
+          })
+        }
+        style={{
+          width: "100%",
+          padding: "10px",
+          marginBottom: "20px",
+        }}
+      >
+        <option>Website</option>
+        <option>LinkedIn</option>
+        <option>Referral</option>
+        <option>Facebook</option>
+        <option>Google Ads</option>
+      </select>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          gap: "10px",
+        }}
+      >
+        <button onClick={() => setShowAddModal(false)}>
+          Cancel
+        </button>
+
+        <button
+  onClick={addLead}
+  style={{
+    background: "#10b981",
+    color: "white",
+    border: "none",
+    padding: "10px 18px",
+    borderRadius: "8px",
+    cursor: "pointer",
+  }}
+>
+          Save Lead
+        </button>
+      </div>
     </div>
   </div>
 )}
