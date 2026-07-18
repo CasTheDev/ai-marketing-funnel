@@ -1,3 +1,4 @@
+import EditLeadModal from "../components/EditLeadModal";
 import AddLeadModal from "../components/AddLeadModal";
 import LeadDetailsModal from "../components/LeadDetailsModal";
 import TopLeads from "../components/TopLeads";
@@ -42,6 +43,8 @@ function Dashboard() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const [showAddModal, setShowAddModal] = useState(false);
+
+  const [showEditModal, setShowEditModal] = useState(false);
 
 const [newLead, setNewLead] = useState({
   first_name: "",
