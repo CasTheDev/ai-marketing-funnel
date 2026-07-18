@@ -644,6 +644,7 @@ const totalPages = Math.ceil(
                 <th>Source</th>
                 <th>Score</th>
                 <th>Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
 
@@ -689,6 +690,39 @@ const totalPages = Math.ceil(
                         {leadScore ? leadScore.status : "Cold Lead"}
                       </span>
                     </td>
+                    <td
+  style={{
+    padding: "12px",
+    textAlign: "center",
+  }}
+>
+  <button
+    style={{
+      background: "#2563eb",
+      color: "white",
+      border: "none",
+      padding: "6px 10px",
+      borderRadius: "6px",
+      cursor: "pointer",
+      marginRight: "8px",
+    }}
+  >
+    ✏️
+  </button>
+
+  <button
+    style={{
+      background: "#ef4444",
+      color: "white",
+      border: "none",
+      padding: "6px 10px",
+      borderRadius: "6px",
+      cursor: "pointer",
+    }}
+  >
+    🗑️
+  </button>
+</td>
                   </tr>
                 );
               })}
