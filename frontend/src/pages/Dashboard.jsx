@@ -18,7 +18,7 @@ import {
 
 import { useAuth } from "../context/AuthContext";
 
-function App() {
+function Dashboard() {
 
   const { user } = useAuth();
 
@@ -482,7 +482,7 @@ const totalPages = Math.ceil(
   }}
 >
   <button
-  onClick={() => setFilterStatus("All")}
+  onClick={() => setStatusFilter("All")}
   style={{
     background:
       statusFilter === "All"
@@ -503,7 +503,7 @@ const totalPages = Math.ceil(
 </button>
 
 <button
-  onClick={() => setFilterStatus("Hot Lead")}
+  onClick={() => setStatusFilter("Hot Lead")}
   style={{
     background:
       statusFilter === "Hot Lead"
@@ -524,7 +524,7 @@ const totalPages = Math.ceil(
 </button>
 
 <button
-  onClick={() => setFilterStatus("Warm Lead")}
+  onClick={() => setStatusFilter("Warm Lead")}
   style={{
     background:
       statusFilter === "Warm Lead"
@@ -545,7 +545,7 @@ const totalPages = Math.ceil(
 </button>
 
 <button
-  onClick={() => setFilterStatus("Cold Lead")}
+  onClick={() => setStatusFilter("Cold Lead")}
   style={{
     background:
       statusFilter === "Cold Lead"
@@ -755,4 +755,4 @@ const totalPages = Math.ceil(
   );
 }
 
-export default App;
+export default Dashboard;
