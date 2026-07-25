@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
+import { toast } from "sonner";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,8 +18,9 @@ export default function Login() {
     });
 
     if (error) {
-      alert(error.message);
+      toast.error(error.message);
     } else {
+      toast.success("Login successful!");
       navigate("/dashboard");
     }
   }

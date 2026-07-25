@@ -6,6 +6,7 @@ import SourceChart from "../components/SourceChart";
 import LeadInsights from "../components/LeadInsights";
 import KPISection from "../components/KPISection";
 import { supabase } from "../lib/supabase";
+import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import {
   ResponsiveContainer,
@@ -288,11 +289,11 @@ function Dashboard() {
 
     if (error) {
       console.error(error);
-      alert("Failed to save lead.");
+      toast.error("Failed to add lead.");
       return;
     }
 
-    alert("Lead added successfully!");
+    toast.success("Lead added successfully!");
 
     setShowAddModal(false);
 
@@ -319,15 +320,15 @@ function Dashboard() {
 
     if (error) {
       console.error("Supabase Update Error:", error);
-      alert(`Failed to update lead.\n\n${error.message}`);
+      toast.error(`Failed to update lead: ${error.message}`);
       return;
     }
 
-    alert("Lead updated successfully!");
+    toast.success(`${lead.name} was updated successfully.`);
 
     setShowEditModal(false);
     setEditingLead(null);
-
+ 
     await loadLeads();
   }
 
@@ -345,11 +346,11 @@ function Dashboard() {
 
   if (error) {
     console.error("Delete Error:", error);
-    alert(`Failed to delete lead.\n\n${error.message}`);
+    toast.error(`Failed to delete lead: ${error.message}`);
     return;
   }
 
-  alert("Lead deleted successfully!");
+  toast.success("Lead deleted successfully!");
 
   await loadLeads();
 }

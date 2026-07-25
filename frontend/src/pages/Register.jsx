@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,9 +17,10 @@ export default function Register() {
     });
 
     if (error) {
-      alert(error.message);
+      toast.error(error.message);
     } else {
-      alert("Registration successful");
+      toast.success("Registration successful! Please check your email to verify your account.");
+navigate("/login");
     }
   }
 
