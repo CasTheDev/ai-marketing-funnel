@@ -4,6 +4,7 @@ function AddLeadModal({
   newLead,
   setNewLead,
   addLead,
+  isSaving,
 }) {
   if (!showAddModal) return null;
 
@@ -111,22 +112,26 @@ function AddLeadModal({
             gap: "10px",
           }}
         >
-          <button onClick={() => setShowAddModal(false)}>
+          <button onClick={() => setShowAddModal(false)}
+            disabled={isSaving}
+            >
             Cancel
           </button>
 
           <button
             onClick={addLead}
+            disabled={isSaving}
             style={{
               background: "#10b981",
               color: "white",
               border: "none",
               padding: "10px 18px",
               borderRadius: "8px",
-              cursor: "pointer",
+              cursor: isSaving ? "not-allowed" : "pointer",
+              opacity: isSaving ? 0.7 : 1,
             }}
           >
-            Save Lead
+            {isSaving ? "Saving..." : "Save Lead"}
           </button>
         </div>
       </div>

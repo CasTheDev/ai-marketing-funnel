@@ -1,5 +1,6 @@
 import EditLeadModal from "../components/EditLeadModal";
 import AddLeadModal from "../components/AddLeadModal";
+import ConfirmationModal from "../components/ConfirmationModal";
 import LeadDetailsModal from "../components/LeadDetailsModal";
 import TopLeads from "../components/TopLeads";
 import SourceChart from "../components/SourceChart";
@@ -47,12 +48,17 @@ function Dashboard() {
 
   const [showEditModal, setShowEditModal] = useState(false);
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [leadToDelete, setLeadToDelete] = useState(null);
+
   const [newLead, setNewLead] = useState({
     first_name: "",
     company_name: "",
     email: "",
     source: "Website",
   });
+
+  const [isSaving, setIsSaving] = useState(false);
 
   const [editingLead, setEditingLead] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -275,6 +281,9 @@ function Dashboard() {
   };
 
   async function addLead() {
+  setIsSaving(true);
+
+  try {
     const { error } = await supabase
       .from("leads")
       .insert([
@@ -305,7 +314,10 @@ function Dashboard() {
     });
 
     await loadLeads();
+  } finally {
+    setIsSaving(false);
   }
+}
 
   async function updateLead(updatedLead) {
     const { error } = await supabase
@@ -332,17 +344,18 @@ function Dashboard() {
     await loadLeads();
   }
 
-  async function deleteLead(leadId) {
-  const confirmed = window.confirm(
-    "Are you sure you want to delete this lead?"
-  );
+  function requestDeleteLead(lead) {
+  setLeadToDelete(lead);
+  setShowDeleteModal(true);
+}
 
-  if (!confirmed) return;
+  async function deleteLead() {
+  if (!leadToDelete) return;
 
   const { error } = await supabase
     .from("leads")
     .delete()
-    .eq("lead_id", leadId);
+    .eq("lead_id", leadToDelete.lead_id);
 
   if (error) {
     console.error("Delete Error:", error);
@@ -350,7 +363,10 @@ function Dashboard() {
     return;
   }
 
-  toast.success("Lead deleted successfully!");
+  toast.success(`${leadToDelete.first_name} was deleted successfully!`);
+
+  setShowDeleteModal(false);
+  setLeadToDelete(null);
 
   await loadLeads();
 }
@@ -758,7 +774,7 @@ function Dashboard() {
                       </button>
 
                       <button
-                        onClick={() => deleteLead(lead.lead_id)}
+                        onClick={() => requestDeleteLead(lead)}
                         style={{
                           background: "#ef4444",
                           color: "white",
@@ -834,6 +850,7 @@ function Dashboard() {
           newLead={newLead}
           setNewLead={setNewLead}
           addLead={addLead}
+          isSaving={isSaving}
         />
 
         <EditLeadModal
@@ -843,6 +860,23 @@ function Dashboard() {
           setEditingLead={setEditingLead}
           updateLead={updateLead}
         />
+
+        <ConfirmationModal
+  isOpen={showDeleteModal}
+  title="Delete Lead"
+  message={
+    leadToDelete
+      ? `Are you sure you want to delete ${leadToDelete.first_name}? This action cannot be undone.`
+      : ""
+  }
+  confirmText="Delete"
+  cancelText="Cancel"
+  onConfirm={deleteLead}
+  onCancel={() => {
+    setShowDeleteModal(false);
+    setLeadToDelete(null);
+  }}
+/>
       </div>
     </div>
   );
