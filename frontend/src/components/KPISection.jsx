@@ -1,3 +1,13 @@
+import "./KPISection.css";
+import {
+  Users,
+  Activity,
+  Flame,
+  Award,
+  TrendingUp,
+  Globe,
+} from "lucide-react";
+
 function KPISection({
   leads,
   scores,
@@ -6,98 +16,125 @@ function KPISection({
   hotLeadRate,
   websiteLeads,
 }) {
+
+  const cards = [
+  {
+    title: "Total Leads",
+    value: leads.length,
+    subtitle: "Active contacts",
+    color: "#2563eb",
+    icon: Users,
+  },
+  {
+    title: "Total Events",
+    value: scores.length,
+    subtitle: "Tracked activities",
+    color: "#10b981",
+    icon: Activity,
+  },
+  {
+    title: "Hot Leads",
+    value: hotCount,
+    subtitle: "High intent prospects",
+    color: "#ef4444",
+    icon: Flame,
+  },
+  {
+    title: "Average Score",
+    value: averageScore,
+    subtitle: "Lead quality",
+    color: "#8b5cf6",
+    icon: Award,
+  },
+  {
+    title: "Hot Rate",
+    value: `${hotLeadRate}%`,
+    subtitle: "Conversion health",
+    color: "#f59e0b",
+    icon: TrendingUp,
+  },
+  {
+    title: "Website Leads",
+    value: websiteLeads,
+    subtitle: "Organic enquiries",
+    color: "#06b6d4",
+    icon: Globe,
+  },
+];
+
   return (
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-        gap: "20px",
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gap: "24px",
         marginTop: "20px",
+      }}
+    >
+      {cards.map((card) => {
+  const Icon = card.icon;
+
+  return (
+    <div
+      key={card.title}
+      className="kpi-card"
+      style={{
+        background: "#ffffff",
+        borderRadius: "20px",
+        padding: "28px",
+        boxShadow: "0 10px 30px rgba(15,23,42,0.08)",
+        borderTop: `4px solid ${card.color}`,
       }}
     >
       <div
         style={{
-          background: "#2563eb",
-          color: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          textAlign: "center",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+          width: "52px",
+          height: "52px",
+          borderRadius: "14px",
+          background: `${card.color}15`,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          marginBottom: "18px",
         }}
       >
-        <h3>Total Leads</h3>
-        <h2>{leads.length}</h2>
+        <Icon size={32} color={card.color} />
       </div>
 
       <div
         style={{
-          background: "#10b981",
-          color: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          textAlign: "center",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+          fontSize: "14px",
+          fontWeight: 600,
+          color: "#64748b",
+          marginBottom: "8px",
         }}
       >
-        <h3>Total Events</h3>
-        <h2>{scores.length}</h2>
+        {card.title}
       </div>
 
       <div
         style={{
-          background: "#ef4444",
-          color: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          textAlign: "center",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+          fontSize: "34px",
+          fontWeight: 700,
+          color: "#0f172a",
+          lineHeight: 1,
         }}
       >
-        <h3>Hot Leads</h3>
-        <h2>{hotCount}</h2>
+        {card.value}
       </div>
 
       <div
         style={{
-          background: "#8b5cf6",
-          color: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          textAlign: "center",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+          marginTop: "10px",
+          fontSize: "13px",
+          color: "#94a3b8",
         }}
       >
-        <h3>Avg Score</h3>
-        <h2>{averageScore}</h2>
+        {card.subtitle}
       </div>
-
-      <div
-        style={{
-          background: "#f59e0b",
-          color: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          textAlign: "center",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h3>Hot Rate</h3>
-        <h2>{hotLeadRate}%</h2>
-      </div>
-
-      <div
-        style={{
-          background: "#06b6d4",
-          color: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          textAlign: "center",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-        }}
-      >
-        <h3>Website Leads</h3>
-        <h2>{websiteLeads}</h2>
-      </div>
+    </div>
+  );
+})}
     </div>
   );
 }

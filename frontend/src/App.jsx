@@ -1,3 +1,8 @@
+import Leads from "./pages/Leads";
+import Analytics from "./pages/Analytics";
+import AIInsights from "./pages/AIInsights";
+import Settings from "./pages/Settings";
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./pages/Login";
@@ -23,6 +28,41 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+  path="/leads"
+  element={
+    <ProtectedRoute>
+      <Leads />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/analytics"
+  element={
+    <ProtectedRoute>
+      <Analytics />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/ai-insights"
+  element={
+    <ProtectedRoute>
+      <AIInsights />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/settings"
+  element={
+    <ProtectedRoute>
+      <Settings />
+    </ProtectedRoute>
+  }
+/>
       </Routes>
     </BrowserRouter>
   );

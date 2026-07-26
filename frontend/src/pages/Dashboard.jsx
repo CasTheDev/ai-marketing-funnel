@@ -1,3 +1,4 @@
+import DashboardLayout from "../components/DashboardLayout";
 import EditLeadModal from "../components/EditLeadModal";
 import AddLeadModal from "../components/AddLeadModal";
 import ConfirmationModal from "../components/ConfirmationModal";
@@ -9,6 +10,17 @@ import KPISection from "../components/KPISection";
 import { supabase } from "../lib/supabase";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+
+import {
+  LayoutDashboard,
+  Users,
+  BarChart3,
+  BrainCircuit,
+  Settings,
+  LogOut,
+} from "lucide-react";
+
 import {
   ResponsiveContainer,
   BarChart,
@@ -421,32 +433,23 @@ function Dashboard() {
     sortedLeads.length / leadsPerPage
   );
 
-  return (
-    <div
-      style={{
-        display: "flex",
-        minHeight: "100vh",
-        fontFamily: "Arial",
-      }}
-    >
-      {/* Sidebar */}
-      <div
-        style={{
-          width: "220px",
-          background: "#111827",
-          color: "white",
-          padding: "20px",
-        }}
-      >
-        <h2>AI Funnel CRM</h2>
+  const navStyle = ({ isActive }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  padding: "12px",
+  width: "100%",
+  boxSizing: "border-box",
+  borderRadius: "10px",
+  textDecoration: "none",
+  color: "white",
+  background: isActive ? "#2563eb" : "transparent",
+  fontWeight: isActive ? "600" : "400",
+});
 
-        <hr />
+return (
+  <DashboardLayout>
 
-        <p>📊 Dashboard</p>
-        <p>👥 Leads</p>
-        <p>🔥 Lead Scores</p>
-        <p>📈 Analytics</p>
-      </div>
 
       {/* Main Content */}
       <div
@@ -472,7 +475,8 @@ function Dashboard() {
               color: "#111827",
             }}
           >
-            AI Marketing Funnel Dashboard
+            Good Morning, Cas-sandra!
+        
           </h1>
 
           <p
@@ -482,7 +486,7 @@ function Dashboard() {
               fontSize: "16px",
             }}
           >
-            Track leads, performance, and source analytics
+            Welcome back to Voxa AI CRM
           </p>
         </div>
 
@@ -878,7 +882,7 @@ function Dashboard() {
   }}
 />
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
 
