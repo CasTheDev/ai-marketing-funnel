@@ -1,3 +1,4 @@
+import VexaHeader from "../components/VexaHeader";
 import DashboardLayout from "../components/DashboardLayout";
 import EditLeadModal from "../components/EditLeadModal";
 import AddLeadModal from "../components/AddLeadModal";
@@ -475,7 +476,12 @@ return (
               color: "#111827",
             }}
           >
-            Good Morning, Cas-sandra!
+            <VexaHeader
+              greeting="Good Afternoon 👋"
+             title="Welcome back, Cas-sandra!"
+             subtitle="I've analysed today's CRM activity. Your pipeline is healthy, your conversion rate is improving, and I've identified opportunities that deserve your attention."
+             heroImage="/images/vexa/vexa-dashboard-hero.png"
+          />
         
           </h1>
 
