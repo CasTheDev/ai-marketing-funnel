@@ -16,8 +16,10 @@ import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard,
   Users,
-  BarChart3,
+  TrendingUp,
+  ShieldCheck,
   BrainCircuit,
+  BarChart3,
   Settings,
   LogOut,
 } from "lucide-react";
@@ -77,6 +79,29 @@ function Dashboard() {
   const [isEditing, setIsEditing] = useState(false);
 
   const leadsPerPage = 5;
+  
+  const dashboardInsights = [
+  {
+    icon: Users,
+    title: "High Value Leads",
+    value: "4 prospects need immediate attention",
+  },
+  {
+    icon: TrendingUp,
+    title: "Conversion Rate",
+    value: "12% higher than yesterday",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Pipeline Health",
+    value: "Excellent",
+  },
+  {
+    icon: BrainCircuit,
+    title: "AI Recommendation",
+    value: "Contact your hottest lead today.",
+  },
+];
 
   async function analyzeLead(lead) {
     setAiLoading(true);
@@ -477,11 +502,9 @@ return (
             }}
           >
             <VexaHeader
-              greeting="Good Afternoon 👋"
-             title="Welcome back, Cas-sandra!"
-             subtitle="I've analysed today's CRM activity. Your pipeline is healthy, your conversion rate is improving, and I've identified opportunities that deserve your attention."
-             heroImage="/images/vexa/vexa-dashboard-hero.png"
-          />
+  title="Welcome back, Cas-sandra!"
+  heroImage="/images/vexa/vexa-floating.png"
+/>
         
           </h1>
 

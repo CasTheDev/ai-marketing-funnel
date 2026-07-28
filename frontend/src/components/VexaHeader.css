@@ -1,0 +1,163 @@
+.vexa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 35px;
+  overflow: hidden;
+  color: white;
+  gap: 40px;
+}
+
+.vexa-insights-grid {
+    margin-top: 28px;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 16px;
+}
+
+.vexa-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    padding: 18px;
+
+    border-radius: 16px;
+
+    background: rgba(255,255,255,.07);
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    transition: all .25s ease;
+}
+
+.vexa-card:hover {
+    transform: translateY(-3px);
+
+    border-color: rgba(96,165,250,.35);
+
+    background: rgba(255,255,255,.10);
+}
+
+.vexa-card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.vexa-card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.vexa-card-text {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.vexa-left{
+    flex:1;
+    max-width:520px;
+}
+
+.vexa-greeting {
+  color: #60a5fa;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.vexa-title {
+  margin-bottom: 28px;
+  font-size: 48px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.vexa-image-container {
+    flex: 0 0 420px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+.vexa-image {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  animation: float 5s ease-in-out infinite;
+  filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.35));
+  z-index: 2;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.vexa-greeting-message {
+  color: #60a5fa;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.vexa-text {
+  color: #cbd5e1;
+  font-size: 17px;
+  line-height: 1.8;
+  max-width: 520px;
+  font-weight: 400;
+}
+
+.vexa-question {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 20px;
+}
+
+.vexa-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+.vexa-primary,
+.vexa-secondary {
+    min-width: 180px;
+    height: 48px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.vexa-message {
+    max-width: 520px;
+    text-align: left;
+}
