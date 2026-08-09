@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Users,
@@ -7,6 +7,8 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
+
+import { supabase } from "../lib/supabase";
 
 const navStyle = ({ isActive }) => ({
   display: "flex",
@@ -23,6 +25,19 @@ const navStyle = ({ isActive }) => ({
 });
 
 function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Logout failed:", error.message);
+    return;
+  }
+
+  navigate("/login");
+};
+
   return (
     <div
       style={{
@@ -138,6 +153,7 @@ function Sidebar() {
         </div>
 
         <div
+          onClick={handleLogout}
           style={{
             display: "flex",
             alignItems: "center",

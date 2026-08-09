@@ -8,6 +8,7 @@ import TopLeads from "../components/TopLeads";
 import SourceChart from "../components/SourceChart";
 import LeadInsights from "../components/LeadInsights";
 import KPISection from "../components/KPISection";
+import CasAIInsight from "../components/CasAIInsight";
 import { supabase } from "../lib/supabase";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
@@ -56,6 +57,8 @@ function Dashboard() {
 
   const [aiLoading, setAiLoading] = useState(false);
   const [aiResult, setAiResult] = useState(null);
+
+  const [showCasAI, setShowCasAI] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -200,6 +203,27 @@ function Dashboard() {
 
     async function loadLeads() {
       console.log("Loading leads for:", organizationId);
+
+          try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/source-performance"
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to load source performance");
+      }
+
+      const sourceData = await response.json();
+
+      console.log("Source performance:", sourceData);
+
+      setSources(sourceData);
+    } catch (error) {
+      console.error(
+        "Error loading source performance:",
+        error
+      );
+    }
 
       const { data, error } = await supabase
         .from("leads")
@@ -505,6 +529,8 @@ return (
   title="Welcome back, Cas-sandra!"
   heroImage="/images/vexa/vexa-floating.png"
 />
+
+
         
           </h1>
 
@@ -515,27 +541,35 @@ return (
               fontSize: "16px",
             }}
           >
-            Welcome back to Voxa AI CRM
+            Today's Snapshot
           </p>
         </div>
 
         {/* KPI Cards */}
         <KPISection
-          leads={leads}
-          scores={scores}
-          hotCount={hotCount}
-          averageScore={averageScore}
-          hotLeadRate={hotLeadRate}
-          websiteLeads={websiteLeads}
-        />
-        <LeadInsights
-          leads={leads}
-          hotCount={hotCount}
-          warmCount={warmCount}
-          coldCount={coldCount}
-          averageScore={averageScore}
-          hotLeadRate={hotLeadRate}
-        />
+  leads={leads}
+  scores={scores}
+  hotCount={hotCount}
+  averageScore={averageScore}
+  hotLeadRate={hotLeadRate}
+  websiteLeads={websiteLeads}
+/>
+
+<CasAIInsight
+  leads={leads}
+  hotCount={hotCount}
+  sources={sources}
+  organizationId={organizationId}
+/>
+
+<LeadInsights
+  leads={leads}
+  hotCount={hotCount}
+  warmCount={warmCount}
+  coldCount={coldCount}
+  averageScore={averageScore}
+  hotLeadRate={hotLeadRate}
+/>
 
         {/* Recent Leads */}
         <div

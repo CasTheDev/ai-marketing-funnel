@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import "./VexaHeader.css";
 import React from "react";
 
@@ -5,6 +6,9 @@ function VexaHeader({
   title,
   heroImage,
 }) {
+
+  const navigate = useNavigate();
+
   return (
     <div className="vexa-header">
 
@@ -18,11 +22,7 @@ function VexaHeader({
         <div className="vexa-message">
 
           <p className="vexa-greeting-message">
-            Here's your CRM summary for today.
-          </p>
-
-          <p className="vexa-text">
-            I've reviewed today's CRM activity.
+            Here's what's happening in your CRM today.
           </p>
 
           <p className="vexa-text">
@@ -39,7 +39,10 @@ function VexaHeader({
 
           <div className="vexa-buttons">
 
-            <button className="vexa-primary">
+            <button 
+              className="vexa-primary"
+              onClick={() => navigate("/leads")}
+            >
               Review Leads
             </button>
 

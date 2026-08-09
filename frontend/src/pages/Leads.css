@@ -1,0 +1,96 @@
+.leads-page {
+  padding: 40px;
+  color: white;
+}
+
+.leads-title {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.kpi-card {
+  background: #1e293b;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+
+.kpi-label {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.kpi-value {
+  font-size: 34px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.search-box {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: #0f172a;
+  color: white;
+  margin-bottom: 25px;
+  font-size: 15px;
+}
+
+.leads-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leads-table th {
+  text-align: left;
+  padding: 16px;
+  color: #94a3b8;
+  border-bottom: 2px solid #334155;
+}
+
+.leads-table td {
+  padding: 16px;
+  border-bottom: 1px solid #334155;
+}
+
+.leads-table tr:hover {
+  background: rgba(37,99,235,0.08);
+}
+
+.source-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+.source-google {
+  background: #2563eb;
+}
+
+.source-facebook {
+  background: #1877f2;
+}
+
+.source-linkedin {
+  background: #0a66c2;
+}
+
+.source-website {
+  background: #475569;
+}
+
+.source-referral {
+  background: #9333ea;
+}
