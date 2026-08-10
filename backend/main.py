@@ -404,7 +404,6 @@ def get_lead_scores():
 
 @app.get("/organizations/{organization_id}/leads")
 def get_organization_leads(organization_id: str):
-
     conn = get_connection()
     cur = conn.cursor()
 
@@ -438,6 +437,65 @@ def get_organization_leads(organization_id: str):
     conn.close()
 
     return leads
+
+
+@app.get("/organizations/{organization_id}/leads/{lead_id}")
+def get_organization_lead(
+    organization_id: str,
+    lead_id: int
+):
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT
+            l.lead_id,
+            l.email,
+            l.first_name,
+            l.company_name,
+            l.source,
+            l.created_at,
+            COALESCE(ls.score, 0) AS score,
+            COALESCE(ls.status, 'Cold Lead') AS status,
+            ls.created_at AS score_created_at
+        FROM leads l
+        LEFT JOIN LATERAL (
+            SELECT
+                score,
+                status,
+                created_at
+            FROM lead_scores
+            WHERE lead_id = l.lead_id
+            ORDER BY created_at DESC
+            LIMIT 1
+        ) ls ON TRUE
+        WHERE l.organization_id = %s
+          AND l.lead_id = %s
+    """, (organization_id, lead_id))
+
+    row = cur.fetchone()
+
+    cur.close()
+    conn.close()
+
+    if not row:
+        return {
+            "error": "Lead not found"
+        }
+
+    return {
+        "lead_id": row[0],
+        "email": row[1],
+        "first_name": row[2],
+        "company_name": row[3],
+        "source": row[4],
+        "created_at": str(row[5]),
+        "score": row[6],
+        "status": row[7],
+        "score_created_at": (
+            str(row[8]) if row[8] else None
+        ),
+    }
 
 @app.get("/dashboard-summary")
 def dashboard_summary():

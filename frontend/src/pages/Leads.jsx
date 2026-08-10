@@ -12,6 +12,11 @@ function Leads() {
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
+  const [selectedLead, setSelectedLead] = useState(null);
+  const [leadDetails, setLeadDetails] = useState(null);
+  const [detailsLoading, setDetailsLoading] = useState(false);
+  const [detailsError, setDetailsError] = useState("");
+
   // Find the organization belonging to the logged-in user
   useEffect(() => {
     async function getOrganization() {
@@ -34,10 +39,16 @@ function Leads() {
       }
 
       if (data?.organization_id) {
-        console.log("Leads organization found:", data.organization_id);
+        console.log(
+          "Leads organization found:",
+          data.organization_id
+        );
+
         setOrganizationId(data.organization_id);
       } else {
-        setError("No CRM organization is associated with this account.");
+        setError(
+          "No CRM organization is associated with this account."
+        );
         setLoading(false);
       }
     }
@@ -85,6 +96,56 @@ function Leads() {
 
     loadLeads();
   }, [organizationId]);
+
+  // Load details for a selected lead
+  async function openLeadDetails(lead) {
+    if (!organizationId || !lead?.lead_id) return;
+
+    setSelectedLead(lead);
+    setLeadDetails(null);
+    setDetailsError("");
+    setDetailsLoading(true);
+
+    try {
+      console.log(
+        "Loading lead details for:",
+        lead.lead_id
+      );
+
+      const response = await fetch(
+        `http://127.0.0.1:8000/organizations/${organizationId}/leads/${lead.lead_id}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to load lead details");
+      }
+
+      const data = await response.json();
+
+      if (data?.error) {
+        throw new Error(data.error);
+      }
+
+      console.log("Lead details:", data);
+
+      setLeadDetails(data);
+    } catch (error) {
+      console.error("Lead details error:", error);
+
+      setDetailsError(
+        "Unable to load this lead's details. Please try again."
+      );
+    } finally {
+      setDetailsLoading(false);
+    }
+  }
+
+  function closeLeadDetails() {
+    setSelectedLead(null);
+    setLeadDetails(null);
+    setDetailsError("");
+    setDetailsLoading(false);
+  }
 
   // Wait for authentication to finish
   if (authLoading) {
@@ -144,10 +205,18 @@ function Leads() {
     const search = searchTerm.toLowerCase();
 
     return (
-      (lead.first_name || "").toLowerCase().includes(search) ||
-      (lead.email || "").toLowerCase().includes(search) ||
-      (lead.company_name || "").toLowerCase().includes(search) ||
-      (lead.source || "").toLowerCase().includes(search)
+      (lead.first_name || "")
+        .toLowerCase()
+        .includes(search) ||
+      (lead.email || "")
+        .toLowerCase()
+        .includes(search) ||
+      (lead.company_name || "")
+        .toLowerCase()
+        .includes(search) ||
+      (lead.source || "")
+        .toLowerCase()
+        .includes(search)
     );
   });
 
@@ -203,7 +272,13 @@ function Leads() {
 
           <tbody>
             {filteredLeads.map((lead) => (
-              <tr key={lead.lead_id}>
+              <tr
+                key={lead.lead_id}
+                onClick={() => openLeadDetails(lead)}
+                style={{
+                  cursor: "pointer",
+                }}
+              >
                 <td>{lead.first_name}</td>
 
                 <td>{lead.email}</td>
@@ -231,6 +306,387 @@ function Leads() {
             ))}
           </tbody>
         </table>
+      )}
+
+      {/* Lead Details Modal */}
+      {selectedLead && (
+        <div
+          onClick={closeLeadDetails}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(15, 23, 42, 0.45)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "24px",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "100%",
+              maxWidth: "620px",
+              maxHeight: "90vh",
+              overflowY: "auto",
+              background: "#ffffff",
+              borderRadius: "18px",
+              boxShadow: "0 25px 60px rgba(15, 23, 42, 0.25)",
+              padding: "28px",
+              position: "relative",
+            }}
+          >
+            {/* Modal Header */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                justifyContent: "space-between",
+                gap: "20px",
+                marginBottom: "24px",
+              }}
+            >
+              <div>
+                <h2
+                  style={{
+                    margin: 0,
+                    fontSize: "24px",
+                    color: "#0f172a",
+                  }}
+                >
+                  Lead Details
+                </h2>
+
+                <p
+                  style={{
+                    margin: "6px 0 0",
+                    color: "#64748b",
+                    fontSize: "13px",
+                  }}
+                >
+                  Lead ID #{selectedLead.lead_id}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={closeLeadDetails}
+                aria-label="Close lead details"
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "10px",
+                  border: "1px solid #e2e8f0",
+                  background: "#f8fafc",
+                  color: "#475569",
+                  cursor: "pointer",
+                  fontSize: "20px",
+                  lineHeight: 1,
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Details Loading */}
+            {detailsLoading && (
+              <div
+                style={{
+                  padding: "40px 10px",
+                  textAlign: "center",
+                  color: "#64748b",
+                }}
+              >
+                Loading lead details...
+              </div>
+            )}
+
+            {/* Details Error */}
+            {!detailsLoading && detailsError && (
+              <div
+                style={{
+                  padding: "18px",
+                  borderRadius: "12px",
+                  background: "#fef2f2",
+                  border: "1px solid #fecaca",
+                  color: "#b91c1c",
+                  fontSize: "14px",
+                }}
+              >
+                {detailsError}
+              </div>
+            )}
+
+            {/* Lead Details */}
+            {!detailsLoading &&
+              !detailsError &&
+              leadDetails && (
+                <>
+                  {/* Lead Identity */}
+                  <div
+                    style={{
+                      marginBottom: "24px",
+                    }}
+                  >
+                    <h3
+                      style={{
+                        margin: 0,
+                        fontSize: "22px",
+                        color: "#111827",
+                      }}
+                    >
+                      {leadDetails.first_name}
+                    </h3>
+
+                    <p
+                      style={{
+                        margin: "5px 0 0",
+                        fontSize: "15px",
+                        color: "#64748b",
+                      }}
+                    >
+                      {leadDetails.company_name}
+                    </p>
+                  </div>
+
+                  {/* Intelligence Cards */}
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns:
+                        "repeat(3, minmax(0, 1fr))",
+                      gap: "12px",
+                      marginBottom: "24px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        padding: "16px",
+                        borderRadius: "12px",
+                        background: "#f8fafc",
+                        border: "1px solid #e2e8f0",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: "700",
+                          color: "#64748b",
+                          textTransform: "uppercase",
+                          marginBottom: "7px",
+                        }}
+                      >
+                        Score
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: "24px",
+                          fontWeight: "700",
+                          color: "#2563eb",
+                        }}
+                      >
+                        {leadDetails.score}
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        padding: "16px",
+                        borderRadius: "12px",
+                        background: "#f8fafc",
+                        border: "1px solid #e2e8f0",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: "700",
+                          color: "#64748b",
+                          textTransform: "uppercase",
+                          marginBottom: "7px",
+                        }}
+                      >
+                        Status
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "700",
+                          color:
+                            leadDetails.status ===
+                            "Hot Lead"
+                              ? "#dc2626"
+                              : leadDetails.status ===
+                                "Warm Lead"
+                              ? "#d97706"
+                              : "#64748b",
+                        }}
+                      >
+                        {leadDetails.status}
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        padding: "16px",
+                        borderRadius: "12px",
+                        background: "#f8fafc",
+                        border: "1px solid #e2e8f0",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: "700",
+                          color: "#64748b",
+                          textTransform: "uppercase",
+                          marginBottom: "7px",
+                        }}
+                      >
+                        Source
+                      </div>
+
+                      <div
+                        style={{
+                          fontSize: "14px",
+                          fontWeight: "700",
+                          color: "#111827",
+                        }}
+                      >
+                        {leadDetails.source}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Contact Information */}
+                  <div
+                    style={{
+                      borderTop: "1px solid #e2e8f0",
+                      paddingTop: "20px",
+                    }}
+                  >
+                    <h3
+                      style={{
+                        margin: "0 0 14px",
+                        fontSize: "15px",
+                        color: "#111827",
+                      }}
+                    >
+                      Contact Information
+                    </h3>
+
+                    <div
+                      style={{
+                        display: "grid",
+                        gap: "12px",
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: "700",
+                            color: "#94a3b8",
+                            textTransform: "uppercase",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          Email
+                        </div>
+
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#334155",
+                          }}
+                        >
+                          {leadDetails.email}
+                        </div>
+                      </div>
+
+                      <div>
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: "700",
+                            color: "#94a3b8",
+                            textTransform: "uppercase",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          Created
+                        </div>
+
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#334155",
+                          }}
+                        >
+                          {leadDetails.created_at}
+                        </div>
+                      </div>
+
+                      <div>
+                        <div
+                          style={{
+                            fontSize: "11px",
+                            fontWeight: "700",
+                            color: "#94a3b8",
+                            textTransform: "uppercase",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          Score Updated
+                        </div>
+
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            color: "#334155",
+                          }}
+                        >
+                          {leadDetails.score_created_at ||
+                            "No score history"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div
+                    style={{
+                      marginTop: "26px",
+                      paddingTop: "18px",
+                      borderTop: "1px solid #e2e8f0",
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <button
+                      type="button"
+                      onClick={closeLeadDetails}
+                      style={{
+                        padding: "10px 18px",
+                        borderRadius: "10px",
+                        border: "none",
+                        background: "#2563eb",
+                        color: "#ffffff",
+                        cursor: "pointer",
+                        fontSize: "13px",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </>
+              )}
+          </div>
+        </div>
       )}
     </div>
   );
