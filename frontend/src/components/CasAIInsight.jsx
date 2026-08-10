@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   BrainCircuit,
   Users,
@@ -15,74 +15,72 @@ function CasAIInsight({
   sources = [],
   organizationId = null,
 }) {
-
   const [showCasAI, setShowCasAI] = useState(false);
   const [casQuestion, setCasQuestion] = useState("");
   const [casAnswer, setCasAnswer] = useState("");
   const [casLoading, setCasLoading] = useState(false);
 
   const totalLeads = leads.length;
+
   async function askCasAI(question) {
-  if (!question.trim()) return;
+    if (!question.trim()) return;
 
-  if (!organizationId) {
-    setCasAnswer(
-      "I can't access your CRM organization yet. Please refresh the dashboard and try again."
-    );
-    return;
-  }
-
-  setCasLoading(true);
-  setCasAnswer("");
-
-  try {
-    const response = await fetch("http://127.0.0.1:8000/cas-ai", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        organization_id: organizationId,
-        question: question,
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("CAS AI request failed");
+    if (!organizationId) {
+      setCasAnswer(
+        "I can't access your CRM organization yet. Please refresh the dashboard and try again."
+      );
+      return;
     }
 
-    const data = await response.json();
+    setCasLoading(true);
+    setCasAnswer("");
 
-    setCasAnswer(data.answer);
-  } catch (error) {
-    console.error("CAS AI error:", error);
+    try {
+      const response = await fetch("http://127.0.0.1:8000/cas-ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          organization_id: organizationId,
+          question: question,
+        }),
+      });
 
-    setCasAnswer(
-      "I'm having trouble connecting to your CRM right now. Please make sure the backend is running and try again."
-    );
-  } finally {
-    setCasLoading(false);
+      if (!response.ok) {
+        throw new Error("CAS AI request failed");
+      }
+
+      const data = await response.json();
+
+      setCasAnswer(data.answer);
+    } catch (error) {
+      console.error("CAS AI error:", error);
+
+      setCasAnswer(
+        "I'm having trouble connecting to your CRM right now. Please make sure the backend is running and try again."
+      );
+    } finally {
+      setCasLoading(false);
+    }
   }
-}
 
   // Find the lead source bringing in the most leads
-    const highestLeadCount =
-  sources.length > 0
-    ? Math.max(
-        ...sources.map((source) => source.lead_count || 0)
-      )
-    : 0;
+  const highestLeadCount =
+    sources.length > 0
+      ? Math.max(...sources.map((source) => source.lead_count || 0))
+      : 0;
 
-const topSources = sources.filter(
-  (source) => source.lead_count === highestLeadCount
-);
+  const topSources = sources.filter(
+    (source) => source.lead_count === highestLeadCount
+  );
 
-const topSource =
-  topSources.length === 1
-    ? topSources[0].source
-    : topSources.length > 1
-    ? "Multiple sources tied"
-    : "No data";
+  const topSource =
+    topSources.length === 1
+      ? topSources[0].source
+      : topSources.length > 1
+      ? "Multiple sources tied"
+      : "No data";
 
   // Simple pipeline assessment
   let pipelineStatus = "Needs Attention";
@@ -347,10 +345,7 @@ const topSource =
             marginBottom: "8px",
           }}
         >
-          <BrainCircuit
-            size={18}
-            color="#2563eb"
-          />
+          <BrainCircuit size={18} color="#2563eb" />
 
           <strong
             style={{
@@ -378,7 +373,6 @@ const topSource =
       <button
         type="button"
         onClick={() => setShowCasAI(true)}
-        
         style={{
           display: "inline-flex",
           alignItems: "center",
@@ -395,356 +389,352 @@ const topSource =
       >
         <MessageCircle size={17} />
         Ask CAS AI
-        </button>
+      </button>
 
-  {/* CAS AI Assistant */}
-  {showCasAI && (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(15, 23, 42, 0.55)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 9999,
-        padding: "20px",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "620px",
-          background: "#ffffff",
-          borderRadius: "18px",
-          boxShadow: "0 25px 60px rgba(0, 0, 0, 0.25)",
-          overflow: "hidden",
-        }}
-      >
-        {/* Header */}
+      {/* CAS AI Assistant */}
+      {showCasAI && (
         <div
           style={{
-            background:
-              "linear-gradient(135deg, #111827 0%, #1e3a8a 55%, #7c3aed 100%)",
-            color: "white",
-            padding: "20px 22px",
+            position: "fixed",
+            inset: 0,
+            background: "rgba(15, 23, 42, 0.55)",
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "center",
+            zIndex: 9999,
+            padding: "20px",
           }}
         >
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
+              width: "100%",
+              maxWidth: "620px",
+              background: "#ffffff",
+              borderRadius: "18px",
+              boxShadow: "0 25px 60px rgba(0, 0, 0, 0.25)",
+              overflow: "hidden",
             }}
           >
+            {/* Header */}
             <div
               style={{
-                width: "42px",
-                height: "42px",
-                borderRadius: "12px",
                 background:
-                  "linear-gradient(135deg, #2563eb, #a855f7)",
+                  "linear-gradient(135deg, #111827 0%, #1e3a8a 55%, #7c3aed 100%)",
+                color: "white",
+                padding: "20px 22px",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "space-between",
               }}
             >
-              <BrainCircuit size={22} />
-            </div>
-
-            <div>
               <div
                 style={{
-                  fontSize: "18px",
-                  fontWeight: "700",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
                 }}
               >
-                CAS AI
+                <div
+                  style={{
+                    width: "42px",
+                    height: "42px",
+                    borderRadius: "12px",
+                    background:
+                      "linear-gradient(135deg, #2563eb, #a855f7)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <BrainCircuit size={22} />
+                </div>
+
+                <div>
+                  <div
+                    style={{
+                      fontSize: "18px",
+                      fontWeight: "700",
+                    }}
+                  >
+                    CAS AI
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: "12px",
+                      opacity: 0.8,
+                      marginTop: "2px",
+                    }}
+                  >
+                    Your CRM Intelligence Assistant
+                  </div>
+                </div>
               </div>
 
-              <div
+              <button
+                type="button"
+                onClick={() => setShowCasAI(false)}
                 style={{
-                  fontSize: "12px",
-                  opacity: 0.8,
-                  marginTop: "2px",
+                  width: "36px",
+                  height: "36px",
+                  borderRadius: "8px",
+                  border: "none",
+                  background: "rgba(255,255,255,0.12)",
+                  color: "white",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
+                aria-label="Close CAS AI"
               >
-                Your CRM Intelligence Assistant
-              </div>
+                <X size={20} />
+              </button>
             </div>
-          </div>
 
-          <button
-            type="button"
-            onClick={() => setShowCasAI(false)}
-            style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "8px",
-              border: "none",
-              background: "rgba(255,255,255,0.12)",
-              color: "white",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            aria-label="Close CAS AI"
-          >
-            <X size={20} />
-          </button>
-        </div>
-
-        {/* Assistant body */}
-        <div
-          style={{
-            padding: "28px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              gap: "14px",
-              marginBottom: "24px",
-            }}
-          >
+            {/* Assistant body */}
             <div
               style={{
-                width: "42px",
-                height: "42px",
-                minWidth: "42px",
-                borderRadius: "12px",
-                background: "#eff6ff",
-                color: "#2563eb",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                padding: "28px",
               }}
             >
-              <BrainCircuit size={21} />
-            </div>
-
-            <div>
-              <strong
+              <div
                 style={{
-                  display: "block",
-                  color: "#111827",
-                  fontSize: "16px",
-                  marginBottom: "6px",
+                  display: "flex",
+                  gap: "14px",
+                  marginBottom: "24px",
                 }}
               >
-                Hi, I'm CAS.
-              </strong>
+                <div
+                  style={{
+                    width: "42px",
+                    height: "42px",
+                    minWidth: "42px",
+                    borderRadius: "12px",
+                    background: "#eff6ff",
+                    color: "#2563eb",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <BrainCircuit size={21} />
+                </div>
+
+                <div>
+                  <strong
+                    style={{
+                      display: "block",
+                      color: "#111827",
+                      fontSize: "16px",
+                      marginBottom: "6px",
+                    }}
+                  >
+                    Hi, I'm CAS.
+                  </strong>
+
+                  <p
+                    style={{
+                      margin: 0,
+                      color: "#64748b",
+                      fontSize: "14px",
+                      lineHeight: "1.6",
+                    }}
+                  >
+                    I've analysed your CRM activity. Ask me about your
+                    leads, pipeline, sources, or follow-up priorities.
+                  </p>
+                </div>
+              </div>
+
+              {/* Quick questions */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "8px",
+                  marginBottom: "20px",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCasQuestion("Who should I follow up with?");
+                    askCasAI("Who should I follow up with?");
+                  }}
+                  style={{
+                    padding: "9px 12px",
+                    borderRadius: "20px",
+                    border: "1px solid #dbeafe",
+                    background: "#eff6ff",
+                    color: "#2563eb",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Who should I follow up with?
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCasQuestion("Which source performs best?");
+                    askCasAI("Which source performs best?");
+                  }}
+                  style={{
+                    padding: "9px 12px",
+                    borderRadius: "20px",
+                    border: "1px solid #dbeafe",
+                    background: "#eff6ff",
+                    color: "#2563eb",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Which source performs best?
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setCasQuestion("How is my pipeline?");
+                    askCasAI("How is my pipeline?");
+                  }}
+                  style={{
+                    padding: "9px 12px",
+                    borderRadius: "20px",
+                    border: "1px solid #dbeafe",
+                    background: "#eff6ff",
+                    color: "#2563eb",
+                    cursor: "pointer",
+                    fontSize: "12px",
+                    fontWeight: "600",
+                  }}
+                >
+                  How is my pipeline?
+                </button>
+              </div>
+
+              {/* CAS response */}
+              {casLoading && (
+                <div
+                  style={{
+                    marginBottom: "14px",
+                    padding: "12px",
+                    background: "#f8fafc",
+                    borderRadius: "10px",
+                    color: "#64748b",
+                    fontSize: "13px",
+                  }}
+                >
+                  CAS is analysing your CRM...
+                </div>
+              )}
+
+              {casAnswer && !casLoading && (
+                <div
+                  style={{
+                    marginBottom: "14px",
+                    padding: "14px",
+                    background:
+                      "linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%)",
+                    borderRadius: "10px",
+                    border: "1px solid #dbeafe",
+                    color: "#374151",
+                    fontSize: "14px",
+                    lineHeight: "1.6",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      marginBottom: "6px",
+                      color: "#2563eb",
+                      fontWeight: "700",
+                    }}
+                  >
+                    <BrainCircuit size={16} />
+                    CAS AI
+                  </div>
+
+                  {casAnswer}
+                </div>
+              )}
+
+              {/* Chat input */}
+              <div
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  border: "1px solid #dbe3ef",
+                  borderRadius: "12px",
+                  padding: "8px",
+                  background: "#f8fafc",
+                }}
+              >
+                <input
+                  type="text"
+                  value={casQuestion}
+                  onChange={(e) => setCasQuestion(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      askCasAI(casQuestion);
+                    }
+                  }}
+                  placeholder="Ask CAS about your CRM..."
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    outline: "none",
+                    background: "transparent",
+                    padding: "10px",
+                    fontSize: "14px",
+                    color: "#111827",
+                  }}
+                />
+
+                <button
+                  type="button"
+                  onClick={() => askCasAI(casQuestion)}
+                  disabled={casLoading}
+                  style={{
+                    width: "42px",
+                    height: "42px",
+                    borderRadius: "10px",
+                    border: "none",
+                    background: casLoading ? "#93c5fd" : "#2563eb",
+                    color: "white",
+                    cursor: casLoading ? "not-allowed" : "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  aria-label="Send message"
+                >
+                  <Send size={18} />
+                </button>
+              </div>
 
               <p
                 style={{
-                  margin: 0,
-                  color: "#64748b",
-                  fontSize: "14px",
-                  lineHeight: "1.6",
+                  margin: "12px 0 0",
+                  textAlign: "center",
+                  fontSize: "11px",
+                  color: "#94a3b8",
                 }}
               >
-                I've analysed your CRM activity. Ask me about your
-                leads, pipeline, sources, or follow-up priorities.
+                CAS AI uses your CRM data to help you make better decisions.
               </p>
             </div>
           </div>
-
-          {/* Quick questions */}
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "8px",
-              marginBottom: "20px",
-            }}
-          >
-            {casLoading && (
-  <div
-    style={{
-      marginTop: "14px",
-      padding: "12px",
-      background: "#f8fafc",
-      borderRadius: "10px",
-      color: "#64748b",
-      fontSize: "13px",
-    }}
-  >
-    CAS is analysing your CRM...
-  </div>
-)}
-
-{casAnswer && !casLoading && (
-  <div
-    style={{
-      marginTop: "14px",
-      padding: "14px",
-      background: "#eff6ff",
-      border: "1px solid #dbeafe",
-      borderRadius: "10px",
-      color: "#1e293b",
-      fontSize: "14px",
-      lineHeight: "1.5",
-    }}
-  >
-    {casAnswer}
-  </div>
-)}
-            <button
-              type="button"
-              style={{
-                padding: "9px 12px",
-                borderRadius: "20px",
-                border: "1px solid #dbeafe",
-                background: "#eff6ff",
-                color: "#2563eb",
-                cursor: "pointer",
-                fontSize: "12px",
-                fontWeight: "600",
-              }}
-            >
-
-              <button
-                type="button"
-                onClick={() => {
-                setCasQuestion("Which source performs best?");
-                askCasAI("Which source performs best?");
-              }}
-           >
-              Which source performs best?
-            </button>
-              Which source performs best?
-            </button>
-
-            <button
-              type="button"
-              style={{
-                padding: "9px 12px",
-                borderRadius: "20px",
-                border: "1px solid #dbeafe",
-                background: "#eff6ff",
-                color: "#2563eb",
-                cursor: "pointer",
-                fontSize: "12px",
-                fontWeight: "600",
-              }}
-            >
-
-              <button
-                type="button"
-                onClick={() => {
-                setCasQuestion("Which source performs best?");
-                askCasAI("Which source performs best?");
-              }}
-           >
-              Which source performs best?
-            </button>
-              Which source performs best?
-            </button>
-
-            <button
-              type="button"
-              style={{
-                padding: "9px 12px",
-                borderRadius: "20px",
-                border: "1px solid #dbeafe",
-                background: "#eff6ff",
-                color: "#2563eb",
-                cursor: "pointer",
-                fontSize: "12px",
-                fontWeight: "600",
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => {
-                setCasQuestion("How is my pipeline?");
-                askCasAI("How is my pipeline?");
-             }}
-            >
-             How is my pipeline?
-            </button>
-              How is my pipeline?
-            </button>
-          </div>
-
-          {/* Chat input */}
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              alignItems: "center",
-              border: "1px solid #dbe3ef",
-              borderRadius: "12px",
-              padding: "8px",
-              background: "#f8fafc",
-            }}
-          >
-            <input
-              type="text"
-              value={casQuestion}
-              onChange={(e) => setCasQuestion(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  askCasAI(casQuestion);
-                }
-              }}
-              placeholder="Ask CAS about your CRM..."
-              
-              style={{
-                flex: 1,
-                border: "none",
-                outline: "none",
-                background: "transparent",
-                padding: "10px",
-                fontSize: "14px",
-                color: "#111827",
-              }}
-            />
-
-            <button
-              type="button"
-              style={{
-                width: "42px",
-                height: "42px",
-                borderRadius: "10px",
-                border: "none",
-                background: "#2563eb",
-                color: "white",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-              aria-label="Send message"
-            >
-              <button
-                type="button"
-                onClick={() => askCasAI(casQuestion)}
-              >
-                <Send size={18} />
-              </button>
-            </button>
-          </div>
-
-          <p
-            style={{
-              margin: "12px 0 0",
-              textAlign: "center",
-              fontSize: "11px",
-              color: "#94a3b8",
-            }}
-          >
-            CAS AI uses your CRM data to help you make better decisions.
-          </p>
         </div>
-      </div>
-    </div>
-  )}
-</section>
+      )}
+    </section>
   );
 }
 

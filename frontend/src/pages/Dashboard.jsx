@@ -279,11 +279,12 @@ function Dashboard() {
     });
 
     const sourceData = Object.keys(sourceCounts).map(
-      (source) => ({
-        source,
-        leads: sourceCounts[source],
-      })
-    );
+  (source) => ({
+    source,
+    leads: sourceCounts[source],
+    lead_count: sourceCounts[source],
+  })
+);
 
     console.log("Chart Data:", sourceData);
 
