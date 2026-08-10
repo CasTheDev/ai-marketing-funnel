@@ -11,37 +11,55 @@ function ConfirmationModal({
 
   return (
     <div
+      onClick={onCancel}
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "rgba(0,0,0,0.5)",
+        background: "rgba(15, 23, 42, 0.55)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 2000,
+        padding: "24px",
+        zIndex: 3000,
       }}
     >
       <div
+        onClick={(e) => e.stopPropagation()}
         style={{
-          background: "white",
-          padding: "30px",
-          borderRadius: "12px",
-          width: "420px",
-          boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+          width: "100%",
+          maxWidth: "420px",
+          background: "#ffffff",
+          borderRadius: "16px",
+          padding: "28px",
+          boxShadow: "0 25px 60px rgba(15, 23, 42, 0.25)",
+          color: "#0f172a",
         }}
       >
-        <h2>{title}</h2>
+        {/* Modal Title */}
+        <h2
+          style={{
+            margin: 0,
+            fontSize: "20px",
+            fontWeight: "700",
+            color: "#0f172a",
+          }}
+        >
+          {title}
+        </h2>
 
+        {/* Confirmation Message */}
         <p
           style={{
-            marginTop: "15px",
-            marginBottom: "25px",
+            margin: "14px 0 26px",
+            fontSize: "14px",
             lineHeight: 1.6,
+            color: "#475569",
           }}
         >
           {message}
         </p>
 
+        {/* Actions */}
         <div
           style={{
             display: "flex",
@@ -49,19 +67,35 @@ function ConfirmationModal({
             gap: "10px",
           }}
         >
-          <button onClick={onCancel}>
+          <button
+            type="button"
+            onClick={onCancel}
+            style={{
+              padding: "10px 18px",
+              borderRadius: "8px",
+              border: "1px solid #cbd5e1",
+              background: "#f8fafc",
+              color: "#334155",
+              cursor: "pointer",
+              fontSize: "13px",
+              fontWeight: "600",
+            }}
+          >
             {cancelText}
           </button>
 
           <button
+            type="button"
             onClick={onConfirm}
             style={{
-              background: "#ef4444",
-              color: "white",
-              border: "none",
               padding: "10px 18px",
               borderRadius: "8px",
+              border: "none",
+              background: "#ef4444",
+              color: "#ffffff",
               cursor: "pointer",
+              fontSize: "13px",
+              fontWeight: "600",
             }}
           >
             {confirmText}

@@ -23,6 +23,8 @@ import {
   BarChart3,
   Settings,
   LogOut,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 
 import {
@@ -824,36 +826,50 @@ return (
                       }}
                     >
                       <button
+                        type="button"
                         onClick={() => {
-                          setEditingLead(lead);
-                          setShowEditModal(true);
-                        }}
+                        setEditingLead(lead);
+                        setShowEditModal(true);
+                      }}
+                        title="Edit lead"
+                        aria-label={`Edit ${lead.first_name}`}
                         style={{
-                          background: "#2563eb",
-                          color: "white",
-                          border: "none",
-                          padding: "6px 10px",
-                          borderRadius: "6px",
-                          cursor: "pointer",
-                          marginRight: "8px",
-                        }}
-                      >
-                        ✏️
+                        background: "#2563eb",
+                        color: "white",
+                        border: "none",
+                        width: "32px",
+                        height: "32px",
+                        borderRadius: "6px",
+                        cursor: "pointer",
+                        marginRight: "8px",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Pencil size={15} strokeWidth={2} />
                       </button>
 
-                      <button
-                        onClick={() => requestDeleteLead(lead)}
-                        style={{
-                          background: "#ef4444",
-                          color: "white",
-                          border: "none",
-                          padding: "6px 10px",
-                          borderRadius: "6px",
-                          cursor: "pointer",
-                        }}
-                      >
-                        🗑️
-                      </button>
+                     <button
+                       type="button"
+                       onClick={() => requestDeleteLead(lead)}
+                       title="Delete lead"
+                       aria-label={`Delete ${lead.first_name}`}
+                       style={{
+                       background: "#ef4444",
+                       color: "white",
+                       border: "none",
+                       width: "32px",
+                       height: "32px",
+                       borderRadius: "6px",
+                       cursor: "pointer",
+                       display: "inline-flex",
+                       alignItems: "center",
+                       justifyContent: "center",
+                     }}
+                    >
+                    <Trash2 size={15} strokeWidth={2} />
+                    </button>
                     </td>
                   </tr>
                 );
