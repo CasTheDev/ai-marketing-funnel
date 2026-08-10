@@ -1,3 +1,6 @@
+import { AlertTriangle, X } from "lucide-react";
+import "../styles/modal.css";
+
 function ConfirmationModal({
   isOpen,
   title,
@@ -11,96 +14,94 @@ function ConfirmationModal({
 
   return (
     <div
+      className="modal-overlay"
       onClick={onCancel}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(15, 23, 42, 0.55)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "24px",
-        zIndex: 3000,
-      }}
     >
       <div
+        className="modal-card"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          width: "100%",
-          maxWidth: "420px",
-          background: "#ffffff",
-          borderRadius: "16px",
-          padding: "28px",
-          boxShadow: "0 25px 60px rgba(15, 23, 42, 0.25)",
-          color: "#0f172a",
-        }}
       >
-        {/* Modal Title */}
-        <h2
-          style={{
-            margin: 0,
-            fontSize: "20px",
-            fontWeight: "700",
-            color: "#0f172a",
-          }}
-        >
-          {title}
-        </h2>
 
-        {/* Confirmation Message */}
-        <p
-          style={{
-            margin: "14px 0 26px",
-            fontSize: "14px",
-            lineHeight: 1.6,
-            color: "#475569",
-          }}
-        >
-          {message}
-        </p>
+        {/* Header */}
+        <div className="modal-header">
 
-        {/* Actions */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: "10px",
-          }}
-        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
+            <div
+              style={{
+                width: "38px",
+                height: "38px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "10px",
+                background: "#fee2e2",
+                color: "#dc2626",
+                flexShrink: 0,
+              }}
+            >
+              <AlertTriangle size={19} />
+            </div>
+
+            <h2 className="modal-title">
+              {title}
+            </h2>
+          </div>
+
           <button
             type="button"
+            className="modal-close"
             onClick={onCancel}
+            aria-label="Close"
+            title="Close"
+          >
+            <X size={17} />
+          </button>
+
+        </div>
+
+        {/* Message */}
+        <div className="modal-body">
+
+          <p
             style={{
-              padding: "10px 18px",
-              borderRadius: "8px",
-              border: "1px solid #cbd5e1",
-              background: "#f8fafc",
-              color: "#334155",
-              cursor: "pointer",
-              fontSize: "13px",
-              fontWeight: "600",
+              margin: 0,
+              color: "#475569",
+              fontSize: "14px",
+              lineHeight: 1.7,
             }}
+          >
+            {message}
+          </p>
+
+        </div>
+
+        {/* Actions */}
+        <div className="modal-footer">
+
+          <button
+            type="button"
+            className="modal-button modal-button-secondary"
+            onClick={onCancel}
           >
             {cancelText}
           </button>
 
           <button
             type="button"
+            className="modal-button modal-button-danger"
             onClick={onConfirm}
-            style={{
-              padding: "10px 18px",
-              borderRadius: "8px",
-              border: "none",
-              background: "#ef4444",
-              color: "#ffffff",
-              cursor: "pointer",
-              fontSize: "13px",
-              fontWeight: "600",
-            }}
           >
             {confirmText}
           </button>
+
         </div>
+
       </div>
     </div>
   );

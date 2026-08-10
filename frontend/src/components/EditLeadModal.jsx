@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { Save, X } from "lucide-react";
+import "../styles/modal.css";
 
 function EditLeadModal({
   showEditModal,
@@ -27,127 +29,134 @@ function EditLeadModal({
   if (!showEditModal || !editingLead) return null;
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "rgba(0,0,0,0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-      }}
-    >
-      <div
-        style={{
-          background: "#fff",
-          padding: "30px",
-          borderRadius: "10px",
-          width: "400px",
-        }}
-      >
-        <h2>Edit Lead</h2>
+    <div className="modal-overlay">
+      <div className="modal-card">
 
-        <div style={{ marginBottom: "15px" }}>
-          <label>First Name</label>
-          <input
-            type="text"
-            value={formData.first_name}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                first_name: e.target.value,
-              })
-            }
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-            }}
-          />
-        </div>
+        {/* Header */}
+        <div className="modal-header">
+          <div>
+            <h2 className="modal-title">
+              Edit Lead
+            </h2>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label>Company</label>
-          <input
-            type="text"
-            value={formData.company_name}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                company_name: e.target.value,
-              })
-            }
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-            }}
-          />
-        </div>
+            <p
+              style={{
+                margin: "5px 0 0",
+                color: "#64748b",
+                fontSize: "13px",
+              }}
+            >
+              Update this lead's information.
+            </p>
+          </div>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label>Email</label>
-          <input
-            type="email"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                email: e.target.value,
-              })
-            }
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-            }}
-          />
-        </div>
-
-        <div style={{ marginBottom: "20px" }}>
-          <label>Source</label>
-
-          <select
-            value={formData.source}
-            onChange={(e) =>
-              setFormData({
-                ...formData,
-                source: e.target.value,
-              })
-            }
-            style={{
-              width: "100%",
-              padding: "10px",
-              marginTop: "5px",
-            }}
-          >
-            <option>Website</option>
-            <option>LinkedIn</option>
-            <option>Referral</option>
-            <option>Google Ads</option>
-            <option>Facebook</option>
-          </select>
-        </div>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: "10px",
-          }}
-        >
           <button
+            type="button"
+            className="modal-close"
             onClick={() => setShowEditModal(false)}
-            style={{
-              padding: "10px 16px",
-              cursor: "pointer",
-            }}
+            aria-label="Close"
+            title="Close"
+          >
+            <X size={17} />
+          </button>
+        </div>
+
+        {/* Form */}
+        <div className="modal-body">
+
+          <div className="modal-field">
+            <label className="modal-label">
+              First Name
+            </label>
+
+            <input
+              type="text"
+              className="modal-input"
+              value={formData.first_name}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  first_name: e.target.value,
+                })
+              }
+            />
+          </div>
+
+          <div className="modal-field">
+            <label className="modal-label">
+              Company
+            </label>
+
+            <input
+              type="text"
+              className="modal-input"
+              value={formData.company_name}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  company_name: e.target.value,
+                })
+              }
+            />
+          </div>
+
+          <div className="modal-field">
+            <label className="modal-label">
+              Email
+            </label>
+
+            <input
+              type="email"
+              className="modal-input"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  email: e.target.value,
+                })
+              }
+            />
+          </div>
+
+          <div className="modal-field">
+            <label className="modal-label">
+              Lead Source
+            </label>
+
+            <select
+              className="modal-select"
+              value={formData.source}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  source: e.target.value,
+                })
+              }
+            >
+              <option>Website</option>
+              <option>LinkedIn</option>
+              <option>Referral</option>
+              <option>Google Ads</option>
+              <option>Facebook</option>
+            </select>
+          </div>
+
+        </div>
+
+        {/* Footer */}
+        <div className="modal-footer">
+
+          <button
+            type="button"
+            className="modal-button modal-button-secondary"
+            onClick={() => setShowEditModal(false)}
           >
             Cancel
           </button>
 
           <button
+            type="button"
+            className="modal-button modal-button-primary"
             onClick={() =>
               updateLead({
                 ...editingLead,
@@ -155,17 +164,17 @@ function EditLeadModal({
               })
             }
             style={{
-              background: "#2563eb",
-              color: "white",
-              border: "none",
-              padding: "10px 18px",
-              borderRadius: "6px",
-              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
             }}
           >
+            <Save size={16} />
             Save Changes
           </button>
+
         </div>
+
       </div>
     </div>
   );

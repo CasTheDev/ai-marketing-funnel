@@ -1,0 +1,249 @@
+/* =========================================================
+   REUSABLE MODAL SYSTEM
+   Shared across Add, Edit, Delete and Lead Details
+   ========================================================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 1000;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 500px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-title {
+  margin: 0;
+  color: #0f172a;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 24px;
+  border-top: 1px solid #e2e8f0;
+  background: #f8fafc;
+}
+
+/* Close button */
+
+.modal-close {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* Form fields */
+
+.modal-field {
+  margin-bottom: 18px;
+}
+
+.modal-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.modal-input,
+.modal-select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-input:focus,
+.modal-select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* Buttons */
+
+.modal-button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.modal-button-secondary {
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.modal-button-secondary:hover {
+  background: #f1f5f9;
+}
+
+.modal-button-primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.modal-button-primary:hover {
+  background: #1d4ed8;
+}
+
+.modal-button-success {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.modal-button-success:hover {
+  background: #059669;
+}
+
+.modal-button-danger {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.modal-button-danger:hover {
+  background: #dc2626;
+}
+
+/* Lead details */
+
+.modal-detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-detail-label {
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.modal-detail-value {
+  color: #0f172a;
+  font-size: 14px;
+  text-align: right;
+}
+
+.modal-ai-section {
+  margin-top: 22px;
+  padding: 18px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.modal-ai-title {
+  margin: 0 0 14px;
+  color: #0f172a;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.modal-ai-item {
+  margin-bottom: 12px;
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.modal-ai-item:last-child {
+  margin-bottom: 0;
+}
+
+.modal-loading {
+  margin-top: 16px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .modal-overlay {
+    padding: 16px;
+  }
+
+  .modal-card {
+    max-width: 100%;
+  }
+
+  .modal-header {
+    padding: 18px;
+  }
+
+  .modal-body {
+    padding: 18px;
+  }
+
+  .modal-footer {
+    padding: 16px 18px;
+  }
+
+  .modal-detail-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .modal-detail-value {
+    text-align: left;
+  }
+}

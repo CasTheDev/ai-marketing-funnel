@@ -1,3 +1,6 @@
+import { UserPlus, X } from "lucide-react";
+import "../styles/modal.css";
+
 function AddLeadModal({
   showAddModal,
   setShowAddModal,
@@ -9,131 +12,158 @@ function AddLeadModal({
   if (!showAddModal) return null;
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-      }}
-    >
-      <div
-        style={{
-          background: "white",
-          padding: "30px",
-          borderRadius: "12px",
-          width: "450px",
-        }}
-      >
-        <h2>Add New Lead</h2>
+    <div className="modal-overlay">
+      <div className="modal-card">
 
-        <input
-          type="text"
-          placeholder="First Name"
-          value={newLead.first_name}
-          onChange={(e) =>
-            setNewLead({
-              ...newLead,
-              first_name: e.target.value,
-            })
-          }
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "15px",
-          }}
-        />
+        {/* Header */}
+        <div className="modal-header">
+          <div>
+            <h2 className="modal-title">
+              Add New Lead
+            </h2>
 
-        <input
-          type="text"
-          placeholder="Company"
-          value={newLead.company_name}
-          onChange={(e) =>
-            setNewLead({
-              ...newLead,
-              company_name: e.target.value,
-            })
-          }
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "15px",
-          }}
-        />
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={newLead.email}
-          onChange={(e) =>
-            setNewLead({
-              ...newLead,
-              email: e.target.value,
-            })
-          }
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "15px",
-          }}
-        />
-
-        <select
-          value={newLead.source}
-          onChange={(e) =>
-            setNewLead({
-              ...newLead,
-              source: e.target.value,
-            })
-          }
-          style={{
-            width: "100%",
-            padding: "10px",
-            marginBottom: "20px",
-          }}
-        >
-          <option>Website</option>
-          <option>LinkedIn</option>
-          <option>Referral</option>
-          <option>Facebook</option>
-          <option>Google Ads</option>
-        </select>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: "10px",
-          }}
-        >
-          <button onClick={() => setShowAddModal(false)}
-            disabled={isSaving}
+            <p
+              style={{
+                margin: "5px 0 0",
+                color: "#64748b",
+                fontSize: "13px",
+              }}
             >
+              Add a new lead to your organization.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="modal-close"
+            onClick={() => setShowAddModal(false)}
+            disabled={isSaving}
+            aria-label="Close"
+            title="Close"
+          >
+            <X size={17} />
+          </button>
+        </div>
+
+        {/* Form */}
+        <div className="modal-body">
+
+          <div className="modal-field">
+            <label className="modal-label">
+              First Name
+            </label>
+
+            <input
+              type="text"
+              className="modal-input"
+              placeholder="Enter first name"
+              value={newLead.first_name}
+              onChange={(e) =>
+                setNewLead({
+                  ...newLead,
+                  first_name: e.target.value,
+                })
+              }
+              disabled={isSaving}
+            />
+          </div>
+
+          <div className="modal-field">
+            <label className="modal-label">
+              Company
+            </label>
+
+            <input
+              type="text"
+              className="modal-input"
+              placeholder="Enter company name"
+              value={newLead.company_name}
+              onChange={(e) =>
+                setNewLead({
+                  ...newLead,
+                  company_name: e.target.value,
+                })
+              }
+              disabled={isSaving}
+            />
+          </div>
+
+          <div className="modal-field">
+            <label className="modal-label">
+              Email
+            </label>
+
+            <input
+              type="email"
+              className="modal-input"
+              placeholder="Enter email address"
+              value={newLead.email}
+              onChange={(e) =>
+                setNewLead({
+                  ...newLead,
+                  email: e.target.value,
+                })
+              }
+              disabled={isSaving}
+            />
+          </div>
+
+          <div className="modal-field">
+            <label className="modal-label">
+              Lead Source
+            </label>
+
+            <select
+              className="modal-select"
+              value={newLead.source}
+              onChange={(e) =>
+                setNewLead({
+                  ...newLead,
+                  source: e.target.value,
+                })
+              }
+              disabled={isSaving}
+            >
+              <option>Website</option>
+              <option>LinkedIn</option>
+              <option>Referral</option>
+              <option>Facebook</option>
+              <option>Google Ads</option>
+            </select>
+          </div>
+
+        </div>
+
+        {/* Footer */}
+        <div className="modal-footer">
+
+          <button
+            type="button"
+            className="modal-button modal-button-secondary"
+            onClick={() => setShowAddModal(false)}
+            disabled={isSaving}
+          >
             Cancel
           </button>
 
           <button
+            type="button"
+            className="modal-button modal-button-success"
             onClick={addLead}
             disabled={isSaving}
             style={{
-              background: "#10b981",
-              color: "white",
-              border: "none",
-              padding: "10px 18px",
-              borderRadius: "8px",
-              cursor: isSaving ? "not-allowed" : "pointer",
-              opacity: isSaving ? 0.7 : 1,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
             }}
           >
+            <UserPlus size={16} />
+
             {isSaving ? "Saving..." : "Save Lead"}
           </button>
+
         </div>
+
       </div>
     </div>
   );

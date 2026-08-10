@@ -1,0 +1,671 @@
+/* =========================================================
+   VOXA AI CRM — DESIGN SYSTEM
+   Global visual foundation for authenticated CRM pages
+   ========================================================= */
+
+:root {
+  /* =======================================================
+     BRAND COLORS
+     ======================================================= */
+
+  --color-primary: #2563eb;
+  --color-primary-hover: #1d4ed8;
+  --color-primary-light: #eff6ff;
+
+  --color-navy: #0f172a;
+  --color-navy-dark: #020617;
+  --color-navy-light: #1e293b;
+
+  /* =======================================================
+     PAGE & SURFACE COLORS
+     ======================================================= */
+
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f1f5f9;
+
+  /* =======================================================
+     TEXT
+     ======================================================= */
+
+  --color-text: #0f172a;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748b;
+  --color-text-light: #94a3b8;
+  --color-text-white: #ffffff;
+
+  /* =======================================================
+     BORDERS
+     ======================================================= */
+
+  --color-border: #e2e8f0;
+  --color-border-light: #f1f5f9;
+
+  /* =======================================================
+     STATUS COLORS
+     ======================================================= */
+
+  --color-success: #10b981;
+  --color-success-hover: #059669;
+  --color-success-light: #ecfdf5;
+
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
+  --color-danger-light: #fef2f2;
+
+  --color-warning: #f59e0b;
+  --color-warning-hover: #d97706;
+  --color-warning-light: #fffbeb;
+
+  --color-info: #0ea5e9;
+  --color-info-light: #f0f9ff;
+
+  /* =======================================================
+     LEAD SOURCE COLORS
+     ======================================================= */
+
+  --source-google: #2563eb;
+  --source-facebook: #1877f2;
+  --source-linkedin: #0a66c2;
+  --source-referral: #9333ea;
+  --source-website: #475569;
+
+  /* =======================================================
+     TYPOGRAPHY
+     ======================================================= */
+
+  --font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-md: 14px;
+  --font-size-base: 15px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 22px;
+  --font-size-3xl: 28px;
+  --font-size-4xl: 36px;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* =======================================================
+     BORDER RADIUS
+     ======================================================= */
+
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+
+  /* =======================================================
+     SHADOWS
+     ======================================================= */
+
+  --shadow-sm:
+    0 1px 2px rgba(15, 23, 42, 0.05);
+
+  --shadow-md:
+    0 4px 12px rgba(15, 23, 42, 0.08);
+
+  --shadow-lg:
+    0 10px 25px rgba(15, 23, 42, 0.10);
+
+  --shadow-xl:
+    0 20px 50px rgba(15, 23, 42, 0.15);
+
+  /* =======================================================
+     SPACING
+     ======================================================= */
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* =======================================================
+     TRANSITIONS
+     ======================================================= */
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
+}
+
+/* =========================================================
+   GLOBAL CRM ELEMENTS
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   PAGE LAYOUT
+   --------------------------------------------------------- */
+
+.crm-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.crm-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.crm-page-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.crm-page-subtitle {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
+}
+
+
+/* ---------------------------------------------------------
+   BUTTONS
+   --------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+
+  min-height: 40px;
+  padding: 0 var(--space-4);
+
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+
+  text-decoration: none;
+  white-space: nowrap;
+
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  transform: none;
+}
+
+
+/* Primary */
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-text-white);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-hover);
+}
+
+
+/* Secondary */
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+  background: var(--color-surface-muted);
+}
+
+
+/* Success */
+
+.btn-success {
+  background: var(--color-success);
+  color: var(--color-text-white);
+}
+
+.btn-success:hover {
+  background: var(--color-success-hover);
+}
+
+
+/* Danger */
+
+.btn-danger {
+  background: var(--color-danger);
+  color: var(--color-text-white);
+}
+
+.btn-danger:hover {
+  background: var(--color-danger-hover);
+}
+
+
+/* ---------------------------------------------------------
+   ICON ACTION BUTTONS
+   --------------------------------------------------------- */
+
+.icon-btn {
+  width: 34px;
+  height: 34px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+
+  color: var(--color-text-secondary);
+
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.icon-btn:hover {
+  transform: translateY(-1px);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.icon-btn-edit:hover {
+  background: var(--color-primary-light);
+  border-color: #bfdbfe;
+  color: var(--color-primary);
+}
+
+.icon-btn-delete:hover {
+  background: var(--color-danger-light);
+  border-color: #fecaca;
+  color: var(--color-danger);
+}
+
+
+/* ---------------------------------------------------------
+   CARDS
+   --------------------------------------------------------- */
+
+.crm-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+}
+
+.crm-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+
+  padding: var(--space-6);
+
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.crm-card-body {
+  padding: var(--space-6);
+}
+
+.crm-card-title {
+  margin: 0;
+
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+
+  color: var(--color-text);
+}
+
+
+/* ---------------------------------------------------------
+   FORM ELEMENTS
+   --------------------------------------------------------- */
+
+.crm-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.crm-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.crm-input,
+.crm-select,
+.crm-textarea {
+  width: 100%;
+  padding: 10px 12px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  font-size: var(--font-size-md);
+
+  outline: none;
+
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.crm-input:focus,
+.crm-select:focus,
+.crm-textarea:focus {
+  border-color: var(--color-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+.crm-input::placeholder,
+.crm-textarea::placeholder {
+  color: var(--color-text-light);
+}
+
+
+/* ---------------------------------------------------------
+   SEARCH
+   --------------------------------------------------------- */
+
+.crm-search {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+}
+
+.crm-search-input {
+  width: 100%;
+
+  padding: 11px 14px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  outline: none;
+
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.crm-search-input:focus {
+  border-color: var(--color-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* ---------------------------------------------------------
+   TABLE
+   --------------------------------------------------------- */
+
+.crm-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+}
+
+.crm-table {
+  width: 100%;
+  min-width: 700px;
+
+  border-collapse: collapse;
+}
+
+.crm-table th {
+  padding: 14px 16px;
+
+  background: var(--color-surface-muted);
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.crm-table td {
+  padding: 15px 16px;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-md);
+
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.crm-table tbody tr {
+  transition: background var(--transition-fast);
+}
+
+.crm-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.crm-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* ---------------------------------------------------------
+   SOURCE BADGES
+   --------------------------------------------------------- */
+
+.crm-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 5px 10px;
+
+  border-radius: 999px;
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+
+  white-space: nowrap;
+}
+
+.crm-badge-google {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.crm-badge-facebook {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.crm-badge-linkedin {
+  background: #dbeafe;
+  color: #075985;
+}
+
+.crm-badge-referral {
+  background: #f3e8ff;
+  color: #7e22ce;
+}
+
+.crm-badge-website {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+
+/* ---------------------------------------------------------
+   STATUS BADGES
+   --------------------------------------------------------- */
+
+.crm-status-cold {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.crm-status-warm {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.crm-status-hot {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+
+/* ---------------------------------------------------------
+   MODAL FOUNDATION
+   --------------------------------------------------------- */
+
+.crm-modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--space-6);
+
+  background: rgba(15, 23, 42, 0.55);
+
+  z-index: 3000;
+}
+
+.crm-modal {
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: var(--color-surface);
+
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-xl);
+}
+
+.crm-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+
+  padding: var(--space-6);
+
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.crm-modal-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+.crm-modal-body {
+  padding: var(--space-6);
+}
+
+.crm-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+
+  padding: var(--space-6);
+
+  border-top: 1px solid var(--color-border-light);
+}
+
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .crm-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .crm-page-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .crm-modal-overlay {
+    padding: var(--space-4);
+  }
+
+  .crm-modal {
+    max-height: 95vh;
+  }
+}

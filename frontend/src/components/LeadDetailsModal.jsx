@@ -1,3 +1,6 @@
+import { Sparkles, X } from "lucide-react";
+import "../styles/modal.css";
+
 function LeadDetailsModal({
   showModal,
   selectedLead,
@@ -9,94 +12,145 @@ function LeadDetailsModal({
   if (!showModal || !selectedLead) return null;
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-      }}
-    >
-      <div
-        style={{
-          background: "white",
-          padding: "30px",
-          borderRadius: "12px",
-          width: "500px",
-          boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-        }}
-      >
-        <h2 style={{ color: "#111827" }}>
-          Lead Details
-        </h2>
+    <div className="modal-overlay">
+      <div className="modal-card">
 
-        <hr />
+        {/* Header */}
+        <div className="modal-header">
+          <h2 className="modal-title">
+            Lead Details
+          </h2>
 
-        <p><strong>Name:</strong> {selectedLead.first_name}</p>
-        <p><strong>Company:</strong> {selectedLead.company_name}</p>
-        <p><strong>Email:</strong> {selectedLead.email}</p>
-        <p><strong>Source:</strong> {selectedLead.source}</p>
-        <p><strong>Created:</strong> {selectedLead.created_at}</p>
+          <button
+            type="button"
+            className="modal-close"
+            onClick={() => setShowModal(false)}
+            aria-label="Close"
+            title="Close"
+          >
+            <X size={17} />
+          </button>
+        </div>
 
-        <button
-          onClick={() => analyzeLead(selectedLead)}
-          style={{
-            background: "#10b981",
-            color: "white",
-            border: "none",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            cursor: "pointer",
-            marginTop: "20px",
-          }}
-        >
-          ✨ Analyze Lead
-        </button>
+        {/* Body */}
+        <div className="modal-body">
 
-        {aiLoading && (
-          <p style={{ marginTop: "15px" }}>
-            Analyzing lead...
-          </p>
-        )}
+          <div className="modal-detail-row">
+            <span className="modal-detail-label">
+              Name
+            </span>
 
-        {aiResult && (
-          <div style={{ marginTop: "20px" }}>
-            <h3>AI Analysis</h3>
-
-            <p>
-              <strong>AI Score:</strong> {aiResult.ai_score}
-            </p>
-
-            <p>
-              <strong>Summary:</strong> {aiResult.ai_summary}
-            </p>
-
-            <p>
-              <strong>Recommendation:</strong> {aiResult.ai_recommendation}
-            </p>
+            <span className="modal-detail-value">
+              {selectedLead.first_name}
+            </span>
           </div>
-        )}
 
-        <button
-          onClick={() => setShowModal(false)}
-          style={{
-            marginTop: "20px",
-            background: "#2563eb",
-            color: "white",
-            border: "none",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            cursor: "pointer",
-          }}
-        >
-          Close
-        </button>
+          <div className="modal-detail-row">
+            <span className="modal-detail-label">
+              Company
+            </span>
+
+            <span className="modal-detail-value">
+              {selectedLead.company_name}
+            </span>
+          </div>
+
+          <div className="modal-detail-row">
+            <span className="modal-detail-label">
+              Email
+            </span>
+
+            <span className="modal-detail-value">
+              {selectedLead.email}
+            </span>
+          </div>
+
+          <div className="modal-detail-row">
+            <span className="modal-detail-label">
+              Source
+            </span>
+
+            <span className="modal-detail-value">
+              {selectedLead.source}
+            </span>
+          </div>
+
+          <div className="modal-detail-row">
+            <span className="modal-detail-label">
+              Created
+            </span>
+
+            <span className="modal-detail-value">
+              {selectedLead.created_at}
+            </span>
+          </div>
+
+          {/* AI Analysis */}
+          <button
+            type="button"
+            className="modal-button modal-button-success"
+            onClick={() => analyzeLead(selectedLead)}
+            disabled={aiLoading}
+            style={{
+              marginTop: "20px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <Sparkles size={16} />
+
+            {aiLoading
+              ? "Analyzing..."
+              : "Analyze Lead"}
+          </button>
+
+          {aiLoading && (
+            <p className="modal-loading">
+              Analyzing lead...
+            </p>
+          )}
+
+          {aiResult && (
+            <div className="modal-ai-section">
+
+              <h3 className="modal-ai-title">
+                AI Analysis
+              </h3>
+
+              <div className="modal-ai-item">
+                <strong>AI Score:</strong>{" "}
+                {aiResult.ai_score}
+              </div>
+
+              <div className="modal-ai-item">
+                <strong>Summary:</strong>{" "}
+                {aiResult.ai_summary}
+              </div>
+
+              <div className="modal-ai-item">
+                <strong>Recommendation:</strong>{" "}
+                {aiResult.ai_recommendation}
+              </div>
+
+            </div>
+          )}
+
+        </div>
+
+        {/* Footer */}
+        <div className="modal-footer">
+
+          <button
+            type="button"
+            className="modal-button modal-button-secondary"
+            onClick={() => setShowModal(false)}
+          >
+            Close
+          </button>
+
+        </div>
+
       </div>
     </div>
   );
