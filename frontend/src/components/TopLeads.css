@@ -1,0 +1,157 @@
+/* =========================================================
+   VOXA AI CRM — TOP LEADS
+   ========================================================= */
+
+.top-leads {
+  margin-top: var(--space-6);
+  padding: var(--space-6);
+
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-md);
+}
+
+.top-leads-title {
+  margin: 0 0 var(--space-5);
+
+  color: var(--color-text);
+
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.top-leads-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.top-leads-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  font-size: var(--font-size-sm);
+}
+
+/* ---------------------------------------------------------
+   COLUMN WIDTHS
+   --------------------------------------------------------- */
+
+.top-leads-table th:nth-child(1),
+.top-leads-table td:nth-child(1) {
+  width: 16%;
+}
+
+.top-leads-table th:nth-child(2),
+.top-leads-table td:nth-child(2) {
+  width: 20%;
+}
+
+.top-leads-table th:nth-child(3),
+.top-leads-table td:nth-child(3) {
+  width: 34%;
+}
+
+.top-leads-table th:nth-child(4),
+.top-leads-table td:nth-child(4) {
+  width: 15%;
+}
+
+.top-leads-table th:nth-child(5),
+.top-leads-table td:nth-child(5) {
+  width: 15%;
+}
+
+/* ---------------------------------------------------------
+   TABLE HEADINGS
+   --------------------------------------------------------- */
+
+.top-leads-table th {
+  padding: 14px 12px;
+
+  text-align: left !important;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  border-bottom: 1px solid var(--color-border);
+
+  vertical-align: middle;
+}
+
+/* ---------------------------------------------------------
+   TABLE CELLS
+   --------------------------------------------------------- */
+
+.top-leads-table td {
+  padding: 14px 12px;
+
+  text-align: left !important;
+
+  color: var(--color-text-secondary);
+
+  border-bottom: 1px solid var(--color-border-light);
+
+  vertical-align: middle;
+}
+
+/* ---------------------------------------------------------
+   ROW INTERACTION
+   --------------------------------------------------------- */
+
+.top-lead-row {
+  cursor: pointer;
+
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.top-lead-row:hover {
+  background: var(--color-surface-muted);
+}
+
+/* ---------------------------------------------------------
+   SCORE
+   --------------------------------------------------------- */
+
+.top-lead-score {
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+/* ---------------------------------------------------------
+   STATUS
+   --------------------------------------------------------- */
+
+.top-lead-status {
+  min-width: 120px;
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .top-leads {
+    padding: var(--space-5);
+  }
+
+  .top-leads-table {
+    min-width: 700px;
+  }
+}
+
+@media (max-width: 640px) {
+  .top-leads {
+    padding: var(--space-4);
+  }
+}

@@ -1,3 +1,5 @@
+import "./SourceChart.css";
+
 import {
   ResponsiveContainer,
   BarChart,
@@ -10,23 +12,8 @@ import {
 
 function SourceChart({ sources }) {
   return (
-    <div
-      style={{
-        background: "white",
-        marginTop: "30px",
-        padding: "20px",
-        borderRadius: "10px",
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-      }}
-    >
-      <h2
-        style={{
-          color: "#6b7280",
-          fontSize: "24px",
-          fontWeight: "600",
-          marginBottom: "20px",
-        }}
-      >
+    <div className="source-chart">
+      <h2 className="source-chart-title">
         Lead Sources
       </h2>
 
