@@ -1,3 +1,5 @@
+import "./LeadInsights.css";
+
 function LeadInsights({
   leads,
   hotCount,
@@ -7,62 +9,71 @@ function LeadInsights({
   hotLeadRate,
 }) {
   return (
-    <div
-      style={{
-        background: "white",
-        marginTop: "30px",
-        padding: "20px",
-        borderRadius: "10px",
-        boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-      }}
-    >
-      <h2
-        style={{
-          color: "#6b7280",
-          marginBottom: "20px",
-        }}
-      >
+    <section className="lead-insights">
+
+      <h2 className="lead-insights-title">
         Lead Insights
       </h2>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: "20px",
-        }}
-      >
-        <div>
-          <strong>Total Leads</strong>
-          <p>{leads.length}</p>
+      <div className="lead-insights-grid">
+
+        <div className="lead-insight-item">
+          <span className="lead-insight-label">
+            Total Leads
+          </span>
+          <p className="lead-insight-value">
+            {leads.length}
+          </p>
         </div>
 
-        <div>
-          <strong>Hot Leads</strong>
-          <p>{hotCount}</p>
+        <div className="lead-insight-item">
+          <span className="lead-insight-label">
+            Hot Leads
+          </span>
+          <p className="lead-insight-value">
+            {hotCount}
+          </p>
         </div>
 
-        <div>
-          <strong>Warm Leads</strong>
-          <p>{warmCount}</p>
+        <div className="lead-insight-item">
+          <span className="lead-insight-label">
+            Warm Leads
+          </span>
+          <p className="lead-insight-value">
+            {warmCount}
+          </p>
         </div>
 
-        <div>
-          <strong>Cold Leads</strong>
-          <p>{coldCount}</p>
+        <div className="lead-insight-item">
+          <span className="lead-insight-label">
+            Cold Leads
+          </span>
+          <p className="lead-insight-value">
+            {coldCount}
+          </p>
         </div>
 
-        <div>
-          <strong>Average Score</strong>
-          <p>{averageScore}</p>
+        <div className="lead-insight-item">
+          <span className="lead-insight-label">
+            Average Score
+          </span>
+          <p className="lead-insight-value">
+            {averageScore}
+          </p>
         </div>
 
-        <div>
-          <strong>Hot Lead Rate</strong>
-          <p>{hotLeadRate}%</p>
+        <div className="lead-insight-item">
+          <span className="lead-insight-label">
+            Hot Lead Rate
+          </span>
+          <p className="lead-insight-value">
+            {hotLeadRate}%
+          </p>
         </div>
+
       </div>
-    </div>
+
+    </section>
   );
 }
 

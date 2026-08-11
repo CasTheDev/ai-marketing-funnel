@@ -1,3 +1,4 @@
+import "./Dashboard.css";
 import VexaHeader from "../components/VexaHeader";
 import DashboardLayout from "../components/DashboardLayout";
 import EditLeadModal from "../components/EditLeadModal";
@@ -503,50 +504,28 @@ function Dashboard() {
 return (
   <DashboardLayout>
 
+    <div className="crm-page">
+      </div>
 
-      {/* Main Content */}
-      <div
-        style={{
-          flex: 1,
-          padding: "40px",
-          backgroundColor: "#f5f5f5",
-          minHeight: "100vh",
-          maxWidth: "1400px",
-          margin: "0 auto",
-        }}
-      >
-        <div
-          style={{
-            marginBottom: "30px",
-          }}
-        >
-          <h1
-            style={{
-              margin: 0,
-              fontSize: "36px",
-              fontWeight: "700",
-              color: "#111827",
-            }}
-          >
-            <VexaHeader
-  title="Welcome back, Cas-sandra!"
-  heroImage="/images/vexa/vexa-floating.png"
-/>
+      {/* VEXA HERO */}
+      <VexaHeader
+        title="Welcome back, Cas-sandra!"
+        heroImage="/images/vexa/vexa-floating.png"
+      />
 
+      {/* DASHBOARD SECTION HEADER */}
+      <div className="crm-page-header dashboard-section-header">
 
-        
+        <div>
+          <h1 className="crm-page-title">
+            Today's Snapshot
           </h1>
 
-          <p
-            style={{
-              marginTop: "8px",
-              color: "#6b7280",
-              fontSize: "16px",
-            }}
-          >
-            Today's Snapshot
+          <p className="crm-page-subtitle">
+            Your CRM performance at a glance.
           </p>
         </div>
+      </div>
 
         {/* KPI Cards */}
         <KPISection
@@ -575,339 +554,185 @@ return (
 />
 
         {/* Recent Leads */}
-        <div
-          style={{
-            background: "white",
-            marginTop: "40px",
-            padding: "20px",
-            borderRadius: "10px",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-            textAlign: "center",
-          }}
-        >
+        <div className="dashboard-recent-leads">
 
-          <div
-            style={{
-              marginBottom: "20px",
-            }}
-          >
+          <div className="dashboard-search-wrapper">
+            
             <input
-              type="text"
-              placeholder="Search leads..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              style={{
-                width: "98%",
-                padding: "12px",
-                borderRadius: "8px",
-                border: "1px solid #d1d5db",
-                fontSize: "16px",
-                boxSizing: "border-box",
-              }}
-            />
-            <div
-              style={{
-                display: "flex",
-                gap: "15px",
-                marginTop: "15px",
-                marginBottom: "20px",
-              }}
-            >
-              <button
-                onClick={() => setStatusFilter("All")}
-                style={{
-                  background:
-                    statusFilter === "All"
-                      ? "#2563eb"
-                      : "#f3f4f6",
-                  color:
-                    statusFilter === "All"
-                      ? "white"
-                      : "#111827",
-                  border: "none",
-                  padding: "10px 18px",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                }}
-              >
-                All ({leads.length})
+               type="text"
+               className="dashboard-search"
+               placeholder="Search leads..."
+               value={searchTerm}
+               onChange={(e) => setSearchTerm(e.target.value)}
+              />
+
+             <div className="dashboard-leads-toolbar">
+              
+            <button
+              className={`dashboard-filter-button ${
+              statusFilter === "All" ? "is-active" : ""
+             }`}
+              onClick={() => setStatusFilter("All")}
+             >
+              All ({leads.length})
               </button>
 
               <button
+                className={`dashboard-filter-button is-hot ${
+                statusFilter === "Hot Lead" ? "is-active" : ""
+                }`}
                 onClick={() => setStatusFilter("Hot Lead")}
-                style={{
-                  background:
-                    statusFilter === "Hot Lead"
-                      ? "#ef4444"
-                      : "#f3f4f6",
-                  color:
-                    statusFilter === "Hot Lead"
-                      ? "white"
-                      : "#111827",
-                  border: "none",
-                  padding: "10px 18px",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                }}
               >
                 Hot ({hotCount})
               </button>
 
               <button
+                className={`dashboard-filter-button is-warm ${
+                statusFilter === "Warm Lead" ? "is-active" : ""
+               }`}
                 onClick={() => setStatusFilter("Warm Lead")}
-                style={{
-                  background:
-                    statusFilter === "Warm Lead"
-                      ? "#f59e0b"
-                      : "#f3f4f6",
-                  color:
-                    statusFilter === "Warm Lead"
-                      ? "white"
-                      : "#111827",
-                  border: "none",
-                  padding: "10px 18px",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                }}
-              >
+             >
                 Warm ({warmCount})
-              </button>
+             </button>
 
               <button
+                className={`dashboard-filter-button is-cold ${
+                statusFilter === "Cold Lead" ? "is-active" : ""
+                }`}
                 onClick={() => setStatusFilter("Cold Lead")}
-                style={{
-                  background:
-                    statusFilter === "Cold Lead"
-                      ? "#10b981"
-                      : "#f3f4f6",
-                  color:
-                    statusFilter === "Cold Lead"
-                      ? "white"
-                      : "#111827",
-                  border: "none",
-                  padding: "10px 18px",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                }}
               >
                 Cold ({coldCount})
               </button>
 
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                style={{
-                  padding: "10px",
-                  borderRadius: "8px",
-                  border: "1px solid #d1d5db",
-                }}
-              >
-                <option>Highest Score</option>
-                <option>Lowest Score</option>
-                <option>Company Name</option>
-                <option>Name A-Z</option>
-              </select>
+            <select
+               className="dashboard-sort"
+               value={sortBy}
+               onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option>Highest Score</option>
+              <option>Lowest Score</option>
+              <option>Company Name</option>
+              <option>Name A-Z</option>
+            </select>
 
               <button
+                className="dashboard-export-button"
                 onClick={exportToCSV}
-                style={{
-                  background: "#2563eb",
-                  color: "white",
-                  border: "none",
-                  padding: "10px 18px",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                }}
-              >
-                Export CSV
+           >
+               Export CSV
               </button>
 
-              <button
-                onClick={() => setShowAddModal(true)}
-                style={{
-                  background: "#10b981",
-                  color: "white",
-                  border: "none",
-                  padding: "10px 18px",
-                  borderRadius: "8px",
-                  cursor: "pointer",
-                  fontWeight: "600",
-                }}
-              >
+             <button
+               className="dashboard-add-button"
+               onClick={() => setShowAddModal(true)}
+            >
                 + Add Lead
-              </button>
+            </button>
 
 
             </div>
           </div>
 
-          <h2
-            style={{
-              color: "#6b7280",
-              fontSize: "24px",
-              fontWeight: "600",
-              marginBottom: "20px",
-            }}
-          >
-            Recent Leads
+          <h2 className="dashboard-recent-leads-title">
+              Recent Leads
           </h2>
 
-          <table
+          <div className="dashboard-leads-table-wrapper">
+  <table className="dashboard-leads-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Company</th>
+        <th>Email</th>
+        <th>Source</th>
+        <th>Score</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
 
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-            }}
-          >
+    <tbody>
+      {currentLeads.map((lead) => {
+        const leadScore = scores.find(
+          (score) => score.lead_id === lead.lead_id
+        );
 
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Company</th>
-                <th>Email</th>
-                <th>Source</th>
-                <th>Score</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
+        return (
+          <tr key={lead.lead_id}>
+            <td>{lead.first_name}</td>
+            <td>{lead.company_name}</td>
+            <td>{lead.email}</td>
+            <td>{lead.source}</td>
 
-            <tbody>
-              {currentLeads.map((lead) => {
-                const leadScore = scores.find(
-                  (score) => score.lead_id === lead.lead_id
-                );
+            <td>{leadScore ? leadScore.score : 0}</td>
 
-                return (
-                  <tr key={lead.lead_id}>
-                    <td>{lead.first_name}</td>
-                    <td>{lead.company_name}</td>
-                    <td>{lead.email}</td>
-                    <td>{lead.source}</td>
+           <td>
+  <span
+    className={`dashboard-status-badge ${
+      leadScore?.status === "Hot Lead"
+        ? "is-hot"
+        : leadScore?.status === "Warm Lead"
+          ? "is-warm"
+          : "is-cold"
+    }`}
+  >
+    {leadScore ? leadScore.status : "Cold Lead"}
+  </span>
+</td>
 
-                    <td>{leadScore ? leadScore.score : 0}</td>
+            <td className="dashboard-table-actions">
+              
+              <button
+  type="button"
+  onClick={() => {
+    setEditingLead(lead);
+    setShowEditModal(true);
+  }}
+  title="Edit lead"
+  aria-label={`Edit ${lead.first_name}`}
+  className="dashboard-edit-button"
+>
+  <Pencil size={15} strokeWidth={2} />
+</button>
 
-                    <td
-                      style={{
-                        padding: "14px 12px",
-                        textAlign: "center",
-                      }}
-                    >
-                      <span
-                        style={{
-                          display: "inline-block",
-                          padding: "8px 16px",
-                          borderRadius: "20px",
-                          color: "white",
-                          fontWeight: "bold",
-                          minWidth: "90px",
-                          textAlign: "center",
-                          whiteSpace: "nowrap",
-                          backgroundColor:
-                            leadScore?.status === "Hot Lead"
-                              ? "#ef4444"
-                              : leadScore?.status === "Warm Lead"
-                                ? "#f59e0b"
-                                : "#10b981",
-                        }}
-                      >
-                        {leadScore ? leadScore.status : "Cold Lead"}
-                      </span>
-                    </td>
-                    <td
-                      style={{
-                        padding: "12px",
-                        textAlign: "center",
-                      }}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => {
-                        setEditingLead(lead);
-                        setShowEditModal(true);
-                      }}
-                        title="Edit lead"
-                        aria-label={`Edit ${lead.first_name}`}
-                        style={{
-                        background: "#2563eb",
-                        color: "white",
-                        border: "none",
-                        width: "32px",
-                        height: "32px",
-                        borderRadius: "6px",
-                        cursor: "pointer",
-                        marginRight: "8px",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Pencil size={15} strokeWidth={2} />
-                      </button>
+              <button
+  type="button"
+  onClick={() => requestDeleteLead(lead)}
+  title="Delete lead"
+  aria-label={`Delete ${lead.first_name}`}
+  className="dashboard-delete-button"
+>
+  <Trash2 size={15} strokeWidth={2} />
+</button>
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
 
-                     <button
-                       type="button"
-                       onClick={() => requestDeleteLead(lead)}
-                       title="Delete lead"
-                       aria-label={`Delete ${lead.first_name}`}
-                       style={{
-                       background: "#ef4444",
-                       color: "white",
-                       border: "none",
-                       width: "32px",
-                       height: "32px",
-                       borderRadius: "6px",
-                       cursor: "pointer",
-                       display: "inline-flex",
-                       alignItems: "center",
-                       justifyContent: "center",
-                     }}
-                    >
-                    <Trash2 size={15} strokeWidth={2} />
-                    </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <div
-            style={{
-              marginTop: "20px",
-              display: "flex",
-              justifyContent: "center",
-              gap: "10px",
-            }}
-          >
-            <button
-              disabled={currentPage === 1}
-              onClick={() =>
-                setCurrentPage(currentPage - 1)
-              }
-            >
-              Previous
-            </button>
+<div className="dashboard-pagination">
+  <button
+    className="dashboard-pagination-button"
+    disabled={currentPage === 1}
+    onClick={() => setCurrentPage(currentPage - 1)}
+  >
+    Previous
+  </button>
 
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
+  <span className="dashboard-pagination-info">
+    Page {currentPage} of {totalPages}
+  </span>
 
-            <button
-              disabled={currentPage === totalPages}
-              onClick={() =>
-                setCurrentPage(currentPage + 1)
-              }
-            >
-              Next
-            </button>
-          </div>
-        </div>
-
+  <button
+    className="dashboard-pagination-button"
+    disabled={currentPage === totalPages}
+    onClick={() => setCurrentPage(currentPage + 1)}
+  >
+    Next
+  </button>
+</div>
         <SourceChart
           sources={sources}
         />

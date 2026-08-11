@@ -62,81 +62,42 @@ function KPISection({
   },
 ];
 
-  return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: "24px",
-        marginTop: "20px",
-      }}
-    >
+    return (
+    <div className="kpi-section">
       {cards.map((card) => {
-  const Icon = card.icon;
+        const Icon = card.icon;
 
-  return (
-    <div
-      key={card.title}
-      className="kpi-card"
-      style={{
-        background: "#ffffff",
-        borderRadius: "20px",
-        padding: "28px",
-        boxShadow: "0 10px 30px rgba(15,23,42,0.08)",
-        borderTop: `4px solid ${card.color}`,
-      }}
-    >
-      <div
-        style={{
-          width: "52px",
-          height: "52px",
-          borderRadius: "14px",
-          background: `${card.color}15`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: "18px",
-        }}
-      >
-        <Icon size={32} color={card.color} />
-      </div>
+        return (
+          <div
+            key={card.title}
+            className="kpi-card"
+            style={{
+              "--kpi-color": card.color,
+            }}
+          >
+            <div className="kpi-icon">
+              <Icon
+                size={32}
+                color="var(--kpi-color)"
+              />
+            </div>
 
-      <div
-        style={{
-          fontSize: "14px",
-          fontWeight: 600,
-          color: "#64748b",
-          marginBottom: "8px",
-        }}
-      >
-        {card.title}
-      </div>
+            <div className="kpi-label">
+              {card.title}
+            </div>
 
-      <div
-        style={{
-          fontSize: "34px",
-          fontWeight: 700,
-          color: "#0f172a",
-          lineHeight: 1,
-        }}
-      >
-        {card.value}
-      </div>
+            <div className="kpi-value">
+              {card.value}
+            </div>
 
-      <div
-        style={{
-          marginTop: "10px",
-          fontSize: "13px",
-          color: "#94a3b8",
-        }}
-      >
-        {card.subtitle}
-      </div>
+            <div className="kpi-subtitle">
+              {card.subtitle}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
-})}
-    </div>
-  );
-}
+  }
 
 export default KPISection;

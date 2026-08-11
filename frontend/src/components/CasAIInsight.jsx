@@ -1,4 +1,6 @@
 import { useState } from "react";
+import "./CasAIInsight.css";
+
 import {
   BrainCircuit,
   Users,
@@ -108,469 +110,187 @@ function CasAIInsight({
   }
 
   return (
-    <section
-      style={{
-        background: "#ffffff",
-        marginTop: "30px",
-        marginBottom: "30px",
-        padding: "24px",
-        borderRadius: "14px",
-        boxShadow: "0 6px 18px rgba(15, 23, 42, 0.08)",
-        border: "1px solid #e5e7eb",
-      }}
-    >
+    <section className="cas-ai-section">
+
       {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "20px",
-          marginBottom: "22px",
-          flexWrap: "wrap",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-          }}
-        >
-          <div
-            style={{
-              width: "42px",
-              height: "42px",
-              borderRadius: "12px",
-              background:
-                "linear-gradient(135deg, #2563eb, #7c3aed)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25)",
-            }}
-          >
+      <div className="cas-ai-header">
+
+        <div className="cas-ai-header-left">
+
+          <div className="cas-ai-icon">
             <BrainCircuit size={23} />
           </div>
 
           <div>
-            <div
-              style={{
-                fontSize: "13px",
-                color: "#6b7280",
-                marginBottom: "2px",
-              }}
-            >
+            <div className="cas-ai-label">
               CAS AI
             </div>
 
-            <h2
-              style={{
-                margin: 0,
-                fontSize: "22px",
-                fontWeight: "700",
-                color: "#111827",
-              }}
-            >
+            <h2 className="cas-ai-title">
               I've analysed today's CRM activity.
             </h2>
           </div>
+
         </div>
 
-        <div
-          style={{
-            fontSize: "12px",
-            fontWeight: "600",
-            color: "#2563eb",
-            background: "#eff6ff",
-            padding: "7px 12px",
-            borderRadius: "20px",
-          }}
-        >
+        <div className="cas-ai-badge">
           AI CRM Assistant
         </div>
+
       </div>
 
-      {/* Intelligence cards */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns:
-            "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: "14px",
-          marginBottom: "20px",
-        }}
-      >
-        {/* Active Leads */}
-        <div
-          style={{
-            background: "#f8fafc",
-            borderRadius: "12px",
-            padding: "16px",
-            border: "1px solid #eef2f7",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              color: "#2563eb",
-              marginBottom: "8px",
-            }}
-          >
-            <Users size={18} />
 
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: "600",
-                color: "#64748b",
-              }}
-            >
-              Active Leads
-            </span>
+      {/* Intelligence Cards */}
+      <div className="cas-ai-intelligence-grid">
+
+        {/* Active Leads */}
+        <div className="cas-ai-intelligence-card">
+
+          <div className="cas-ai-card-heading">
+            <Users size={18} />
+            <span>Active Leads</span>
           </div>
 
-          <strong
-            style={{
-              fontSize: "24px",
-              color: "#111827",
-            }}
-          >
+          <strong className="cas-ai-card-value">
             {totalLeads}
           </strong>
+
         </div>
+
 
         {/* Top Source */}
-        <div
-          style={{
-            background: "#f8fafc",
-            borderRadius: "12px",
-            padding: "16px",
-            border: "1px solid #eef2f7",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              color: "#7c3aed",
-              marginBottom: "8px",
-            }}
-          >
-            <TrendingUp size={18} />
+        <div className="cas-ai-intelligence-card">
 
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: "600",
-                color: "#64748b",
-              }}
-            >
-              Top Source
-            </span>
+          <div className="cas-ai-card-heading">
+            <TrendingUp size={18} />
+            <span>Top Source</span>
           </div>
 
-          <strong
-            style={{
-              fontSize: "18px",
-              color: "#111827",
-            }}
-          >
+          <strong className="cas-ai-card-value">
             {topSource}
           </strong>
+
         </div>
+
 
         {/* Pipeline */}
-        <div
-          style={{
-            background: "#f8fafc",
-            borderRadius: "12px",
-            padding: "16px",
-            border: "1px solid #eef2f7",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              color: "#10b981",
-              marginBottom: "8px",
-            }}
-          >
-            <ShieldCheck size={18} />
+        <div className="cas-ai-intelligence-card">
 
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: "600",
-                color: "#64748b",
-              }}
-            >
-              Pipeline
-            </span>
+          <div className="cas-ai-card-heading">
+            <ShieldCheck size={18} />
+            <span>Pipeline</span>
           </div>
 
-          <strong
-            style={{
-              fontSize: "18px",
-              color: "#111827",
-            }}
-          >
+          <strong className="cas-ai-card-value">
             {pipelineStatus}
           </strong>
+
         </div>
+
       </div>
+
 
       {/* Recommendation */}
-      <div
-        style={{
-          background:
-            "linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%)",
-          borderRadius: "12px",
-          padding: "18px 20px",
-          border: "1px solid #dbeafe",
-          marginBottom: "18px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            marginBottom: "8px",
-          }}
-        >
-          <BrainCircuit size={18} color="#2563eb" />
+      <div className="cas-ai-recommendation">
 
-          <strong
-            style={{
-              fontSize: "17px",
-              color: "#111827",
-            }}
-          >
-            CAS AI Recommendation
-          </strong>
+        <div className="cas-ai-recommendation-title">
+          <BrainCircuit size={18} color="#2563eb" />
+          <strong>CAS AI Recommendation</strong>
         </div>
 
-        <p
-          style={{
-            margin: 0,
-            color: "#374151",
-            fontSize: "15px",
-            lineHeight: "1.5",
-          }}
-        >
+        <p className="cas-ai-recommendation-text">
           {recommendation}
         </p>
+
       </div>
+
 
       {/* Ask CAS AI */}
       <button
         type="button"
+        className="cas-ai-ask-button"
         onClick={() => setShowCasAI(true)}
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "8px",
-          background: "#2563eb",
-          color: "white",
-          border: "none",
-          padding: "11px 18px",
-          borderRadius: "9px",
-          cursor: "pointer",
-          fontWeight: "600",
-          fontSize: "14px",
-        }}
       >
         <MessageCircle size={17} />
         Ask CAS AI
       </button>
 
-      {/* CAS AI Assistant */}
+
+      {/* CAS AI Assistant Modal */}
       {showCasAI && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(15, 23, 42, 0.55)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 9999,
-            padding: "20px",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              maxWidth: "620px",
-              background: "#ffffff",
-              borderRadius: "18px",
-              boxShadow: "0 25px 60px rgba(0, 0, 0, 0.25)",
-              overflow: "hidden",
-            }}
-          >
-            {/* Header */}
-            <div
-              style={{
-                background:
-                  "linear-gradient(135deg, #111827 0%, #1e3a8a 55%, #7c3aed 100%)",
-                color: "white",
-                padding: "20px 22px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "12px",
-                }}
-              >
-                <div
-                  style={{
-                    width: "42px",
-                    height: "42px",
-                    borderRadius: "12px",
-                    background:
-                      "linear-gradient(135deg, #2563eb, #a855f7)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+        <div className="cas-ai-modal-overlay">
+
+          <div className="cas-ai-modal">
+
+            {/* Modal Header */}
+            <div className="cas-ai-modal-header">
+
+              <div className="cas-ai-modal-brand">
+
+                <div className="cas-ai-modal-icon">
                   <BrainCircuit size={22} />
                 </div>
 
                 <div>
-                  <div
-                    style={{
-                      fontSize: "18px",
-                      fontWeight: "700",
-                    }}
-                  >
+                  <div className="cas-ai-modal-name">
                     CAS AI
                   </div>
 
-                  <div
-                    style={{
-                      fontSize: "12px",
-                      opacity: 0.8,
-                      marginTop: "2px",
-                    }}
-                  >
+                  <div className="cas-ai-modal-description">
                     Your CRM Intelligence Assistant
                   </div>
                 </div>
+
               </div>
+
 
               <button
                 type="button"
+                className="cas-ai-close-button"
                 onClick={() => setShowCasAI(false)}
-                style={{
-                  width: "36px",
-                  height: "36px",
-                  borderRadius: "8px",
-                  border: "none",
-                  background: "rgba(255,255,255,0.12)",
-                  color: "white",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
                 aria-label="Close CAS AI"
               >
                 <X size={20} />
               </button>
+
             </div>
 
-            {/* Assistant body */}
-            <div
-              style={{
-                padding: "28px",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  gap: "14px",
-                  marginBottom: "24px",
-                }}
-              >
-                <div
-                  style={{
-                    width: "42px",
-                    height: "42px",
-                    minWidth: "42px",
-                    borderRadius: "12px",
-                    background: "#eff6ff",
-                    color: "#2563eb",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+
+            {/* Modal Body */}
+            <div className="cas-ai-modal-body">
+
+              {/* Introduction */}
+              <div className="cas-ai-introduction">
+
+                <div className="cas-ai-introduction-icon">
                   <BrainCircuit size={21} />
                 </div>
 
                 <div>
-                  <strong
-                    style={{
-                      display: "block",
-                      color: "#111827",
-                      fontSize: "16px",
-                      marginBottom: "6px",
-                    }}
-                  >
+
+                  <strong className="cas-ai-introduction-title">
                     Hi, I'm CAS.
                   </strong>
 
-                  <p
-                    style={{
-                      margin: 0,
-                      color: "#64748b",
-                      fontSize: "14px",
-                      lineHeight: "1.6",
-                    }}
-                  >
+                  <p className="cas-ai-introduction-text">
                     I've analysed your CRM activity. Ask me about your
                     leads, pipeline, sources, or follow-up priorities.
                   </p>
+
                 </div>
+
               </div>
 
-              {/* Quick questions */}
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "8px",
-                  marginBottom: "20px",
-                }}
-              >
+
+              {/* Quick Questions */}
+              <div className="cas-ai-quick-questions">
+
                 <button
                   type="button"
+                  className="cas-ai-question-button"
                   onClick={() => {
                     setCasQuestion("Who should I follow up with?");
                     askCasAI("Who should I follow up with?");
-                  }}
-                  style={{
-                    padding: "9px 12px",
-                    borderRadius: "20px",
-                    border: "1px solid #dbeafe",
-                    background: "#eff6ff",
-                    color: "#2563eb",
-                    cursor: "pointer",
-                    fontSize: "12px",
-                    fontWeight: "600",
                   }}
                 >
                   Who should I follow up with?
@@ -578,19 +298,10 @@ function CasAIInsight({
 
                 <button
                   type="button"
+                  className="cas-ai-question-button"
                   onClick={() => {
                     setCasQuestion("Which source performs best?");
                     askCasAI("Which source performs best?");
-                  }}
-                  style={{
-                    padding: "9px 12px",
-                    borderRadius: "20px",
-                    border: "1px solid #dbeafe",
-                    background: "#eff6ff",
-                    color: "#2563eb",
-                    cursor: "pointer",
-                    fontSize: "12px",
-                    fontWeight: "600",
                   }}
                 >
                   Which source performs best?
@@ -598,87 +309,47 @@ function CasAIInsight({
 
                 <button
                   type="button"
+                  className="cas-ai-question-button"
                   onClick={() => {
                     setCasQuestion("How is my pipeline?");
                     askCasAI("How is my pipeline?");
                   }}
-                  style={{
-                    padding: "9px 12px",
-                    borderRadius: "20px",
-                    border: "1px solid #dbeafe",
-                    background: "#eff6ff",
-                    color: "#2563eb",
-                    cursor: "pointer",
-                    fontSize: "12px",
-                    fontWeight: "600",
-                  }}
                 >
                   How is my pipeline?
                 </button>
+
               </div>
 
-              {/* CAS response */}
+
+              {/* Loading */}
               {casLoading && (
-                <div
-                  style={{
-                    marginBottom: "14px",
-                    padding: "12px",
-                    background: "#f8fafc",
-                    borderRadius: "10px",
-                    color: "#64748b",
-                    fontSize: "13px",
-                  }}
-                >
+                <div className="cas-ai-loading">
                   CAS is analysing your CRM...
                 </div>
               )}
 
+
+              {/* CAS Response */}
               {casAnswer && !casLoading && (
-                <div
-                  style={{
-                    marginBottom: "14px",
-                    padding: "14px",
-                    background:
-                      "linear-gradient(135deg, #eff6ff 0%, #f5f3ff 100%)",
-                    borderRadius: "10px",
-                    border: "1px solid #dbeafe",
-                    color: "#374151",
-                    fontSize: "14px",
-                    lineHeight: "1.6",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      marginBottom: "6px",
-                      color: "#2563eb",
-                      fontWeight: "700",
-                    }}
-                  >
+                <div className="cas-ai-response">
+
+                  <div className="cas-ai-response-label">
                     <BrainCircuit size={16} />
                     CAS AI
                   </div>
 
                   {casAnswer}
+
                 </div>
               )}
 
-              {/* Chat input */}
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  alignItems: "center",
-                  border: "1px solid #dbe3ef",
-                  borderRadius: "12px",
-                  padding: "8px",
-                  background: "#f8fafc",
-                }}
-              >
+
+              {/* Chat Input */}
+              <div className="cas-ai-input-wrapper">
+
                 <input
                   type="text"
+                  className="cas-ai-input"
                   value={casQuestion}
                   onChange={(e) => setCasQuestion(e.target.value)}
                   onKeyDown={(e) => {
@@ -687,53 +358,33 @@ function CasAIInsight({
                     }
                   }}
                   placeholder="Ask CAS about your CRM..."
-                  style={{
-                    flex: 1,
-                    border: "none",
-                    outline: "none",
-                    background: "transparent",
-                    padding: "10px",
-                    fontSize: "14px",
-                    color: "#111827",
-                  }}
                 />
 
                 <button
                   type="button"
+                  className="cas-ai-send-button"
                   onClick={() => askCasAI(casQuestion)}
                   disabled={casLoading}
-                  style={{
-                    width: "42px",
-                    height: "42px",
-                    borderRadius: "10px",
-                    border: "none",
-                    background: casLoading ? "#93c5fd" : "#2563eb",
-                    color: "white",
-                    cursor: casLoading ? "not-allowed" : "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
                   aria-label="Send message"
                 >
                   <Send size={18} />
                 </button>
+
               </div>
 
-              <p
-                style={{
-                  margin: "12px 0 0",
-                  textAlign: "center",
-                  fontSize: "11px",
-                  color: "#94a3b8",
-                }}
-              >
+
+              {/* Footer */}
+              <p className="cas-ai-footer-note">
                 CAS AI uses your CRM data to help you make better decisions.
               </p>
+
             </div>
+
           </div>
+
         </div>
       )}
+
     </section>
   );
 }

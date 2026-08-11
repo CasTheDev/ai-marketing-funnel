@@ -52,6 +52,9 @@ function Sidebar() {
         style={{
           textAlign: "center",
           marginBottom: "30px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <img
@@ -62,6 +65,7 @@ function Sidebar() {
             height: "90px",
             borderRadius: "50%",
             marginBottom: "15px",
+            display: "block",
           }}
         />
 
@@ -70,6 +74,9 @@ function Sidebar() {
             margin: 0,
             fontSize: "22px",
             fontWeight: "700",
+            color: "white",
+            textAlign: "center",
+            width: "100%",
           }}
         >
           VOXA AI CRM
