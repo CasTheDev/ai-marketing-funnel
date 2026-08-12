@@ -1,0 +1,590 @@
+/* =========================================================
+   ASK CAS AI
+   Interactive CAS AI assistant
+   ========================================================= */
+
+.ask-cas-ai-section {
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-8);
+
+  padding: var(--space-6);
+
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-md);
+}
+
+/* ---------------------------------------------------------
+   HEADER
+   --------------------------------------------------------- */
+
+.ask-cas-ai-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-5);
+
+  margin-bottom: var(--space-5);
+
+  flex-wrap: wrap;
+}
+
+.ask-cas-ai-header-left {
+  display: flex;
+
+  align-items: center;
+
+  gap: var(--space-3);
+}
+
+.ask-cas-ai-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+
+  border-radius: var(--radius-lg);
+
+  background: linear-gradient(
+    135deg,
+    var(--color-primary),
+    #7c3aed
+  );
+
+  color: var(--color-text-white);
+
+  box-shadow:
+    0 4px 12px rgba(37, 99, 235, 0.20);
+}
+
+.ask-cas-ai-label {
+  margin-bottom: 2px;
+
+  color: var(--color-primary);
+
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-bold);
+
+  letter-spacing: 0.08em;
+}
+
+.ask-cas-ai-title {
+  margin: 0;
+
+  color: var(--color-text);
+
+  font-size: var(--font-size-2xl);
+
+  font-weight: var(--font-weight-bold);
+}
+
+.ask-cas-ai-badge {
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  background: var(--color-primary-light);
+
+  color: var(--color-primary);
+
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ---------------------------------------------------------
+   INTRODUCTION
+   --------------------------------------------------------- */
+
+.ask-cas-ai-introduction {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 12px;
+
+  padding: 16px;
+
+  background: var(--color-surface-muted);
+
+  border: 1px solid var(--color-border-light);
+
+  border-radius: var(--radius-lg);
+
+  margin-bottom: var(--space-5);
+}
+
+.ask-cas-ai-introduction-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 38px;
+  height: 38px;
+
+  border-radius: 10px;
+
+  background: var(--color-primary-light);
+
+  color: var(--color-primary);
+}
+
+.ask-cas-ai-introduction-title {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--color-text);
+
+  font-size: var(--font-size-sm);
+
+  font-weight: var(--font-weight-bold);
+}
+
+.ask-cas-ai-introduction-text {
+  margin: 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-sm);
+
+  line-height: 1.55;
+}
+
+/* ---------------------------------------------------------
+   ASK BUTTON
+   --------------------------------------------------------- */
+
+.ask-cas-ai-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  min-height: 42px;
+
+  padding: 0 18px;
+
+  border: none;
+
+  border-radius: var(--radius-md);
+
+  background: var(--color-primary);
+
+  color: var(--color-text-white);
+
+  cursor: pointer;
+
+  font-size: var(--font-size-sm);
+
+  font-weight: var(--font-weight-semibold);
+
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.ask-cas-ai-button:hover {
+  background: var(--color-primary-hover);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 4px 12px rgba(37, 99, 235, 0.20);
+}
+
+/* ---------------------------------------------------------
+   MODAL OVERLAY
+   --------------------------------------------------------- */
+
+.ask-cas-ai-modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: var(--space-5);
+
+  background: rgba(15, 23, 42, 0.55);
+
+  z-index: 9999;
+}
+
+/* ---------------------------------------------------------
+   MODAL
+   --------------------------------------------------------- */
+
+.ask-cas-ai-modal {
+  width: 100%;
+
+  max-width: 620px;
+
+  max-height: 90vh;
+
+  background: var(--color-surface);
+
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-xl);
+
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------
+   MODAL HEADER
+   --------------------------------------------------------- */
+
+.ask-cas-ai-modal-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-4);
+
+  padding: 18px 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--color-navy) 0%,
+      #1e3a8a 55%,
+      #7c3aed 100%
+    );
+}
+
+.ask-cas-ai-modal-brand {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+}
+
+.ask-cas-ai-modal-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  color: white;
+}
+
+.ask-cas-ai-modal-name {
+  color: white;
+
+  font-size: var(--font-size-md);
+
+  font-weight: var(--font-weight-bold);
+}
+
+.ask-cas-ai-modal-description {
+  margin-top: 2px;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  font-size: var(--font-size-xs);
+}
+
+.ask-cas-ai-close-button {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.10);
+
+  color: white;
+
+  cursor: pointer;
+
+  transition:
+    background var(--transition-fast);
+}
+
+.ask-cas-ai-close-button:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ---------------------------------------------------------
+   MODAL BODY
+   --------------------------------------------------------- */
+
+.ask-cas-ai-modal-body {
+  padding: var(--space-5);
+
+  max-height: calc(90vh - 90px);
+
+  overflow-y: auto;
+}
+
+/* ---------------------------------------------------------
+   QUICK QUESTIONS
+   --------------------------------------------------------- */
+
+.ask-cas-ai-quick-questions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: var(--space-5);
+}
+
+.ask-cas-ai-question-button {
+  padding: 9px 12px;
+
+  border: 1px solid var(--color-border);
+
+  border-radius: 999px;
+
+  background: var(--color-surface);
+
+  color: var(--color-text-secondary);
+
+  cursor: pointer;
+
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-semibold);
+
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.ask-cas-ai-question-button:hover {
+  background: var(--color-primary-light);
+
+  border-color: var(--color-primary);
+
+  color: var(--color-primary);
+}
+
+/* ---------------------------------------------------------
+   LOADING
+   --------------------------------------------------------- */
+
+.ask-cas-ai-loading {
+  margin-bottom: var(--space-4);
+
+  padding: 14px 16px;
+
+  background: var(--color-surface-muted);
+
+  border-radius: var(--radius-md);
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-sm);
+}
+
+/* ---------------------------------------------------------
+   RESPONSE
+   --------------------------------------------------------- */
+
+.ask-cas-ai-response {
+  margin-bottom: var(--space-5);
+
+  padding: 16px;
+
+  background: var(--color-primary-light);
+
+  border: 1px solid #dbeafe;
+
+  border-radius: var(--radius-lg);
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-sm);
+
+  line-height: 1.65;
+}
+
+.ask-cas-ai-response-label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-bottom: 8px;
+
+  color: var(--color-primary);
+
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-bold);
+}
+
+.ask-cas-ai-response p {
+  margin: 0;
+}
+
+/* ---------------------------------------------------------
+   INPUT
+   --------------------------------------------------------- */
+
+.ask-cas-ai-input-wrapper {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 6px;
+
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-lg);
+}
+
+.ask-cas-ai-input {
+  flex: 1;
+
+  min-width: 0;
+
+  height: 40px;
+
+  padding: 0 10px;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: var(--color-text);
+
+  font-size: var(--font-size-sm);
+}
+
+.ask-cas-ai-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.ask-cas-ai-send-button {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 40px;
+  height: 40px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: var(--color-primary);
+
+  color: var(--color-text-white);
+
+  cursor: pointer;
+
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.ask-cas-ai-send-button:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+
+  transform: translateY(-1px);
+}
+
+.ask-cas-ai-send-button:disabled {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+/* ---------------------------------------------------------
+   FOOTER
+   --------------------------------------------------------- */
+
+.ask-cas-ai-footer-note {
+  margin: 12px 0 0;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+
+  text-align: center;
+
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+
+@media (max-width: 600px) {
+
+  .ask-cas-ai-section {
+    padding: var(--space-4);
+  }
+
+  .ask-cas-ai-modal-overlay {
+    padding: 12px;
+  }
+
+  .ask-cas-ai-modal {
+    max-height: 94vh;
+  }
+
+  .ask-cas-ai-modal-body {
+    max-height: calc(94vh - 90px);
+  }
+
+  .ask-cas-ai-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .ask-cas-ai-badge {
+    align-self: flex-start;
+  }
+
+}

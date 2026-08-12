@@ -1,0 +1,725 @@
+/* =========================================================
+   VOXA AI CRM — ANALYTICS
+   ========================================================= */
+
+.analytics-page {
+  padding: var(--space-8);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------------------
+   HEADER
+   --------------------------------------------------------- */
+
+.analytics-header {
+  margin-bottom: var(--space-8);
+}
+
+.analytics-eyebrow {
+  margin: 0 0 8px;
+
+  color: var(--color-primary);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.analytics-title {
+  margin: 0;
+
+  color: var(--color-text);
+
+  font-size: 32px;
+  font-weight: var(--font-weight-bold);
+}
+
+.analytics-subtitle {
+  margin: 8px 0 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-md);
+}
+
+/* ---------------------------------------------------------
+   KPI CARDS
+   --------------------------------------------------------- */
+
+.analytics-kpi-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: var(--space-4);
+
+  margin-bottom: var(--space-6);
+}
+
+.analytics-kpi-card {
+  padding: var(--space-5);
+
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.analytics-kpi-label {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.analytics-kpi-value {
+  display: block;
+
+  color: var(--color-text);
+
+  font-size: 30px;
+  font-weight: var(--font-weight-bold);
+}
+
+/* ---------------------------------------------------------
+   SECTIONS
+   --------------------------------------------------------- */
+
+.analytics-section {
+  padding: var(--space-6);
+
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.analytics-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: var(--space-5);
+}
+
+.analytics-section-heading h2 {
+  margin: 0;
+
+  color: var(--color-text);
+
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+}
+
+.analytics-section-heading p {
+  margin: 6px 0 0;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+/* ---------------------------------------------------------
+   PIPELINE QUALITY
+   --------------------------------------------------------- */
+
+.analytics-quality-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: var(--space-4);
+}
+
+.analytics-quality-card {
+  padding: var(--space-5);
+
+  border-radius: var(--radius-lg);
+
+  border: 1px solid var(--color-border);
+}
+
+.analytics-quality-card span {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.analytics-quality-card strong {
+  font-size: 28px;
+  font-weight: var(--font-weight-bold);
+}
+
+.analytics-quality-card.hot {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.analytics-quality-card.warm {
+  background: rgba(245, 158, 11, 0.10);
+}
+
+.analytics-quality-card.cold {
+  background: rgba(16, 185, 129, 0.08);
+}
+
+/* ---------------------------------------------------------
+   TWO COLUMN
+   --------------------------------------------------------- */
+
+.analytics-two-column {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: var(--space-6);
+
+  margin-top: var(--space-6);
+}
+
+/* ---------------------------------------------------------
+   LISTS
+   --------------------------------------------------------- */
+
+.analytics-list {
+  display: flex;
+
+  flex-direction: column;
+}
+
+.analytics-list-row {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid var(--color-border-light);
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-sm);
+
+  text-transform: capitalize;
+}
+
+.analytics-list-row:last-child {
+  border-bottom: none;
+}
+
+.analytics-list-row strong {
+  color: var(--color-text);
+
+  font-size: var(--font-size-md);
+}
+
+.analytics-empty {
+  margin: 0;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-sm);
+}
+
+/* ---------------------------------------------------------
+   INSIGHT
+   --------------------------------------------------------- */
+
+.analytics-insight {
+  display: flex;
+
+  align-items: center;
+
+  margin-top: var(--space-6);
+
+  padding: var(--space-6);
+
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-xl);
+
+  box-shadow: var(--shadow-sm);
+}
+
+.analytics-insight-label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: var(--color-primary);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+
+  letter-spacing: 0.08em;
+}
+
+.analytics-insight h2 {
+  margin: 0 0 8px;
+
+  color: var(--color-text);
+
+  font-size: var(--font-size-xl);
+}
+
+.analytics-insight p {
+  margin: 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-sm);
+
+  line-height: 1.6;
+}
+
+/* ---------------------------------------------------------
+   LOADING
+   --------------------------------------------------------- */
+
+.analytics-loading {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-height: 400px;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-md);
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+
+@media (max-width: 1000px) {
+  .analytics-kpi-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .analytics-two-column {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .analytics-page {
+    padding: var(--space-5);
+  }
+
+  .analytics-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-quality-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-title {
+    font-size: 26px;
+  }
+}
+
+/* ---------------------------------------------------------
+   SOURCE PERFORMANCE TABLE
+   --------------------------------------------------------- */
+
+.analytics-source-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.analytics-source-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  font-size: var(--font-size-sm);
+}
+
+.analytics-source-table th {
+  padding: 12px 10px;
+
+  text-align: left;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.04em;
+
+  border-bottom: 1px solid var(--color-border);
+}
+
+.analytics-source-table td {
+  padding: 14px 10px;
+
+  color: var(--color-text-secondary);
+
+  border-bottom: 1px solid var(--color-border-light);
+
+  vertical-align: middle;
+}
+
+.analytics-source-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.analytics-source-table tbody tr:hover {
+  background: var(--color-surface-muted);
+}
+
+.analytics-source-name {
+  color: var(--color-text) !important;
+
+  font-weight: var(--font-weight-semibold);
+}
+
+.analytics-quality-badge {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 70px;
+
+  padding: 5px 10px;
+
+  border-radius: 999px;
+
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-bold);
+}
+
+.analytics-quality-badge.high {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--color-success);
+}
+
+.analytics-quality-badge.medium {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--color-warning);
+}
+
+.analytics-quality-badge.low {
+  background: rgba(239, 68, 68, 0.10);
+  color: var(--color-danger);
+}
+
+.analytics-table-empty {
+  padding: 24px 10px !important;
+
+  text-align: center;
+
+  color: var(--color-text-muted) !important;
+}
+
+/* ---------------------------------------------------------
+   WHERE TO FOCUS
+   --------------------------------------------------------- */
+
+.where-to-focus {
+  margin-top: var(--space-6);
+}
+
+.ai-insights-section-title-with-icon {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin: 0;
+
+  color: var(--color-text);
+
+  font-size: 24px;
+
+  font-weight: var(--font-weight-bold);
+}
+
+.ai-focus-card {
+  padding: var(--space-6);
+
+  background: var(--color-surface);
+
+  border: 1px solid var(--color-border);
+
+  border-radius: var(--radius-lg);
+}
+
+.ai-focus-main {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 16px;
+}
+
+.ai-focus-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 12px;
+
+  background: rgba(37, 99, 235, 0.10);
+
+  color: var(--color-primary);
+}
+
+.ai-focus-content {
+  flex: 1;
+}
+
+.ai-focus-label {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--color-primary);
+
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-bold);
+
+  letter-spacing: 0.08em;
+}
+
+.ai-focus-content h3 {
+  margin: 0 0 6px;
+
+  color: var(--color-text);
+
+  font-size: 24px;
+
+  font-weight: var(--font-weight-bold);
+}
+
+.ai-focus-content p {
+  max-width: 700px;
+
+  margin: 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: var(--font-size-sm);
+
+  line-height: 1.6;
+}
+
+/* ---------------------------------------------------------
+   FOCUS METRICS
+   --------------------------------------------------------- */
+
+.ai-focus-metrics {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 12px;
+
+  margin-top: var(--space-6);
+
+  padding-top: var(--space-5);
+
+  border-top: 1px solid var(--color-border-light);
+}
+
+.ai-focus-metric {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.ai-focus-metric span {
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-semibold);
+}
+
+.ai-focus-metric strong {
+  color: var(--color-text);
+
+  font-size: 20px;
+
+  font-weight: var(--font-weight-bold);
+}
+
+/* ---------------------------------------------------------
+   FOCUS RECOMMENDATION
+   --------------------------------------------------------- */
+
+.ai-focus-recommendation {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 12px;
+
+  margin-top: var(--space-5);
+
+  padding: 14px 16px;
+
+  background: rgba(37, 99, 235, 0.05);
+
+  border-radius: var(--radius-md);
+}
+
+.ai-focus-recommendation > div:first-child {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  color: var(--color-primary);
+}
+
+.ai-focus-recommendation span {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-semibold);
+}
+
+.ai-focus-recommendation strong {
+  color: var(--color-primary);
+
+  font-size: var(--font-size-sm);
+
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------
+   CONFIDENCE
+   --------------------------------------------------------- */
+
+.ai-focus-confidence {
+  display: grid;
+
+  grid-template-columns: auto auto 1fr;
+
+  align-items: center;
+
+  gap: 8px 12px;
+
+  margin-top: var(--space-5);
+
+  padding-top: var(--space-4);
+
+  border-top: 1px solid var(--color-border-light);
+}
+
+.ai-focus-confidence > span {
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-semibold);
+}
+
+.ai-focus-confidence strong {
+  font-size: var(--font-size-xs);
+
+  font-weight: var(--font-weight-bold);
+}
+
+.confidence-high {
+  color: var(--color-success);
+}
+
+.confidence-moderate {
+  color: var(--color-warning);
+}
+
+.confidence-limited {
+  color: var(--color-danger);
+}
+
+.ai-focus-confidence p {
+  grid-column: 1 / -1;
+
+  margin: 0;
+
+  color: var(--color-text-muted);
+
+  font-size: var(--font-size-xs);
+
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+
+@media (max-width: 800px) {
+
+  .ai-focus-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ai-focus-confidence {
+    grid-template-columns: 1fr auto;
+  }
+
+  .ai-focus-confidence p {
+    grid-column: 1 / -1;
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  .ai-focus-main {
+    flex-direction: column;
+  }
+
+  .ai-focus-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
+}
