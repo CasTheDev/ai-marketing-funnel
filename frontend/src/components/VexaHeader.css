@@ -238,3 +238,382 @@
     width: 100%;
   }
 }
+
+/* =========================================================
+   V1 CRM REPORT MODAL
+   ========================================================= */
+
+.vexa-report-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(15, 23, 42, 0.48);
+  backdrop-filter: blur(5px);
+}
+
+.vexa-report-modal {
+  width: min(100%, 760px);
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: #ffffff;
+
+  border: 1px solid #dbe3ef;
+  border-radius: 16px;
+
+  box-shadow:
+    0 30px 80px rgba(15, 23, 42, 0.22);
+
+  animation: vexaReportAppear 0.2s ease-out;
+}
+
+@keyframes vexaReportAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================================
+   REPORT HEADER
+   ========================================================= */
+
+.vexa-report-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 26px 28px 22px;
+
+  border-bottom: 1px solid #edf1f6;
+}
+
+.vexa-report-eyebrow {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #2563eb;
+
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+}
+
+.vexa-report-header h2 {
+  margin: 0 0 6px;
+
+  color: #0f172a;
+
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.vexa-report-header p {
+  margin: 0;
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+.vexa-report-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 7px;
+
+  background: #ffffff;
+
+  color: #64748b;
+
+  font-size: 21px;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.vexa-report-close:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* =========================================================
+   KPI GRID
+   ========================================================= */
+
+.vexa-report-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+
+  gap: 12px;
+
+  padding: 22px 28px;
+}
+
+.vexa-report-card {
+  padding: 17px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  background: #f8fafc;
+}
+
+.vexa-report-card span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #64748b;
+
+  font-size: 10px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vexa-report-card strong {
+  display: block;
+
+  color: #0f172a;
+
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* =========================================================
+   PIPELINE SUMMARY
+   ========================================================= */
+
+.vexa-report-section {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  margin: 0 28px;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+
+  overflow: hidden;
+}
+
+.vexa-report-section > div {
+  padding: 16px 18px;
+
+  background: #ffffff;
+}
+
+.vexa-report-section > div + div {
+  border-left: 1px solid #e2e8f0;
+}
+
+.vexa-report-label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  color: #64748b;
+
+  font-size: 10px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vexa-report-section strong {
+  color: #0f172a;
+
+  font-size: 13px;
+}
+
+/* =========================================================
+   RECOMMENDATIONS
+   ========================================================= */
+
+.vexa-report-recommendations {
+  padding: 24px 28px 20px;
+}
+
+.vexa-report-recommendations h3 {
+  margin: 0 0 13px;
+
+  color: #0f172a;
+
+  font-size: 14px;
+}
+
+.vexa-report-recommendation {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 11px;
+
+  padding: 11px 0;
+
+  border-bottom: 1px solid #edf1f6;
+}
+
+.vexa-report-recommendation:last-child {
+  border-bottom: none;
+}
+
+.vexa-report-recommendation > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 23px;
+  height: 23px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.vexa-report-recommendation p {
+  margin: 2px 0 0;
+
+  color: #475569;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   REPORT FOOTER
+   ========================================================= */
+
+.vexa-report-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 16px 28px;
+
+  border-top: 1px solid #edf1f6;
+
+  background: #f8fafc;
+}
+
+.vexa-report-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vexa-report-footer span {
+  color: #94a3b8;
+
+  font-size: 10px;
+}
+
+.vexa-report-footer button {
+  padding: 8px 15px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #2563eb;
+
+  color: #ffffff;
+
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 650;
+
+  cursor: pointer;
+}
+
+.vexa-report-footer button:hover {
+  background: #1d4ed8;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .vexa-report-overlay {
+    padding: 14px;
+  }
+
+  .vexa-report-header {
+    padding: 22px 20px 18px;
+  }
+
+  .vexa-report-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    padding: 18px 20px;
+  }
+
+  .vexa-report-section {
+    grid-template-columns: 1fr;
+
+    margin: 0 20px;
+  }
+
+  .vexa-report-section > div + div {
+    border-left: none;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .vexa-report-recommendations {
+    padding: 20px;
+  }
+
+  .vexa-report-footer {
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 430px) {
+
+  .vexa-report-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vexa-report-header h2 {
+    font-size: 19px;
+  }
+}

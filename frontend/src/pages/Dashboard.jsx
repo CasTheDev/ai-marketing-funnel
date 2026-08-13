@@ -511,6 +511,9 @@ return (
       <VexaHeader
         title="Welcome back, Cas-sandra!"
         heroImage="/images/vexa/vexa-floating.png"
+        leads={leads}
+        hotCount={hotCount}
+        sources={sources}
       />
 
       {/* DASHBOARD SECTION HEADER */}
