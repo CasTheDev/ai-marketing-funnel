@@ -1,4 +1,5 @@
 import Sidebar from "./Sidebar";
+import Footer from "./Footer";
 
 function DashboardLayout({ children }) {
   return (
@@ -9,21 +10,35 @@ function DashboardLayout({ children }) {
         fontFamily: "Arial",
       }}
     >
-      {/* Sidebar goes here */}
+      {/* Sidebar */}
       <Sidebar />
-      
-      {/* Main Page Content */}
+
+      {/* Main Application Area */}
       <div
         style={{
           flex: 1,
-          padding: "40px",
-          backgroundColor: "#f5f5f5",
+          display: "flex",
+          flexDirection: "column",
           minHeight: "100vh",
+          backgroundColor: "#f5f5f5",
           maxWidth: "1400px",
           margin: "0 auto",
         }}
       >
-        {children}
+
+        {/* Page Content */}
+        <main
+          style={{
+            flex: 1,
+            padding: "40px",
+          }}
+        >
+          {children}
+        </main>
+
+        {/* Global Footer */}
+        <Footer />
+
       </div>
     </div>
   );

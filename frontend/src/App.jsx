@@ -2,6 +2,7 @@ import Leads from "./pages/Leads";
 import Analytics from "./pages/Analytics";
 import AIInsights from "./pages/AIInsights";
 import Settings from "./pages/Settings";
+import Home from "./pages/Home";
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -14,7 +15,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route path="/" element={<Home />} />
 
         <Route path="/login" element={<Login />} />
 
