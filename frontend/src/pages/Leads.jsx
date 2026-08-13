@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../lib/supabase";
 import { toast } from "sonner";
+import DashboardLayout from "../components/DashboardLayout";
 
 import {
   Plus,
@@ -563,6 +564,7 @@ function Leads() {
   // --------------------------------------------------
 
   return (
+    <DashboardLayout>
     <div className="leads-page">
 
       {/* ==========================================
@@ -1523,6 +1525,7 @@ function Leads() {
       />
 
     </div>
+    </DashboardLayout>
   );
 }
 
