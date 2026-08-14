@@ -6,9 +6,12 @@ import { toast } from "sonner";
 import DashboardLayout from "../components/DashboardLayout";
 
 import {
-  Plus,
   Pencil,
   Trash2,
+  Search,
+  Plus,
+  BrainCircuit,
+  Target,
 } from "lucide-react";
 
 import AddLeadModal from "../components/AddLeadModal";
@@ -616,7 +619,7 @@ function closeLeadDetails() {
 
   return (
     <DashboardLayout>
-    <div className="leads-page">
+      <div className="leads-page">
 
       {/* ==========================================
           PAGE HEADER
@@ -1305,8 +1308,124 @@ function closeLeadDetails() {
                       </div>
 
                     </div>
+                  </div>
+
+
+                  {/* ==========================================
+                      LEAD INTELLIGENCE
+                  ========================================== */}
+
+                  <div
+                    style={{
+                      marginTop: "22px",
+                      marginBottom: "22px",
+                      padding: "18px",
+                      borderRadius: "14px",
+                      background: "#f8fafc",
+                      border: "1px solid #e2e8f0",
+                    }}
+                  >
+
+                    <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    marginBottom: "8px",
+  }}
+>
+  <BrainCircuit
+    size={17}
+    strokeWidth={2}
+    color="#2563eb"
+  />
+
+  <h3
+    style={{
+      margin: 0,
+      fontSize: "15px",
+      fontWeight: "700",
+      color: "#111827",
+    }}
+  >
+    Lead Intelligence
+  </h3>
+</div>
+
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: "13px",
+                        lineHeight: "1.6",
+                        color: "#475569",
+                      }}
+                    >
+                      {leadDetails.status === "Hot Lead"
+                        ? "This lead is showing strong buying intent and should be prioritised for follow-up."
+                        : leadDetails.status === "Warm Lead"
+                        ? "This lead is showing meaningful engagement and may benefit from continued nurturing."
+                        : "This lead currently shows limited engagement. Consider increasing touchpoints before prioritising follow-up."}
+                    </p>
 
                   </div>
+
+                  {/* ==========================================
+                      RECOMMENDED NEXT ACTION
+                  ========================================== */}
+
+                  <div
+                    style={{
+                      marginBottom: "24px",
+                      padding: "18px",
+                      borderRadius: "14px",
+                      background: "#eff6ff",
+                      border: "1px solid #dbeafe",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        marginBottom: "8px",
+                      }}
+                    >
+                      <Target
+                        size={17}
+                        strokeWidth={2}
+                        color="#2563eb"
+                      />
+
+                      <h3
+                        style={{
+                          margin: 0,
+                          fontSize: "15px",
+                          fontWeight: "700",
+                          color: "#1e3a8a",
+                        }}
+                      >
+                        Recommended Next Action
+                      </h3>
+
+                    </div>
+
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: "13px",
+                        lineHeight: "1.6",
+                        color: "#334155",
+                      }}
+                    >
+                      {leadDetails.status === "Hot Lead"
+                        ? "Contact this lead as soon as possible while their buying intent is high."
+                        : leadDetails.status === "Warm Lead"
+                        ? "Continue nurturing this lead and encourage another meaningful engagement."
+                        : "Focus on generating additional engagement before prioritising direct sales follow-up."}
+                    </p>
+
+                  </div>
+
 
                   {/* Contact Information */}
 
@@ -1823,11 +1942,12 @@ function closeLeadDetails() {
 
                 </>
               )}
+            </div>
+            </div>
 
-          </div>
+    )} {/*
 
-        </div>
-      )}
+
 
       {/* ==========================================
           ADD LEAD MODAL
@@ -1895,9 +2015,8 @@ function closeLeadDetails() {
           );
         }}
       />
-
     </div>
-    </DashboardLayout>
+  </DashboardLayout>
   );
 }
 
