@@ -12,6 +12,7 @@ import {
   Plus,
   BrainCircuit,
   Target,
+  Mail,
 } from "lucide-react";
 
 import AddLeadModal from "../components/AddLeadModal";
@@ -1425,7 +1426,116 @@ function closeLeadDetails() {
                     </p>
 
                   </div>
+                                    {/* ==========================================
+                      LEAD ACTIONS
+                  ========================================== */}
 
+                  <div
+                    style={{
+                      marginBottom: "24px",
+                      padding: "18px",
+                      borderRadius: "14px",
+                      background: "#ffffff",
+                      border: "1px solid #e2e8f0",
+                    }}
+                  >
+
+                    <h3
+                      style={{
+                        margin: "0 0 14px",
+                        fontSize: "15px",
+                        color: "#111827",
+                      }}
+                    >
+                      Lead Actions
+                    </h3>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: "10px",
+                      }}
+                    >
+
+                      {/* EMAIL */}
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (!leadDetails.email) {
+                            return;
+                          }
+
+                          window.location.href =
+                            `mailto:${leadDetails.email}`;
+                        }}
+                        disabled={!leadDetails.email}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "8px",
+                          padding: "10px 14px",
+                          borderRadius: "9px",
+                          border: "1px solid #2563eb",
+                          background: "#2563eb",
+                          color: "#ffffff",
+                          cursor: leadDetails.email
+                            ? "pointer"
+                            : "not-allowed",
+                          fontSize: "13px",
+                          fontWeight: "600",
+                          opacity: leadDetails.email
+                            ? 1
+                            : 0.5,
+                        }}
+                      >
+                        <Mail
+                          size={16}
+                          strokeWidth={2}
+                        />
+
+                        Contact via Email
+                      </button>
+
+                      {/* EDIT */}
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEditingLead(
+                            leadDetails
+                          );
+
+                          setShowEditModal(true);
+                        }}
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: "8px",
+                          padding: "10px 14px",
+                          borderRadius: "9px",
+                          border: "1px solid #cbd5e1",
+                          background: "#ffffff",
+                          color: "#334155",
+                          cursor: "pointer",
+                          fontSize: "13px",
+                          fontWeight: "600",
+                        }}
+                      >
+                        <Pencil
+                          size={16}
+                          strokeWidth={2}
+                        />
+
+                        Edit Lead
+                      </button>
+
+                    </div>
+
+                  </div>
 
                   {/* Contact Information */}
 
