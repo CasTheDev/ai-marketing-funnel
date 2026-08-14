@@ -34,6 +34,9 @@ function Leads() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [sourceFilter, setSourceFilter] = useState("All");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const leadsPerPage = 10;
+
   // --------------------------------------------------
   // Add / Edit / Delete State
   // --------------------------------------------------
@@ -807,6 +810,46 @@ function closeLeadDetails() {
   });
 
   // --------------------------------------------------
+// Pagination
+// --------------------------------------------------
+
+const totalFilteredLeads =
+  filteredLeads.length;
+
+const totalPages =
+  Math.ceil(
+    totalFilteredLeads /
+      leadsPerPage
+  );
+
+const safeCurrentPage =
+  Math.min(
+    currentPage,
+    Math.max(totalPages, 1)
+  );
+
+const startIndex =
+  (safeCurrentPage - 1) *
+  leadsPerPage;
+
+const paginatedLeads =
+  filteredLeads.slice(
+    startIndex,
+    startIndex + leadsPerPage
+  );
+
+const paginationStart =
+  totalFilteredLeads === 0
+    ? 0
+    : startIndex + 1;
+
+const paginationEnd =
+  Math.min(
+    startIndex + leadsPerPage,
+    totalFilteredLeads
+  );
+
+  // --------------------------------------------------
   // Render
   // --------------------------------------------------
 
@@ -957,9 +1000,10 @@ function closeLeadDetails() {
       className="search-box"
       placeholder="Search leads..."
       value={searchTerm}
-      onChange={(e) =>
-        setSearchTerm(e.target.value)
-      }
+      onChange={(e) => {
+      setSearchTerm(e.target.value);
+      setCurrentPage(1);
+    }}
       style={{
         width: "100%",
         marginBottom: 0,
@@ -973,9 +1017,10 @@ function closeLeadDetails() {
 
   <select
     value={statusFilter}
-    onChange={(e) =>
-      setStatusFilter(e.target.value)
-    }
+    onChange={(e) => {
+    setStatusFilter(e.target.value);
+    setCurrentPage(1);
+    }}
     aria-label="Filter by lead status"
     style={{
       width: "100%",
@@ -1012,9 +1057,10 @@ function closeLeadDetails() {
 
   <select
     value={sourceFilter}
-    onChange={(e) =>
-      setSourceFilter(e.target.value)
-    }
+    onChange={(e) => {
+     setSourceFilter(e.target.value);
+     setCurrentPage(1);
+    }}
     aria-label="Filter by lead source"
     style={{
       width: "100%",
@@ -1080,7 +1126,7 @@ function closeLeadDetails() {
 
           <tbody>
 
-            {filteredLeads.map(
+            {paginatedLeads.map(
               (lead) => (
                 <tr
                   key={lead.lead_id}
@@ -1242,6 +1288,188 @@ function closeLeadDetails() {
 
         </table>
       )}
+
+              {/* ==========================================
+            PAGINATION
+        ========================================== */}
+
+        {totalFilteredLeads > 0 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: "18px",
+              padding: "14px 4px",
+              gap: "16px",
+              flexWrap: "wrap",
+            }}
+          >
+
+            <div
+              style={{
+                fontSize: "13px",
+                color: "#64748b",
+              }}
+            >
+              Showing{" "}
+              <strong
+                style={{
+                  color: "#334155",
+                }}
+              >
+                {paginationStart}
+              </strong>
+              {" "}–{" "}
+              <strong
+                style={{
+                  color: "#334155",
+                }}
+              >
+                {paginationEnd}
+              </strong>
+              {" "}of{" "}
+              <strong
+                style={{
+                  color: "#334155",
+                }}
+              >
+                {totalFilteredLeads}
+              </strong>
+              {" "}leads
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+              }}
+            >
+
+              <button
+                type="button"
+                onClick={() =>
+                  setCurrentPage(
+                    (page) =>
+                      Math.max(
+                        page - 1,
+                        1
+                      )
+                  )
+                }
+                disabled={
+                  safeCurrentPage === 1
+                }
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: "8px",
+                  border:
+                    "1px solid #dbe3ef",
+                  background:
+                    safeCurrentPage === 1
+                      ? "#f8fafc"
+                      : "#ffffff",
+                  color:
+                    safeCurrentPage === 1
+                      ? "#cbd5e1"
+                      : "#334155",
+                  cursor:
+                    safeCurrentPage === 1
+                      ? "not-allowed"
+                      : "pointer",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                }}
+              >
+                Previous
+              </button>
+
+              {Array.from(
+                {
+                  length: totalPages,
+                },
+                (_, index) =>
+                  index + 1
+              ).map((page) => (
+                <button
+                  key={page}
+                  type="button"
+                  onClick={() =>
+                    setCurrentPage(page)
+                  }
+                  style={{
+                    minWidth: "34px",
+                    height: "34px",
+                    padding: "0 8px",
+                    borderRadius: "8px",
+                    border:
+                      page === safeCurrentPage
+                        ? "1px solid #2563eb"
+                        : "1px solid #dbe3ef",
+                    background:
+                      page === safeCurrentPage
+                        ? "#2563eb"
+                        : "#ffffff",
+                    color:
+                      page === safeCurrentPage
+                        ? "#ffffff"
+                        : "#334155",
+                    cursor: "pointer",
+                    fontSize: "13px",
+                    fontWeight: "600",
+                  }}
+                >
+                  {page}
+                </button>
+              ))}
+
+              <button
+                type="button"
+                onClick={() =>
+                  setCurrentPage(
+                    (page) =>
+                      Math.min(
+                        page + 1,
+                        totalPages
+                      )
+                  )
+                }
+                disabled={
+                  safeCurrentPage ===
+                  totalPages
+                }
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: "8px",
+                  border:
+                    "1px solid #dbe3ef",
+                  background:
+                    safeCurrentPage ===
+                    totalPages
+                      ? "#f8fafc"
+                      : "#ffffff",
+                  color:
+                    safeCurrentPage ===
+                    totalPages
+                      ? "#cbd5e1"
+                      : "#334155",
+                  cursor:
+                    safeCurrentPage ===
+                    totalPages
+                      ? "not-allowed"
+                      : "pointer",
+                  fontSize: "13px",
+                  fontWeight: "600",
+                }}
+              >
+                Next
+              </button>
+
+            </div>
+
+          </div>
+        )}
 
       {/* ==========================================
           LEAD DETAILS MODAL
