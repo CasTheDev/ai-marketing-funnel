@@ -130,6 +130,69 @@ def get_events():
 
     return events
 
+
+# =====================================================
+# GET ACTIVITY HISTORY FOR A SPECIFIC LEAD
+# =====================================================
+
+@app.get(
+    "/organizations/{organization_id}/leads/{lead_id}/events"
+)
+def get_lead_events(
+    organization_id: str,
+    lead_id: int
+):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    try:
+
+        cur.execute(
+            """
+            SELECT
+                be.event_id,
+                be.lead_id,
+                be.event_type,
+                be.created_at
+            FROM behavioral_events be
+            INNER JOIN leads l
+                ON l.lead_id = be.lead_id
+            WHERE l.organization_id = %s
+              AND be.lead_id = %s
+            ORDER BY be.created_at DESC
+            """,
+            (
+                organization_id,
+                lead_id
+            )
+        )
+
+        rows = cur.fetchall()
+
+        events = []
+
+        for row in rows:
+
+            events.append({
+                "event_id": row[0],
+                "lead_id": row[1],
+                "event_type": row[2],
+                "created_at": str(row[3])
+            })
+
+        return events
+
+    finally:
+
+        cur.close()
+        conn.close()
+
+
+# =====================================================
+# CALCULATE LEAD SCORE
+# =====================================================
+
 def calculate_lead_score(lead_id):
 
     conn = get_connection()

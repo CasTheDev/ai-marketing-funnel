@@ -56,6 +56,7 @@ function Leads() {
   const [leadDetails, setLeadDetails] = useState(null);
   const [detailsLoading, setDetailsLoading] = useState(false);
   const [detailsError, setDetailsError] = useState("");
+  const [leadActivity, setLeadActivity] = useState([]);
 
   // --------------------------------------------------
   // Find Organization Belonging To Logged-In User
@@ -160,64 +161,114 @@ function Leads() {
   // Load Lead Details
   // --------------------------------------------------
 
-  async function openLeadDetails(lead) {
-    if (!organizationId || !lead?.lead_id) {
-      return;
-    }
+ // --------------------------------------------------
+// Load Lead Details + Activity History
+// --------------------------------------------------
 
-    setSelectedLead(lead);
-    setLeadDetails(null);
-    setDetailsError("");
-    setDetailsLoading(true);
-
-    try {
-      console.log(
-        "Loading lead details for:",
-        lead.lead_id
-      );
-
-      const response = await fetch(
-        `http://127.0.0.1:8000/organizations/${organizationId}/leads/${lead.lead_id}`
-      );
-
-      if (!response.ok) {
-        throw new Error(
-          "Failed to load lead details"
-        );
-      }
-
-      const data = await response.json();
-
-      if (data?.error) {
-        throw new Error(data.error);
-      }
-
-      console.log(
-        "Lead details:",
-        data
-      );
-
-      setLeadDetails(data);
-    } catch (error) {
-      console.error(
-        "Lead details error:",
-        error
-      );
-
-      setDetailsError(
-        "Unable to load this lead's details. Please try again."
-      );
-    } finally {
-      setDetailsLoading(false);
-    }
+async function openLeadDetails(lead) {
+  if (!organizationId || !lead?.lead_id) {
+    return;
   }
 
-  function closeLeadDetails() {
-    setSelectedLead(null);
-    setLeadDetails(null);
-    setDetailsError("");
+  setSelectedLead(lead);
+  setLeadDetails(null);
+  setLeadActivity([]);
+  setDetailsError("");
+  setDetailsLoading(true);
+
+  try {
+    console.log(
+      "Loading lead details for:",
+      lead.lead_id
+    );
+
+    // --------------------------------------------------
+    // Load lead details
+    // --------------------------------------------------
+
+    const response = await fetch(
+      `http://127.0.0.1:8000/organizations/${organizationId}/leads/${lead.lead_id}`
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Failed to load lead details"
+      );
+    }
+
+    const data = await response.json();
+
+    if (data?.error) {
+      throw new Error(data.error);
+    }
+
+    console.log(
+      "Lead details:",
+      data
+    );
+
+    setLeadDetails(data);
+
+    // --------------------------------------------------
+    // Load lead activity history
+    // --------------------------------------------------
+
+    const activityResponse = await fetch(
+      `http://127.0.0.1:8000/organizations/${organizationId}/leads/${lead.lead_id}/events`
+    );
+
+    if (!activityResponse.ok) {
+      throw new Error(
+        "Failed to load lead activity"
+      );
+    }
+
+    const activityData =
+      await activityResponse.json();
+
+    console.log(
+      "Lead activity:",
+      activityData
+    );
+
+    setLeadActivity(
+      Array.isArray(activityData)
+        ? activityData
+        : []
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Lead details/activity error:",
+      error
+    );
+
+    setDetailsError(
+      error.message ||
+      "Failed to load lead details"
+    );
+
+    setLeadActivity([]);
+
+  } finally {
+
     setDetailsLoading(false);
+
   }
+}
+
+// --------------------------------------------------
+// Close Lead Details
+// --------------------------------------------------
+
+function closeLeadDetails() {
+  setSelectedLead(null);
+  setLeadDetails(null);
+  setLeadActivity([]);
+  setDetailsError("");
+  setDetailsLoading(false);
+}
 
   // --------------------------------------------------
   // ADD LEAD
@@ -1400,6 +1451,327 @@ function Leads() {
                       </div>
 
                     </div>
+
+                  </div>
+
+                                       {/* ==========================================
+                      ACTIVITY HISTORY
+                  ========================================== */}
+
+                  <div
+                    style={{
+                      marginTop: "24px",
+                      paddingTop: "20px",
+                      borderTop: "1px solid #e2e8f0",
+                    }}
+                  >
+
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "16px",
+                      }}
+                    >
+
+                      <h3
+                        style={{
+                          margin: 0,
+                          fontSize: "15px",
+                          color: "#111827",
+                        }}
+                      >
+                        Activity History
+                      </h3>
+
+                      {leadActivity.length > 0 && (
+                        <span
+                          style={{
+                            fontSize: "11px",
+                            color: "#94a3b8",
+                          }}
+                        >
+                          {leadActivity.length}{" "}
+                          {leadActivity.length === 1
+                            ? "activity"
+                            : "activities"}
+                        </span>
+                      )}
+
+                    </div>
+
+                    {leadActivity.length === 0 ? (
+
+                      /* EMPTY STATE */
+
+                      <div
+                        style={{
+                          padding: "28px 16px",
+                          textAlign: "center",
+                          borderRadius: "12px",
+                          background: "#f8fafc",
+                          border: "1px solid #e2e8f0",
+                        }}
+                      >
+
+                        <div
+                          style={{
+                            width: "38px",
+                            height: "38px",
+                            margin: "0 auto 10px",
+                            borderRadius: "50%",
+                            background: "#eff6ff",
+                            color: "#2563eb",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "18px",
+                            fontWeight: "700",
+                          }}
+                        >
+                          ○
+                        </div>
+
+                        <div
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: "600",
+                            color: "#334155",
+                            marginBottom: "5px",
+                          }}
+                        >
+                          No activity recorded yet
+                        </div>
+
+                        <div
+                          style={{
+                            fontSize: "12px",
+                            lineHeight: "1.5",
+                            color: "#94a3b8",
+                            maxWidth: "320px",
+                            margin: "0 auto",
+                          }}
+                        >
+                          Behavioural activity will appear here as this
+                          lead interacts with your tracked touchpoints.
+                        </div>
+
+                      </div>
+
+                    ) : (
+
+                      /* ACTIVITY TIMELINE */
+
+                      <div
+                        style={{
+                          position: "relative",
+                          maxHeight: "300px",
+                          overflowY: "auto",
+                          paddingRight: "6px",
+                        }}
+                      >
+
+                        {leadActivity.map((activity, index) => {
+
+                          const eventType =
+                            String(
+                              activity.event_type || ""
+                            ).trim();
+
+                          // --------------------------------------------------
+                          // Human-readable event names
+                          // --------------------------------------------------
+
+                          const eventLabels = {
+                            page_view: "Page Viewed",
+                            pricing_page_view:
+                              "Pricing Page Viewed",
+                            ebook_download:
+                              "Ebook Downloaded",
+                            demo_request:
+                              "Demo Requested",
+                            "Website Visit":
+                              "Website Visit",
+                            "Email Click":
+                              "Email Click",
+                            "Form Submit":
+                              "Form Submitted",
+                          };
+
+                          const displayEvent =
+                            eventLabels[eventType] ||
+                            eventType ||
+                            "Activity";
+
+                          // --------------------------------------------------
+                          // Score contribution
+                          // --------------------------------------------------
+
+                          const eventScores = {
+                            page_view: 1,
+                            pricing_page_view: 10,
+                            ebook_download: 20,
+                            demo_request: 50,
+                          };
+
+                          const scoreContribution =
+                            eventScores[eventType] ?? 0;
+
+                          // --------------------------------------------------
+                          // Format timestamp
+                          // --------------------------------------------------
+
+                          const formattedDate =
+                            activity.created_at
+                              ? new Date(
+                                  activity.created_at
+                                ).toLocaleString(
+                                  undefined,
+                                  {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  }
+                                )
+                              : "Unknown date";
+
+                          return (
+
+                            <div
+                              key={
+                                activity.event_id ||
+                                `${eventType}-${index}`
+                              }
+                              style={{
+                                position: "relative",
+                                display: "flex",
+                                gap: "12px",
+                                paddingBottom:
+                                  index ===
+                                  leadActivity.length - 1
+                                    ? "0"
+                                    : "18px",
+                              }}
+                            >
+
+                              {/* TIMELINE */}
+
+                              <div
+                                style={{
+                                  position: "relative",
+                                  width: "18px",
+                                  flexShrink: 0,
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+
+                                {index !==
+                                  leadActivity.length - 1 && (
+                                  <div
+                                    style={{
+                                      position: "absolute",
+                                      top: "14px",
+                                      bottom: "-4px",
+                                      width: "1px",
+                                      background: "#dbeafe",
+                                    }}
+                                  />
+                                )}
+
+                                <div
+                                  style={{
+                                    position: "relative",
+                                    zIndex: 1,
+                                    width: "9px",
+                                    height: "9px",
+                                    marginTop: "4px",
+                                    borderRadius: "50%",
+                                    background: "#2563eb",
+                                    boxShadow:
+                                      "0 0 0 4px #eff6ff",
+                                  }}
+                                />
+
+                              </div>
+
+                              {/* EVENT CONTENT */}
+
+                              <div
+                                style={{
+                                  flex: 1,
+                                  minWidth: 0,
+                                  paddingBottom: "2px",
+                                }}
+                              >
+
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent:
+                                      "space-between",
+                                    gap: "12px",
+                                    flexWrap: "wrap",
+                                  }}
+                                >
+
+                                  <div
+                                    style={{
+                                      fontSize: "13px",
+                                      fontWeight: "650",
+                                      color: "#1e293b",
+                                    }}
+                                  >
+                                    {displayEvent}
+                                  </div>
+
+                                  {scoreContribution > 0 && (
+                                    <span
+                                      style={{
+                                        display: "inline-flex",
+                                        alignItems: "center",
+                                        padding: "3px 7px",
+                                        borderRadius: "999px",
+                                        background: "#eff6ff",
+                                        color: "#2563eb",
+                                        fontSize: "10px",
+                                        fontWeight: "700",
+                                        whiteSpace: "nowrap",
+                                      }}
+                                    >
+                                      +{scoreContribution}{" "}
+                                      {scoreContribution === 1
+                                        ? "point"
+                                        : "points"}
+                                    </span>
+                                  )}
+
+                                </div>
+
+                                <div
+                                  style={{
+                                    marginTop: "4px",
+                                    fontSize: "11px",
+                                    color: "#94a3b8",
+                                  }}
+                                >
+                                  {formattedDate}
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          );
+                        })}
+
+                      </div>
+
+                    )}
 
                   </div>
 
