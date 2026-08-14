@@ -274,6 +274,189 @@ function closeLeadDetails() {
   setDetailsLoading(false);
 }
 
+    // --------------------------------------------------
+  // Lead Behaviour Intelligence
+  // --------------------------------------------------
+
+  function getLeadBehaviorInsights() {
+    const events = Array.isArray(leadActivity)
+      ? leadActivity
+      : [];
+
+    const eventTypes = events.map((activity) =>
+      String(activity.event_type || "")
+        .trim()
+        .toLowerCase()
+    );
+
+    const websiteVisits = eventTypes.filter(
+      (event) =>
+        event === "website visit" ||
+        event === "page_view"
+    ).length;
+
+    const emailClicks = eventTypes.filter(
+      (event) =>
+        event === "email click" ||
+        event === "email_click"
+    ).length;
+
+    const formSubmissions = eventTypes.filter(
+      (event) =>
+        event === "form submitted" ||
+        event === "form_submitted"
+    ).length;
+
+    const pricingViews = eventTypes.filter(
+      (event) =>
+        event === "pricing page view" ||
+        event === "pricing_page_view"
+    ).length;
+
+    const ebookDownloads = eventTypes.filter(
+      (event) =>
+        event === "ebook download" ||
+        event === "ebook_download"
+    ).length;
+
+    const demoRequests = eventTypes.filter(
+      (event) =>
+        event === "demo request" ||
+        event === "demo_request"
+    ).length;
+
+    // --------------------------------------------------
+    // Highest-intent behaviour
+    // --------------------------------------------------
+
+    if (demoRequests > 0) {
+      return {
+        intelligence:
+          "This lead has requested a demo, which is the strongest buying signal currently recorded. They should be prioritised for direct follow-up.",
+
+        action:
+          "Contact this lead as soon as possible and follow up on their demo request.",
+      };
+    }
+
+    // --------------------------------------------------
+    // Form submission
+    // --------------------------------------------------
+
+    if (formSubmissions > 0) {
+      return {
+        intelligence:
+          "This lead has submitted a form, indicating a meaningful level of interest and willingness to take action.",
+
+        action:
+          "Follow up with this lead while their interest is active and determine what they need next.",
+      };
+    }
+
+    // --------------------------------------------------
+    // Pricing interest
+    // --------------------------------------------------
+
+    if (pricingViews > 0) {
+      return {
+        intelligence:
+          "This lead has viewed pricing information, indicating specific interest in your offering and potential buying intent.",
+
+        action:
+          "Follow up with this lead and reference the product or pricing information they viewed.",
+      };
+    }
+
+    // --------------------------------------------------
+    // Email engagement
+    // --------------------------------------------------
+
+    if (emailClicks > 0) {
+      return {
+        intelligence:
+          "This lead has clicked an email, showing active engagement with your communication.",
+
+        action:
+          "Continue the conversation and use the email engagement as an opportunity for a relevant follow-up.",
+      };
+    }
+
+    // --------------------------------------------------
+    // Ebook engagement
+    // --------------------------------------------------
+
+    if (ebookDownloads > 0) {
+      return {
+        intelligence:
+          "This lead has downloaded an ebook, showing interest in your content and willingness to engage beyond a basic visit.",
+
+        action:
+          "Continue nurturing this lead with relevant content and encourage another meaningful engagement.",
+      };
+    }
+
+    // --------------------------------------------------
+    // Repeated website engagement
+    // --------------------------------------------------
+
+    if (websiteVisits >= 3) {
+      return {
+        intelligence:
+          "This lead has recorded repeated website engagement, indicating continued interest in your business.",
+
+        action:
+          "Continue nurturing this lead and look for an opportunity to move them toward a higher-intent action.",
+      };
+    }
+
+    // --------------------------------------------------
+    // Basic website engagement
+    // --------------------------------------------------
+
+    if (websiteVisits > 0) {
+      return {
+        intelligence:
+          "This lead has visited your website, showing initial engagement but not yet demonstrating a stronger buying signal.",
+
+        action:
+          "Encourage additional engagement before prioritising direct sales follow-up.",
+      };
+    }
+
+    // --------------------------------------------------
+    // Fallback based on lead status
+    // --------------------------------------------------
+
+    if (leadDetails?.status === "Hot Lead") {
+      return {
+        intelligence:
+          "This lead is currently classified as a Hot Lead, but no detailed behavioural activity is available to explain the current score.",
+
+        action:
+          "Review the lead and consider direct follow-up based on the available lead information.",
+      };
+    }
+
+    if (leadDetails?.status === "Warm Lead") {
+      return {
+        intelligence:
+          "This lead is currently classified as a Warm Lead, but the available activity does not show a stronger buying signal yet.",
+
+        action:
+          "Continue nurturing this lead and encourage another meaningful engagement.",
+      };
+    }
+
+    return {
+      intelligence:
+        "This lead currently shows limited recorded engagement and has not yet demonstrated a stronger buying signal.",
+
+      action:
+        "Focus on generating additional engagement before prioritising direct sales follow-up.",
+    };
+  }
+
+
   // --------------------------------------------------
   // ADD LEAD
   // --------------------------------------------------
@@ -1312,7 +1495,7 @@ function closeLeadDetails() {
                   </div>
 
 
-                  {/* ==========================================
+                                    {/* ==========================================
                       LEAD INTELLIGENCE
                   ========================================== */}
 
@@ -1328,30 +1511,32 @@ function closeLeadDetails() {
                   >
 
                     <div
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    marginBottom: "8px",
-  }}
->
-  <BrainCircuit
-    size={17}
-    strokeWidth={2}
-    color="#2563eb"
-  />
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        marginBottom: "8px",
+                      }}
+                    >
 
-  <h3
-    style={{
-      margin: 0,
-      fontSize: "15px",
-      fontWeight: "700",
-      color: "#111827",
-    }}
-  >
-    Lead Intelligence
-  </h3>
-</div>
+                      <BrainCircuit
+                        size={17}
+                        strokeWidth={2}
+                        color="#2563eb"
+                      />
+
+                      <h3
+                        style={{
+                          margin: 0,
+                          fontSize: "15px",
+                          fontWeight: "700",
+                          color: "#111827",
+                        }}
+                      >
+                        Lead Intelligence
+                      </h3>
+
+                    </div>
 
                     <p
                       style={{
@@ -1361,16 +1546,15 @@ function closeLeadDetails() {
                         color: "#475569",
                       }}
                     >
-                      {leadDetails.status === "Hot Lead"
-                        ? "This lead is showing strong buying intent and should be prioritised for follow-up."
-                        : leadDetails.status === "Warm Lead"
-                        ? "This lead is showing meaningful engagement and may benefit from continued nurturing."
-                        : "This lead currently shows limited engagement. Consider increasing touchpoints before prioritising follow-up."}
+                      {
+                        getLeadBehaviorInsights()
+                          .intelligence
+                      }
                     </p>
 
                   </div>
 
-                  {/* ==========================================
+                                    {/* ==========================================
                       RECOMMENDED NEXT ACTION
                   ========================================== */}
 
@@ -1383,6 +1567,7 @@ function closeLeadDetails() {
                       border: "1px solid #dbeafe",
                     }}
                   >
+
                     <div
                       style={{
                         display: "flex",
@@ -1391,6 +1576,7 @@ function closeLeadDetails() {
                         marginBottom: "8px",
                       }}
                     >
+
                       <Target
                         size={17}
                         strokeWidth={2}
@@ -1418,15 +1604,16 @@ function closeLeadDetails() {
                         color: "#334155",
                       }}
                     >
-                      {leadDetails.status === "Hot Lead"
-                        ? "Contact this lead as soon as possible while their buying intent is high."
-                        : leadDetails.status === "Warm Lead"
-                        ? "Continue nurturing this lead and encourage another meaningful engagement."
-                        : "Focus on generating additional engagement before prioritising direct sales follow-up."}
+                      {
+                        getLeadBehaviorInsights()
+                          .action
+                      }
                     </p>
 
                   </div>
-                                    {/* ==========================================
+
+
+                 {/* ==========================================
                       LEAD ACTIONS
                   ========================================== */}
 
