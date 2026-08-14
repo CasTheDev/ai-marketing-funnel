@@ -471,15 +471,29 @@ def get_organization_leads(organization_id: str):
     cur = conn.cursor()
 
     cur.execute("""
-        SELECT lead_id,
-               email,
-               first_name,
-               company_name,
-               source,
-               created_at
-        FROM leads
-        WHERE organization_id = %s
-        ORDER BY lead_id DESC
+        SELECT
+            l.lead_id,
+            l.email,
+            l.first_name,
+            l.company_name,
+            l.source,
+            l.created_at,
+            COALESCE(ls.score, 0) AS score,
+            COALESCE(ls.status, 'Cold Lead') AS status,
+            ls.created_at AS score_created_at
+        FROM leads l
+        LEFT JOIN LATERAL (
+            SELECT
+                score,
+                status,
+                created_at
+            FROM lead_scores
+            WHERE lead_id = l.lead_id
+            ORDER BY created_at DESC
+            LIMIT 1
+        ) ls ON TRUE
+        WHERE l.organization_id = %s
+        ORDER BY l.lead_id DESC
     """, (organization_id,))
 
     rows = cur.fetchall()
@@ -493,7 +507,14 @@ def get_organization_leads(organization_id: str):
             "first_name": row[2],
             "company_name": row[3],
             "source": row[4],
-            "created_at": str(row[5])
+            "created_at": str(row[5]),
+            "score": row[6],
+            "status": row[7],
+            "score_created_at": (
+                str(row[8])
+                if row[8]
+                else None
+            )
         })
 
     cur.close()

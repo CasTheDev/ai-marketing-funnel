@@ -31,6 +31,8 @@ function Leads() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [sourceFilter, setSourceFilter] = useState("All");
 
   // --------------------------------------------------
   // Add / Edit / Delete State
@@ -768,34 +770,41 @@ function closeLeadDetails() {
       (lead) =>
         lead.source === "Website"
     ).length;
-
+       // --------------------------------------------------
+  // Search + Filters
   // --------------------------------------------------
-  // Search
-  // --------------------------------------------------
 
-  const filteredLeads = leads.filter(
-    (lead) => {
-      const search =
-        searchTerm
-          .toLowerCase()
-          .trim();
+  const filteredLeads = leads.filter((lead) => {
+    const search = searchTerm
+      .toLowerCase()
+      .trim();
 
-      return (
-        (lead.first_name || "")
-          .toLowerCase()
-          .includes(search) ||
-        (lead.email || "")
-          .toLowerCase()
-          .includes(search) ||
-        (lead.company_name || "")
-          .toLowerCase()
-          .includes(search) ||
-        (lead.source || "")
-          .toLowerCase()
-          .includes(search)
-      );
-    }
-  );
+    const matchesSearch =
+      !search ||
+      (lead.first_name || "")
+        .toLowerCase()
+        .includes(search) ||
+      (lead.email || "")
+        .toLowerCase()
+        .includes(search) ||
+      (lead.company_name || "")
+        .toLowerCase()
+        .includes(search);
+
+    const matchesStatus =
+      statusFilter === "All" ||
+      lead.status === statusFilter;
+
+    const matchesSource =
+      sourceFilter === "All" ||
+      lead.source === sourceFilter;
+
+    return (
+      matchesSearch &&
+      matchesStatus &&
+      matchesSource
+    );
+  });
 
   // --------------------------------------------------
   // Render
@@ -805,128 +814,250 @@ function closeLeadDetails() {
     <DashboardLayout>
       <div className="leads-page">
 
-      {/* ==========================================
-          PAGE HEADER
-      ========================================== */}
+        {/* ==========================================
+            PAGE HEADER
+        ========================================== */}
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent:
-            "space-between",
-          alignItems: "center",
-          marginBottom: "30px",
-          gap: "20px",
-        }}
-      >
-        <div>
-          <h1
-            className="leads-title"
-            style={{
-              marginBottom: "8px",
-            }}
-          >
-            Leads
-          </h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "30px",
+            gap: "20px",
+          }}
+        >
+          <div>
+            <h1
+              className="leads-title"
+              style={{
+                marginBottom: "8px",
+              }}
+            >
+              Leads
+            </h1>
 
-          <p
+            <p
+              style={{
+                margin: 0,
+                color: "#94a3b8",
+                fontSize: "14px",
+              }}
+            >
+              Manage and track your customer leads.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setShowAddModal(true)}
             style={{
-              margin: 0,
-              color: "#94a3b8",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              background: "#2563eb",
+              color: "#ffffff",
+              border: "none",
+              padding: "11px 16px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              fontWeight: "600",
               fontSize: "14px",
             }}
           >
-            Manage and track your customer leads.
-          </p>
+            <Plus size={18} />
+            Add Lead
+          </button>
         </div>
 
-        <button
-          type="button"
-          onClick={() =>
-            setShowAddModal(true)
-          }
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            background: "#2563eb",
-            color: "#ffffff",
-            border: "none",
-            padding: "11px 16px",
-            borderRadius: "10px",
-            cursor: "pointer",
-            fontWeight: "600",
-            fontSize: "14px",
-          }}
-        >
-          <Plus size={18} />
-          Add Lead
-        </button>
-      </div>
+        {/* ==========================================
+            KPI CARDS
+        ========================================== */}
 
-      {/* ==========================================
-          KPI CARDS
-      ========================================== */}
+        <div className="kpi-grid">
 
-      <div className="kpi-grid">
+          <div className="kpi-card">
+            <div className="kpi-label">
+              Total Leads
+            </div>
 
-        <div className="kpi-card">
-          <div className="kpi-label">
-            Total Leads
+            <div className="kpi-value">
+              {totalLeads}
+            </div>
           </div>
 
-          <div className="kpi-value">
-            {totalLeads}
+          <div className="kpi-card">
+            <div className="kpi-label">
+              Google Ads
+            </div>
+
+            <div className="kpi-value">
+              {googleAdsLeads}
+            </div>
           </div>
+
+          <div className="kpi-card">
+            <div className="kpi-label">
+              Facebook
+            </div>
+
+            <div className="kpi-value">
+              {facebookLeads}
+            </div>
+          </div>
+
+          <div className="kpi-card">
+            <div className="kpi-label">
+              Website
+            </div>
+
+            <div className="kpi-value">
+              {websiteLeads}
+            </div>
+          </div>
+
         </div>
 
-        <div className="kpi-card">
-          <div className="kpi-label">
-            Google Ads
-          </div>
+        {/* ==========================================
+    SEARCH + FILTERS
+========================================== */}
 
-          <div className="kpi-value">
-            {googleAdsLeads}
-          </div>
-        </div>
+<div
+  style={{
+    display: "grid",
+    gridTemplateColumns: "minmax(280px, 1fr) 180px 180px",
+    gap: "12px",
+    marginBottom: "20px",
+    alignItems: "center",
+  }}
+>
 
-        <div className="kpi-card">
-          <div className="kpi-label">
-            Facebook
-          </div>
+  {/* SEARCH */}
 
-          <div className="kpi-value">
-            {facebookLeads}
-          </div>
-        </div>
+  <div
+    style={{
+      position: "relative",
+      width: "100%",
+    }}
+  >
+    <Search
+      size={17}
+      style={{
+        position: "absolute",
+        left: "14px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        color: "#94a3b8",
+        pointerEvents: "none",
+      }}
+    />
 
-        <div className="kpi-card">
-          <div className="kpi-label">
-            Website
-          </div>
+    <input
+      type="text"
+      className="search-box"
+      placeholder="Search leads..."
+      value={searchTerm}
+      onChange={(e) =>
+        setSearchTerm(e.target.value)
+      }
+      style={{
+        width: "100%",
+        marginBottom: 0,
+        paddingLeft: "40px",
+        boxSizing: "border-box",
+      }}
+    />
+  </div>
 
-          <div className="kpi-value">
-            {websiteLeads}
-          </div>
-        </div>
+  {/* STATUS FILTER */}
 
-      </div>
+  <select
+    value={statusFilter}
+    onChange={(e) =>
+      setStatusFilter(e.target.value)
+    }
+    aria-label="Filter by lead status"
+    style={{
+      width: "100%",
+      minWidth: 0,
+      height: "42px",
+      padding: "0 12px",
+      borderRadius: "8px",
+      border: "1px solid #dbe3ef",
+      background: "#ffffff",
+      color: "#0f172a",
+      fontSize: "13px",
+      cursor: "pointer",
+      boxSizing: "border-box",
+    }}
+  >
+    <option value="All">
+      All statuses
+    </option>
 
-      {/* ==========================================
-          SEARCH
-      ========================================== */}
+    <option value="Cold Lead">
+      Cold Lead
+    </option>
 
-      <input
-        type="text"
-        className="search-box"
-        placeholder="Search leads..."
-        value={searchTerm}
-        onChange={(e) =>
-          setSearchTerm(
-            e.target.value
+    <option value="Warm Lead">
+      Warm Lead
+    </option>
+
+    <option value="Hot Lead">
+      Hot Lead
+    </option>
+  </select>
+
+  {/* SOURCE FILTER */}
+
+  <select
+    value={sourceFilter}
+    onChange={(e) =>
+      setSourceFilter(e.target.value)
+    }
+    aria-label="Filter by lead source"
+    style={{
+      width: "100%",
+      minWidth: 0,
+      height: "42px",
+      padding: "0 12px",
+      borderRadius: "8px",
+      border: "1px solid #dbe3ef",
+      background: "#ffffff",
+      color: "#0f172a",
+      fontSize: "13px",
+      cursor: "pointer",
+      boxSizing: "border-box",
+    }}
+  >
+    <option value="All">
+      All sources
+    </option>
+
+    {[
+      ...new Set(
+        leads
+          .map((lead) =>
+            String(
+              lead.source || ""
+            ).trim()
           )
-        }
-      />
+          .filter(Boolean)
+      ),
+    ]
+      .sort()
+      .map((source) => (
+        <option
+          key={source}
+          value={source}
+        >
+          {source}
+        </option>
+      ))}
+  </select>
+
+</div>
+
 
       {/* ==========================================
           LEADS TABLE
