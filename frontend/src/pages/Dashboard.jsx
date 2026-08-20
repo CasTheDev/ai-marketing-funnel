@@ -402,7 +402,7 @@ function Dashboard() {
       return;
     }
 
-    toast.success(`${lead.name} was updated successfully.`);
+    toast.success(`${updatedLead.first_name} was updated successfully.`);
 
     setShowEditModal(false);
     setEditingLead(null);
