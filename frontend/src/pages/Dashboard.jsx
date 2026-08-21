@@ -45,6 +45,7 @@ function Dashboard() {
   const { user } = useAuth();
 
   const displayName =
+  user?.user_metadata?.first_name?.trim() ||
   user?.user_metadata?.full_name ||
   user?.user_metadata?.name ||
   user?.email?.split("@")[0] ||

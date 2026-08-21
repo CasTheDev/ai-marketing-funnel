@@ -1,3 +1,4 @@
+import { useAuth } from "../context/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -37,6 +38,15 @@ function Sidebar() {
 
   navigate("/login");
 };
+
+const { user } = useAuth();
+
+const displayName =
+  user?.user_metadata?.first_name?.trim() ||
+  user?.user_metadata?.full_name ||
+  user?.user_metadata?.name ||
+  user?.email?.split("@")[0] ||
+  "User";
 
   return (
     <div
@@ -146,7 +156,7 @@ function Sidebar() {
             fontWeight: "600",
           }}
         >
-          Cas-sandra
+          {displayName}
         </div>
 
         <div
