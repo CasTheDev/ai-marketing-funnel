@@ -1,78 +1,64 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../lib/supabase";
-import { toast } from "sonner";
 import {
   BrainCircuit,
-  Mail,
   LockKeyhole,
   Eye,
   EyeOff,
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
+import { supabase } from "../lib/supabase";
+import { toast } from "sonner";
 
 import "./Login.css";
 
-export default function Login() {
+export default function ResetPassword() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
 
-  async function handleLogin(e) {
+  async function handleResetPassword(e) {
     e.preventDefault();
 
-    if (!email.trim() || !password.trim()) {
-      toast.error("Please enter your email and password.");
+    if (!password || !confirmPassword) {
+      toast.error("Please complete both password fields.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match.");
+      return;
+    }
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters.");
       return;
     }
 
     setIsLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
+    const { error } = await supabase.auth.updateUser({
       password,
     });
 
+    setIsLoading(false);
+
     if (error) {
       toast.error(error.message);
-      setIsLoading(false);
       return;
     }
 
-    toast.success("Login successful!");
-    navigate("/dashboard");
+    toast.success("Password updated successfully.");
+
+    navigate("/login");
   }
-
-  async function handleForgotPassword() {
-  if (!email.trim()) {
-    toast.error("Please enter your email address first.");
-    return;
-  }
-
-  setIsLoading(true);
-
-  const { error } = await supabase.auth.resetPasswordForEmail(
-    email.trim(),
-    {
-      redirectTo: `${window.location.origin}/reset-password`,
-    }
-  );
-
-  setIsLoading(false);
-
-  if (error) {
-    toast.error(error.message);
-    return;
-  }
-
-  toast.success(
-    "Password reset email sent. Please check your inbox."
-  );
-}
 
   return (
     <main className="login-page">
@@ -107,57 +93,29 @@ export default function Login() {
           <div className="login-card-header">
 
             <span className="login-eyebrow">
-              Welcome back
+              ACCOUNT SECURITY
             </span>
 
             <h1>
-              Sign in to your CRM
+              Reset your password
             </h1>
 
             <p>
-              Access your leads, analytics and CRM intelligence.
+              Create a new password for your VOXA AI CRM account.
             </p>
 
           </div>
 
           <form
             className="login-form"
-            onSubmit={handleLogin}
+            onSubmit={handleResetPassword}
           >
 
-            {/* EMAIL */}
+            {/* NEW PASSWORD */}
             <div className="login-field">
 
-              <label htmlFor="login-email">
-                Email address
-              </label>
-
-              <div className="login-input-wrapper">
-
-                <Mail
-                  size={18}
-                  className="login-input-icon"
-                />
-
-                <input
-                  id="login-email"
-                  type="email"
-                  placeholder="you@company.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                  disabled={isLoading}
-                />
-
-              </div>
-
-            </div>
-
-            {/* PASSWORD */}
-            <div className="login-field">
-
-              <label htmlFor="login-password">
-                Password
+              <label htmlFor="reset-password">
+                New password
               </label>
 
               <div className="login-input-wrapper">
@@ -168,12 +126,14 @@ export default function Login() {
                 />
 
                 <input
-                  id="login-password"
+                  id="reset-password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
+                  placeholder="Create your new password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
+                  onChange={(e) =>
+                    setPassword(e.target.value)
+                  }
+                  autoComplete="new-password"
                   disabled={isLoading}
                 />
 
@@ -181,14 +141,16 @@ export default function Login() {
                   type="button"
                   className="login-password-toggle"
                   onClick={() =>
-                    setShowPassword((current) => !current)
+                    setShowPassword(
+                      (current) => !current
+                    )
                   }
+                  disabled={isLoading}
                   aria-label={
                     showPassword
                       ? "Hide password"
                       : "Show password"
                   }
-                  disabled={isLoading}
                 >
                   {showPassword ? (
                     <EyeOff size={18} />
@@ -201,47 +163,78 @@ export default function Login() {
 
             </div>
 
-            {/* SUBMIT */}
+            {/* CONFIRM PASSWORD */}
+            <div className="login-field">
 
-            <div
-  style={{
-    display: "flex",
-    justifyContent: "flex-end",
-    marginTop: "-6px",
-    marginBottom: "4px",
-  }}
->
-  <button
-    type="button"
-    onClick={handleForgotPassword}
-    disabled={isLoading}
-    style={{
-      border: "none",
-      background: "none",
-      padding: 0,
-      color: "#2563eb",
-      fontSize: "13px",
-      fontWeight: "600",
-      cursor: "pointer",
-    }}
-  >
-    Forgot password?
-  </button>
-</div>
+              <label htmlFor="reset-confirm-password">
+                Confirm new password
+              </label>
+
+              <div className="login-input-wrapper">
+
+                <LockKeyhole
+                  size={18}
+                  className="login-input-icon"
+                />
+
+                <input
+                  id="reset-confirm-password"
+                  type={
+                    showConfirmPassword
+                      ? "text"
+                      : "password"
+                  }
+                  placeholder="Confirm your new password"
+                  value={confirmPassword}
+                  onChange={(e) =>
+                    setConfirmPassword(
+                      e.target.value
+                    )
+                  }
+                  autoComplete="new-password"
+                  disabled={isLoading}
+                />
+
+                <button
+                  type="button"
+                  className="login-password-toggle"
+                  onClick={() =>
+                    setShowConfirmPassword(
+                      (current) => !current
+                    )
+                  }
+                  disabled={isLoading}
+                  aria-label={
+                    showConfirmPassword
+                      ? "Hide password"
+                      : "Show password"
+                  }
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
+                </button>
+
+              </div>
+
+            </div>
+
+            {/* SUBMIT */}
             <button
               type="submit"
               className="login-submit"
               disabled={isLoading}
             >
-
               {isLoading ? (
                 <span>
-                  Signing in...
+                  Updating password...
                 </span>
               ) : (
                 <>
                   <span>
-                    Sign in
+                    Update password
                   </span>
 
                   <ArrowRight
@@ -250,7 +243,6 @@ export default function Login() {
                   />
                 </>
               )}
-
             </button>
 
           </form>
@@ -267,13 +259,6 @@ export default function Login() {
           </div>
 
         </div>
-
-        {/* FOOTER */}
-        <p className="login-footer">
-          VOXA AI CRM
-          <span>•</span>
-          CRM Intelligence Platform
-        </p>
 
       </section>
 

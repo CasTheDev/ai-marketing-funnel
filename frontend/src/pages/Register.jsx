@@ -17,6 +17,11 @@ export default function Register() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -27,10 +32,19 @@ export default function Register() {
   async function handleRegister(e) {
     e.preventDefault();
 
-    if (!email || !password || !confirmPassword) {
-      toast.error("Please complete all fields.");
-      return;
-    }
+    if (
+  !firstName.trim() ||
+  !lastName.trim() ||
+  !companyName.trim() ||
+  !email.trim() ||
+  !password ||
+  !confirmPassword
+) {
+  toast.error(
+    "Please complete your name, company, email, and password."
+  );
+  return;
+}
 
     if (password !== confirmPassword) {
       toast.error("Passwords do not match.");
@@ -45,9 +59,17 @@ export default function Register() {
     setIsLoading(true);
 
     const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+  email,
+  password,
+  options: {
+    data: {
+      first_name: firstName,
+      last_name: lastName,
+      company_name: companyName,
+      job_title: jobTitle,
+    },
+  },
+});
 
     setIsLoading(false);
 
@@ -130,6 +152,98 @@ export default function Register() {
             </div>
 
           </div>
+
+          {/* FIRST NAME */}
+
+<div className="register-field">
+
+  <label htmlFor="register-first-name">
+    First name
+  </label>
+
+  <div className="register-input-wrapper">
+
+    <input
+      id="register-first-name"
+      type="text"
+      placeholder="Your first name"
+      value={firstName}
+      onChange={(e) => setFirstName(e.target.value)}
+      autoComplete="given-name"
+    />
+
+  </div>
+
+</div>
+
+{/* LAST NAME */}
+
+<div className="register-field">
+
+  <label htmlFor="register-last-name">
+    Last name
+  </label>
+
+  <div className="register-input-wrapper">
+
+    <input
+      id="register-last-name"
+      type="text"
+      placeholder="Your last name"
+      value={lastName}
+      onChange={(e) => setLastName(e.target.value)}
+      autoComplete="family-name"
+    />
+
+  </div>
+
+</div>
+
+{/* COMPANY NAME */}
+
+<div className="register-field">
+
+  <label htmlFor="register-company-name">
+    Company name
+  </label>
+
+  <div className="register-input-wrapper">
+
+    <input
+      id="register-company-name"
+      type="text"
+      placeholder="Your company name"
+      value={companyName}
+      onChange={(e) => setCompanyName(e.target.value)}
+      autoComplete="organization"
+    />
+
+  </div>
+
+</div>
+
+{/* JOB TITLE */}
+
+<div className="register-field">
+
+  <label htmlFor="register-job-title">
+    Job title
+  </label>
+
+  <div className="register-input-wrapper">
+
+    <input
+      id="register-job-title"
+      type="text"
+      placeholder="Your role"
+      value={jobTitle}
+      onChange={(e) => setJobTitle(e.target.value)}
+      autoComplete="organization-title"
+    />
+
+  </div>
+
+</div>
 
           {/* PASSWORD */}
 

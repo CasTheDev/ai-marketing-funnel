@@ -1,3 +1,4 @@
+import ResetPassword from "./pages/ResetPassword";
 import Leads from "./pages/Leads";
 import Analytics from "./pages/Analytics";
 import AIInsights from "./pages/AIInsights";
@@ -20,6 +21,11 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         <Route path="/register" element={<Register />} />
+
+        <Route
+  path="/reset-password"
+  element={<ResetPassword />}
+/>
 
         <Route
           path="/dashboard"
