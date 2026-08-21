@@ -35,11 +35,51 @@ const [preferences, setPreferences] = useState({
   defaultLeadView: "Highest Score",
 });
 
+async function savePreferences(updatedPreferences) {
+  if (!user) return;
+
+  const { error } = await supabase
+    .from("user_preferences")
+    .upsert(
+      {
+        user_id: user.id,
+        cas_ai_recommendations:
+          updatedPreferences.casAiRecommendations,
+        high_intent_alerts:
+          updatedPreferences.highIntentAlerts,
+        email_notifications:
+          updatedPreferences.emailNotifications,
+        default_lead_view:
+          updatedPreferences.defaultLeadView,
+        updated_at: new Date().toISOString(),
+      },
+      {
+        onConflict: "user_id",
+      }
+    );
+
+  if (error) {
+    console.error(
+      "Save preferences error:",
+      error
+    );
+    return;
+  }
+
+  console.log("Preferences saved successfully.");
+}
+
 function togglePreference(key) {
-  setPreferences((current) => ({
-    ...current,
-    [key]: !current[key],
-  }));
+  setPreferences((current) => {
+    const updated = {
+      ...current,
+      [key]: !current[key],
+    };
+
+    savePreferences(updated);
+
+    return updated;
+  });
 }
 
   useEffect(() => {
@@ -82,6 +122,41 @@ function togglePreference(key) {
 
   getOrganization();
 }, [user]);
+
+  useEffect(() => {
+    async function loadPreferences() {
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("user_preferences")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error(
+          "Settings preferences lookup error:",
+          error
+        );
+        return;
+      }
+
+      if (data) {
+        setPreferences({
+          casAiRecommendations:
+            data.cas_ai_recommendations,
+          highIntentAlerts:
+            data.high_intent_alerts,
+          emailNotifications:
+            data.email_notifications,
+          defaultLeadView:
+            data.default_lead_view,
+        });
+      }
+    }
+
+    loadPreferences();
+  }, [user]);
 
   if (loading) {
     return (
@@ -463,12 +538,15 @@ function togglePreference(key) {
               <select
                 className="settings-select"
                 value={preferences.defaultLeadView}
-                onChange={(e) =>
-                  setPreferences((current) => ({
-                    ...current,
-                    defaultLeadView: e.target.value,
-                  }))
-                }
+                onChange={(e) => {
+               const updated = {
+               ...preferences,
+               defaultLeadView: e.target.value,
+             };
+
+              setPreferences(updated);
+              savePreferences(updated);
+              }}
               >
                 <option value="Highest Score">
                   Highest Score
