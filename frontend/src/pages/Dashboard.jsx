@@ -44,6 +44,12 @@ function Dashboard() {
 
   const { user } = useAuth();
 
+  const displayName =
+  user?.user_metadata?.full_name ||
+  user?.user_metadata?.name ||
+  user?.email?.split("@")[0] ||
+  "there";
+
   const [organizationId, setOrganizationId] = useState(null);
 
   const [dashboard, setDashboard] = useState(null);
@@ -509,7 +515,7 @@ return (
 
       {/* VEXA HERO */}
       <VexaHeader
-        title="Welcome back, Cas-sandra!"
+        title={`Welcome back, ${displayName}!`}
         heroImage="/images/vexa/vexa-floating.png"
         leads={leads}
         hotCount={hotCount}
