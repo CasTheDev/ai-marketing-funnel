@@ -208,78 +208,57 @@ function Dashboard() {
   }, [user]);
 
   useEffect(() => {
-    if (!organizationId) return;
+  if (!organizationId) return;
 
+  async function loadAnalyticsData() {
+    console.log("Loading leads for:", organizationId);
 
-    async function loadLeads() {
-      console.log("Loading leads for:", organizationId);
-
-          try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/source-performance"
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to load source performance");
-      }
-
-      const sourceData = await response.json();
-
-      console.log("Source performance:", sourceData);
-
-      setSources(sourceData);
-    } catch (error) {
-      console.error(
-        "Error loading source performance:",
-        error
-      );
-    }
-
-      const { data, error } = await supabase
+    try {
+      const { data: leadData, error: leadError } = await supabase
         .from("leads")
         .select("*")
         .eq("organization_id", organizationId);
 
-      if (error) {
-        console.error("Leads error:", error);
+      if (leadError) {
+        console.error("Leads error:", leadError);
         return;
       }
 
-      console.log("Organization Leads:", data);
+      console.log("Organization Leads:", leadData);
 
-      setLeads(data);
+      setLeads(leadData || []);
+
+      const leadIds = (leadData || []).map(
+        (lead) => lead.lead_id
+      );
+
+      if (leadIds.length === 0) {
+        setScores([]);
+        return;
+      }
+
+      const { data: scoreData, error: scoreError } = await supabase
+        .from("lead_scores")
+        .select("*")
+        .in("lead_id", leadIds);
+
+      if (scoreError) {
+        console.error("Lead Scores Error:", scoreError);
+        return;
+      }
+
+      console.log("Organization Lead Scores:", scoreData);
+
+      setScores(scoreData || []);
+
+    } catch (error) {
+      console.error("Dashboard loading error:", error);
     }
-
-    loadLeads();
-
-    async function loadScores(leadData) {
-  const leadIds = (leadData || []).map(
-    (lead) => lead.lead_id
-  );
-
-  if (leadIds.length === 0) {
-    setScores([]);
-    return;
   }
 
-  const { data, error } = await supabase
-    .from("lead_scores")
-    .select("*")
-    .in("lead_id", leadIds);
+  loadAnalyticsData();
 
-  if (error) {
-    console.error("Lead Scores Error:", error);
-    return;
-  }
-
-  console.log("Organization Lead Scores:", data);
-
-  setScores(data || []);
-}
-
-loadScores(data);
-
-  }, [organizationId]);
+}, [organizationId]);
 
   useEffect(() => {
     const sourceCounts = {};
