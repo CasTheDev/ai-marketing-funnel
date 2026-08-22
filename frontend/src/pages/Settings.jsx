@@ -82,11 +82,15 @@ function togglePreference(key) {
   });
 }
 
-  useEffect(() => {
+    useEffect(() => {
     if (!user) return;
+
+    const firstName = user.user_metadata?.first_name || "";
+    const lastName = user.user_metadata?.last_name || "";
 
     setProfile({
       name:
+        [firstName, lastName].filter(Boolean).join(" ") ||
         user.user_metadata?.full_name ||
         user.user_metadata?.name ||
         "",
