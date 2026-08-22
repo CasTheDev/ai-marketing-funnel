@@ -45,43 +45,60 @@ function Analytics() {
     if (!organizationId) return;
 
     async function loadAnalytics() {
-      setLoading(true);
+  setLoading(true);
 
-      try {
-        const { data: leadData, error: leadError } = await supabase
-          .from("leads")
-          .select("*")
-          .eq("organization_id", organizationId);
+  try {
+    const { data: leadData, error: leadError } = await supabase
+      .from("leads")
+      .select("*")
+      .eq("organization_id", organizationId);
 
-        if (leadError) {
-          throw leadError;
-        }
-
-        const { data: scoreData, error: scoreError } = await supabase
-          .from("lead_scores")
-          .select("*");
-
-        if (scoreError) {
-          throw scoreError;
-        }
-
-        const { data: eventData, error: eventError } = await supabase
-          .from("behavioral_events")
-          .select("*");
-
-        if (eventError) {
-          throw eventError;
-        }
-
-        setLeads(leadData || []);
-        setScores(scoreData || []);
-        setEvents(eventData || []);
-      } catch (error) {
-        console.error("Analytics loading error:", error);
-      } finally {
-        setLoading(false);
-      }
+    if (leadError) {
+      throw leadError;
     }
+
+    const organizationLeads = leadData || [];
+    const leadIds = organizationLeads.map(
+      (lead) => lead.lead_id
+    );
+
+    let scoreData = [];
+    let eventData = [];
+
+    if (leadIds.length > 0) {
+      const { data: scores, error: scoreError } =
+        await supabase
+          .from("lead_scores")
+          .select("*")
+          .in("lead_id", leadIds);
+
+      if (scoreError) {
+        throw scoreError;
+      }
+
+      const { data: events, error: eventError } =
+        await supabase
+          .from("behavioral_events")
+          .select("*")
+          .in("lead_id", leadIds);
+
+      if (eventError) {
+        throw eventError;
+      }
+
+      scoreData = scores || [];
+      eventData = events || [];
+    }
+
+    setLeads(organizationLeads);
+    setScores(scoreData);
+    setEvents(eventData);
+  } catch (error) {
+    console.error("Analytics loading error:", error);
+  } finally {
+    setLoading(false);
+  }
+}
 
     loadAnalytics();
   }, [organizationId]);
