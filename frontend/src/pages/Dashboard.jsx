@@ -252,31 +252,32 @@ function Dashboard() {
 
     loadLeads();
 
-    async function loadScores() {
-      const { data, error } = await supabase
-        .from("lead_scores")
-        .select("*");
+    async function loadScores(leadData) {
+  const leadIds = (leadData || []).map(
+    (lead) => lead.lead_id
+  );
 
-      if (error) {
-        console.error("Lead Scores Error:", error);
-        return;
-      }
+  if (leadIds.length === 0) {
+    setScores([]);
+    return;
+  }
 
-      console.log("Lead Scores:", data);
+  const { data, error } = await supabase
+    .from("lead_scores")
+    .select("*")
+    .in("lead_id", leadIds);
 
-      setScores(data);
-    }
+  if (error) {
+    console.error("Lead Scores Error:", error);
+    return;
+  }
 
-    loadScores();
+  console.log("Organization Lead Scores:", data);
 
-    setDashboard({
-      leads,
-      scores,
-      hotCount: scores.filter(
-        (score) => score.status === "Hot Lead"
-      ).length,
-    });
+  setScores(data || []);
+}
 
+loadScores(data);
 
   }, [organizationId]);
 
